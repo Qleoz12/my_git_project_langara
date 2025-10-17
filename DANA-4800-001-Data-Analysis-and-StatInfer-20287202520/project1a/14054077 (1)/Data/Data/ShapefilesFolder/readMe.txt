@@ -1,0 +1,2 @@
+All the shape files have been uploaded to Google earth engine, to save the space in Github, we suggest you to download them from GEE.
+Please email us for the access to the files that stores in Google earth engine.

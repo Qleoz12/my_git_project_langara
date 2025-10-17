@@ -1,0 +1,71 @@
+After trying several attempts to replicate or generate a summary of the research paper, in the initial attempts, I saw how ChatGPT-4 and Copilot produced well-structured samples but talked about other papers (hallucination events), often about health papers, drug discoveries, and cancer. It seems AIs use trending topics or something like that when generating summary answers without enough context. Then I have to correct it and provide more context, such as the paper's link, to the prompt to force a good answer from the AI tools.
+
+Pros/Cons of Background Information
+Pros:
+
+- Provides a fast and easy overview of the paper
+- Highlights the relevance of the research to current global challenges
+- Helps generate initial ideas and good statements based on the information provided
+- Can be used to quickly summarize the paper's methodology and findings
+
+Cons:
+- You have to correct the AI tool to avoid hallucination events
+- Most AIs talk in the first person; I prefer to generate my work in the third person
+- Claude was more accurate and also provided an expected structure for the background information; with others, you have to iterate several times to get a good answer or keep the details required by the user
+- The AI tools may generate content that is not directly relevant to the specific paper, requiring manual adjustments
+- Limited context, so you have to provide the context of the paper several times to avoid hallucination events or redundant information
+
+Pros/Cons of Methodology
+Pros:
+
+- Quickly summarizes complex analytical workflows and statistical methods
+- Clearly lists data sources, preprocessing steps, and modeling techniques
+- Highlights the use of machine learning (random forests) and validation strategies
+- Often includes key performance metrics and explains their significance
+- Can generate visual or spatial context (e.g., mapping predictions) if prompted
+
+Cons:
+
+- May omit specific details about data cleaning or variable selection unless explicitly asked
+- Sometimes overgeneralizes or uses vague language about statistical methods
+- Can introduce errors or hallucinations about the dataset or methods if context is insufficient
+- May not always mention validation steps or performance metrics unless prompted
+- Occasionally describes methods in a way that doesn’t match the actual paper, requiring manual correction
+
+
+pros/Cons of Executive Summary
+Pros:
+
+- Provides a concise and clear overview of the main findings and significance of the research.
+- Highlights key results and their implications for the field or real-world applications.
+- Saves time by quickly synthesizing complex information into an accessible summary.
+- Can help identify the most important points to focus on for presentations or reports.
+
+Cons:
+- May oversimplify or omit important nuances and technical details from the original paper.
+- Sometimes introduces inaccuracies or hallucinations if the context is not clear.
+- Can be repetitive or generic, lacking specific insights unique to the paper.
+- May not always capture the intended tone or emphasis of the original authors.
+
+
+Reflections
+How you did and what else you could have done better, please be realistic.
+
+On each AI, initially I asked for the requirements of the initial activity without any context, only providing the title of the paper. After seeing the inaccurate results, I then tried providing the abstract and then more and more parts of the paper. In the end, I provided the most important parts of the paper that I considered relevant. This could lead to a bias on my part; I checked several times.
+
+Some AIs allow you to provide attachments, others don't, so I had to provide the copied text. In some cases, the text was too long and I had to provide it in several parts.
+
+I get better performance using prompts like:
+    - Act as a scientific paper summarizer, then "instructions"
+    - Write as a human expert in the field
+    - Use techniques, for example, "summarize using the Feynman technique"
+
+What could be done better:
+    - Each platform has its own strengths and weaknesses, but most of them have premium plans that you can get access to better models and features to improve the performance of the answers and the analisis phase
+    - I could have used more specific prompts to guide the AI in generating the desired output
+    - I could have provided samples of how I write so it tends to replicate my personal style
+    - I could ask some friends or colleagues to check my results and iterate with them to improve the final output
+    - For example, "Claude" tries to connect to the paper only by reading the link that I provide, then it gets stuck several times due to the large content of the paper's page
+    - I could have used more advanced techniques like few-shot learning, where I provide examples of good summaries to guide the AI in generating similar outputs
+    -  i could have created all my paper a first draft version, then provide it smaples to improve each parth, then after see the result i pass all the depurated version to provide a last iteration of my summary production
+

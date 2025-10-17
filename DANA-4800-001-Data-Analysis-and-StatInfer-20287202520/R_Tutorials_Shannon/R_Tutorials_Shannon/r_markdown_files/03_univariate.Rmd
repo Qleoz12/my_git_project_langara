@@ -1,0 +1,342 @@
+---
+title: "R Tutorial: Summarizing Univariate Data"
+#author: "Shannon Erdelyi"
+output: 
+  html_document: 
+    toc: TRUE
+    toc_depth: 4
+    toc_float: true
+    code_folding: show
+---
+
+---
+
+# Learning Objectives:
+
+* Create a frequency table of counts and proportions for categorical data 
+* Create bar and pie charts 
+* Compute summary statistics for quantitative data
+* Create histograms and stem-and-leaf plots
+
+# Example data
+
+Read the "coffee.csv" file containing survey responses from 65 students about coffee consumption.
+```{r, results=F}
+coffee <- read.csv("coffee.csv")
+```
+
+# 1 \ Categorical Variables
+
+Let's examine the variable `timeCoffee`. This variable indicates the time of day that survey respondents prefer to drink coffee. 
+
+```{r}
+time <- coffee$timeCoffee
+```
+
+## 1.1 \ Summary statistics 
+
+### Frequency table
+
+#### Counts
+The `table()` function creates a frequency table of counts. 
+```{r}
+counts <- table(time)
+counts
+```
+
+We see that most respondents prefer to drink coffee in the morning (n = 29), followed by afternoon (n = 18), evening (n = 8), and night (n = 3). Seven respondents left this question blank on the survey. 
+
+#### Proportions
+After creating the table object, you can compute grand totals and express frequencies as proportions or percentages.
+```{r}
+props <- prop.table(counts)
+props
+
+# percentages with grand total
+addmargins(props*100)
+```
+
+
+## 1.2 \ Graphs
+
+### Bar chart
+
+The function to create a bar chart is: `barplot(height, names.arg, main, xlab, ylab, col, ...)`
+
+* **height**: vector of counts or proportions representing heights of the bars
+* **names.arg** (optional): vector of names to appear under the bars 
+* **main** (optional): title for plot
+* **xlab** (optional): title for x-axis (horizontal axis)
+* **ylab** (optional): title for y-axis (vertical axis)
+* **col** (optional): colour of the bars
+
+Type `?barplot` in the console and press enter to see the documentation for this function.
+
+We will use our previously computed frequency table of counts (`counts`) as the heights of the bars. 
+```{r}
+barplot(height = counts)
+```
+
+#### Labeling the categories 
+
+By default, the bar chart gets the category names from the `counts` object. Let's add a label for missing responses.
+
+Use **names.arg** to specify a vector of category labels. The length and order the labels must be the same as the `counts` object. 
+
+```{r}
+barplot(height = counts,
+        names.arg = c("Missing", "Afternoon", "Evening", "Morning", "Night"))
+```
+
+Alternatively, we can alter the names of `counts` directly. This is preferred since we will likely re-use `counts` later and we want our labeling to carry-through to other plots and summaries. 
+
+```{r}
+# examine existing names of counts
+names(counts)
+
+# replace first label ("") with "missing"
+names(counts)[1] <- "Missing"
+
+# new names
+names(counts)
+```
+
+```{r}
+barplot(counts)
+```
+
+#### Ordering the categories 
+
+The `counts` objects also determines the order that categories appear on the horizontal axis. 
+
+Let's rearrange the categories from smallest to largest frequency.
+```{r}
+counts <- sort(counts)
+barplot(counts)
+```
+
+We might prefer to arrange the categories by time since the variable is ordinal. Recall that we can select values from vectors by their names. For example, the code ``counts["Missing"]`` will return the counts for the Missing category. The code ``counts[c("Missing", "Night")]`` will return the counts for the categories Missing and Night. 
+
+We can rearrange the counts object by listing the categories inside a vector `c()`in the order we wish them to appear. 
+```{r}
+counts <- counts[c("Morning", "Afternoon", "Evening", "Night", "Missing")]
+barplot(counts)
+```
+
+#### Other options
+
+We can also plot percentages and customize other features of the plot. 
+```{r}
+barplot(height = prop.table(counts)*100,
+        main = "Bar chart of preferred time to drink coffee",
+        xlab = "Time of day",
+        ylab = "Percentage of respondents (%)",
+        col = "lightblue")
+```
+
+
+### Pie chart
+
+The function to create a pie chart is: `pie(x, labels, clockwise, main, col, ...)`
+
+* **x**: vector of counts or proportions representing areas of the pie slices
+* **labels** (optional): vector of names to label the slices
+* **clockwise** (optional): `TRUE` or `FALSE` indicating whether slices are drawn clockwise (`FALSE` by default)
+* **main** (optional): title for plot
+* **col** (optional): vector of colours for the slices
+
+Type `?pie` in the console and press enter to see the documentation for this function.
+
+```{r}
+pie(counts)
+
+pie(x = counts,
+    labels = c("Morning (44.6%)", 
+               "Afternoon (27.7%)", 
+               "Evening (12.3%)", 
+               "Night (4.6%)", 
+               "Missing (10.8%)"),
+    clockwise = TRUE,
+    main = "Pie chart of preferred time to drink coffee",
+    col = c("yellow", "orange", "lightblue", "darkblue", "grey"))
+```
+
+# 2 \ Quantitative Variables
+
+Let's examine the variable `age`. We will exclude missing values (`NA`).
+
+```{r}
+age <- na.omit(coffee$age)
+```
+
+## 2.1 \ Summary statistics 
+
+For numeric data, `summary()` will output the 5-number summary (min, Q1, median, Q3, max) and the mean.
+```{r}
+summary(age)
+```
+
+### Measures of center
+
+```{r, results=F}
+mean(age)
+median(age)
+```
+
+### Measures of spread
+
+```{r, results=F}
+sd(age)   # standard deviation
+var(age)  # variance
+IQR(age)  # interquartile range
+```
+
+### Percentiles, minimum, and maximum
+
+```{r, results=F}
+min(age)              # minimum
+max(age)              # maximum
+quantile(age, 0.1)    # 10th percentile
+quantile(age, 0.25)   # 25th percentile (Q1)
+quantile(age, 0.75)   # 75th percentile (Q3)
+```
+
+
+
+## 2.2 \ Graphs
+
+### Histogram
+
+The function to create a histogram is: `hist(x, breaks, main, xlab, ylab, ...)`
+
+* **x**: vector of numeric values
+* **breaks** (optional): the desired number of bins (output may vary depending on the data)
+* **main, xlab, ylab** (optional): title for plot, x-axis, and y-axis
+* **xlim, ylim** (optional): range of x and y values to show on the axes
+* **col** (optional): colour of the bars
+
+Type `?hist` in the console and press enter to see the documentation for this function.
+
+```{r}
+hist(age)
+```
+
+Let's customize this plot.
+```{r}
+hist(x = age,
+     breaks = 5,
+     xlab = "Age (years)",
+     xlim = c(15, 35),
+     col = "limegreen")
+```
+
+
+### Stem and leaf
+
+The function to create a stem and leaf plot is: `stem(x, scale, ...)`
+
+* **x**: vector of numeric values
+* **scale** (optional): a number controlling the plot length
+
+Type `?stem` in the console and press enter to see the documentation for this function.
+
+```{r}
+stem(age)
+```
+
+R will automatically compute the most appropriate stems for the data. Use **scale** to change them. 
+
+```{r}
+# Values of scale > 1 will make the plot longer (and therefore the stems smaller)
+stem(age, scale = 2)
+
+```{r}
+# Values of scale < 1 will make the plot shorter (and therefore the stems larger)
+stem(age, scale = 0.5)
+```
+
+
+---
+
+# Exercises
+
+<style>
+ol ul {
+    margin-bottom: 10px;
+}
+</style>
+
+1. Create a frequency table of proportions for `city`.
+
+2. Create a bar chart of counts for `city`. 
+    * Arrange the cities from least to most frequent.
+    * The category labels are too long to appear without overlapping. Rotate the labels by including the argument `las = 2` inside the `barplot()` function. 
+    * Expand the margins of the plotting region so that the labels are not cut off. Before creating your bar chart, run `par(mar=c(10,4,4,4))` as a separate line of code to expand the bottom margin. 
+    
+3. Create a pie chart for whether students drink coffee or not (`drinkCoffee`). 
+    * Exclude missing values by generating your table of counts with `table(coffee$drinkCoffee)[c("Yes", "No")]`.
+    * Label the slices with percent frequencies.
+    * Create a meaningful title.
+    * Customize the slice colours. 
+
+4. Compute the 5-number-summary and the standard deviation for dollars spent on coffee per week (`dollarsCoffee`) among students living in Vancouver. 
+    * Use `van <- coffee[coffee$city %in% "Vancouver", ]` to subset the data
+    * Some functions will return `NA` if there are missing values. Trying including `na.rm = TRUE` inside your function to ignore missing values when computing summary statistics.
+
+5. Create a histogram of dollars spent on coffee among students living in Vancouver. 
+
+6. Create a stem and leaf plot of dollars spent on coffee among students living in Vancouver. Use `scale = 0.25`. 
+
+# Solutions
+
+1. 
+```{r, class.source = 'fold-hide'}
+# 1. Create a frequency table of proportions for `city`.
+prop.table(table(coffee$city))
+```
+
+2. 
+
+```{r, class.source = 'fold-hide'}
+# 2. Create a bar chart of counts for `city`. Arrange the cities from least to most frequent.
+par(mar=c(10,4,4,4))
+barplot(height = sort(table(coffee$city)),
+        las = 2, 
+        main = "Bar chart of city of residence",
+        ylab = "Number of students")
+```
+
+3.  
+
+```{r, class.source = 'fold-hide'}
+# 3. Create a pie chart for whether students drink coffee or not (`drinkCoffee`).
+pie(x = table(coffee$drinkCoffee)[c("Yes", "No")],
+    labels = c("Yes (75%)", "No (25%)"),
+    main = "Pie chart for whether students drink coffee",
+    col = c("green", "red"))
+```
+
+4. 
+
+```{r, class.source = 'fold-hide'}
+# 4. Compute the 5-number-summary and the standard deviation for dollars spent on coffee among students living in Vancouver. 
+van <- coffee[coffee$city %in% "Vancouver", ]
+summary(van$dollarsCoffee)
+paste0("Standard deviation = ", round(sd(van$dollarsCoffee, na.rm=TRUE), 4))
+```
+
+5. 
+
+```{r, class.source = 'fold-hide'}
+# 5. Create a histogram of dollars spent on coffee among students living in Vancouver. 
+hist(van$dollarsCoffee, main = "Histogram of dollars spent on coffee",
+     xlab = "Dollars spent per week")
+```
+
+
+6. 
+
+```{r, class.source = 'fold-hide'}
+# 5. Create a stem and leaf plot of dollars spent on coffee among students living in Vancouver. 
+stem(van$dollarsCoffee, scale = 0.25)
+```

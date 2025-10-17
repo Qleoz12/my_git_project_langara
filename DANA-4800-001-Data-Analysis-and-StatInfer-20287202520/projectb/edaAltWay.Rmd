@@ -1,0 +1,192 @@
+---
+title: "P"
+author: "L"
+date: "2025-07-18"
+output: html_document
+---
+
+# 📄 Column Descriptions
+
+-   **`id`**\
+    Row ID consisting of the participant number and a count for that participant.
+
+-   **`p_num`**\
+    Participant number.
+
+-   **`time`**\
+    Time of day in the format `HH:MM:SS`.
+
+-   **`bg-X:XX`**\
+    Blood glucose reading in mmol/L, where `X:XX (H:MM)` is the time in the past\
+    (e.g., `bg-2:35` means the reading from **2 hours and 35 minutes before** the time value for that row),\
+    recorded by the continuous glucose monitor.
+
+-   **`insulin-X:XX`**\
+    Total insulin dose received in **units** in the last 5 minutes. `X:XX` refers to the time in the past\
+    (e.g., `insulin-2:35` is the insulin dose **between 2:40 and 2:35 before** the time value),\
+    recorded by the insulin pump.
+
+-   **`carbs-X:XX`**\
+    Total carbohydrate intake in **grams** in the last 5 minutes. `X:XX` indicates the time window in the past\
+    (e.g., `carbs-2:35` is the amount **between 2:40 and 2:35 before** the time value),\
+    recorded by the participant.
+
+-   **`hr-X:XX`**\
+    Mean heart rate in **beats per minute** in the last 5 minutes. `X:XX` represents the past time window\
+    (e.g., `hr-2:35` is the mean heart rate **between 2:40 and 2:35 before** the time value),\
+    recorded by the smartwatch.
+
+-   **`steps-X:XX`**\
+    Total steps walked in the last 5 minutes. `X:XX` indicates the time in the past\
+    (e.g., `steps-2:35` = steps **between 2:40 and 2:35 before** the row's time),\
+    recorded by the smartwatch.
+
+-   **`cals-X:XX`**\
+    Total calories burned in the last 5 minutes. `X:XX` refers to time in the past\
+    (e.g., `cals-2:35` = calories **burned between 2:40 and 2:35 before** the row time),\
+    calculated by the smartwatch.
+
+-   **`activity-X:XX`**\
+    Self-declared activity performed in the last 5 minutes. `X:XX` refers to time in the past\
+    (e.g., `activity-2:35` shows the **activity name between 2:40 and 2:35 before** the row time),\
+    set manually on the smartwatch.
+
+-   **`bg+1:00`**\
+    Blood glucose reading in mmol/L **one hour in the future** — this is the **target variable** to be predicted\
+    (note: not provided in `test.csv`).
+
+### Loading dataset
+
+```{r}
+library(dplyr)
+
+sample <- read.csv("sample_submission.csv", header = TRUE) ### Sample
+test <- read.csv("test.csv", header = TRUE) ### Test
+train <- read.csv("train.csv", header = TRUE) ### Train
+
+```
+
+# understanding dataset
+
+# check null
+
+# check same values
+
+# confirm number of people uniques by pnum
+
+```{r}
+dim(sample)
+dim(test)
+dim(train)
+
+#str(train)
+#glimpse(train)
+#summary(train)
+#install.packages("dplyr")
+#install.packages("DT")
+
+library(dplyr)
+library(purrr)
+library(DT)
+# Assuming your data frame is named df
+df<-train
+total_rows <- nrow(df)
+
+```
+
+### merging dataset
+
+```{r}
+
+df_full <- bind_rows(train, test)
+dim(df_full)
+
+```
+### reduce 72 columns per each relevan category to avgs
+```{r}
+library(readr)
+# Columns by prefix
+bg_cols <- grep("^bg.", names(train), value = TRUE)
+insulin_cols <- grep("^insulin.", names(train), value = TRUE)
+cat("bg columns:", length(bg_cols), "\n")
+cat("insulin columns:", length(insulin_cols), "\n")
+
+# Variables to average in blocks
+variables <- c("bg", "carbs", "hr", "steps", "cals")
+
+# Compute block averages (24 blocks of 3 columns)
+for (var in variables) {
+  var_cols <- grep(paste0("^", var, "."), names(train), value = TRUE)
+  
+  for (i in 0:23) {
+    cols_3 <- var_cols[(i*3 + 1):(i*3 + 3)]
+    avg_col <- paste0(var, "_avg_", i)
+    train[[avg_col]] <- rowMeans(train[, cols_3], na.rm = TRUE)
+  }
+}
+
+# Check avg columns
+avg_cols <- grep("_avg_", names(train), value = TRUE)
+
+# Create cleaned dataset
+df_clean <- train %>%
+  select(p_num, time, all_of(avg_cols)) %>%
+  mutate(target = train[["bg+1:00"]])
+
+# Check missing in target
+cat("Missing target values:", sum(is.na(df_clean$target)), "\n")
+
+# Save clean data
+write_csv(df_clean, "data/df_clean.csv")
+
+# Load and structure cleaned dataset
+df <- read_csv("data/df_clean.csv")
+glimpse(df)
+
+# Convert time to POSIXct and extract hour/minute
+df <- df %>%
+  mutate(
+    time = hms::as_hms(time),
+    hour = hour(time),
+    minute = minute(time)
+  )
+
+# Create period of day
+df <- df %>%
+  mutate(
+    period = case_when(
+      hour < 6 ~ "night",
+      hour < 12 ~ "morning",
+      hour < 18 ~ "afternoon",
+      TRUE ~ "evening"
+    )
+  )
+
+# Create day_id per p_num
+df <- df %>%
+  mutate(
+    time_seconds = hour * 3600 + minute * 60 + second(time)
+  ) %>%
+  group_by(p_num) %>%
+  arrange(p_num, time_seconds) %>%
+  mutate(
+    time_diff = time_seconds - lag(time_seconds, default = first(time_seconds)),
+    new_day = if_else(time_diff < 0, 1, 0),
+    day_id = cumsum(new_day)
+  ) %>%
+  ungroup()
+
+# View result
+print(df)
+
+# Save final dataset
+write_csv(df, "data/df_check.csv")
+
+```
+
+```{r}
+
+dim(df_full2)
+
+```
+

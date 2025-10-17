@@ -1,0 +1,351 @@
+---
+title: "R Tutorial: Read and Explore Data in R"
+#author: "Shannon Erdelyi"
+output: 
+  html_document: 
+    toc: TRUE
+    toc_depth: 4
+    toc_float: true
+    code_folding: show
+---
+
+---
+
+## Learning Objectives:
+
+* Set your current working directory
+* Read .csv files into R as a data frame 
+* Explore and manipulate a data frame, including filtering and subsetting specific rows and columns
+
+## Example data
+
+An instructor invited students to participate in an online survey about coffee consumption. Responses from 65 students are saved in the file "coffee.csv". The file contains the following columns:
+
+* **studentID**: Not a survey question. This is a unique identifier for the survey participants.
+* **age**: What is your current age?
+* **gender**: What is your gender? (Male, Female, Prefer not to answer)
+* **city**: What is your current city of residence?
+* **drinkCoffee**: Do you drink coffee? (Yes, No)
+* **buyCoffee**: How often do you purchase coffee? (Very Rarely, Once every two weeks, 1-2 times per week, More than 3 times per week)
+* **dollarsCoffee**: How much money (in Canadian dollars) do you spend on average per week on coffee?
+* **timeCoffee**: When do you usually drink coffee? (Morning, Afternoon, Evening, Night)
+* **relyCoffee**: On a scale from 0 to 10 (zero being not at all reliant and 10 being very reliant) how much do you rely on coffee on a day-to-day basis?
+
+We will use the coffee survey data throughout this tutorial.
+
+## 1 \  Working directories {#wd}
+
+### 1.1 \ Default working directory
+
+RStudio has a default working directory, which is typically the user's home directory. The default working directory will be used every time RStudio starts up. You can change your default working directory in *RStudio Preferences > General*. 
+
+### 1.2 \ Current working directory
+
+Files will be read from and written to the user's current working directory unless another path is specified. You can find out what your current working directory is by typing ``r "getwd()"`` in the console and pressing enter. The current working directory will also be displayed at the top of the Console. You can click on the arrow next to your directory name at the top of the Console to open files and folders found in your current working directory. 
+
+To change your working directory, you can use ``r "setwd(dir = ...)"`` where `dir` is a character string containing your desired path. You can also accomplish this by navigating to *Session > Set Working Directory*.
+
+\ 
+
+##### TRY IT: Set your working directory
+
+Set your working directory to the path where "coffee.csv" is located. For example, if you saved the "coffee.csv" file in your downloads folder, your code might look something like this:
+```{r eval=F}
+# Mac
+setwd("/Users/MyName/Downloads")
+
+# Windows
+setwd("C:/Users/MyName/Downloads")
+
+```
+
+Type ``r "getwd()"`` in the console and press enter to ensure that you successfully changed your working directory. 
+
+\ 
+
+#### Launching R through file associations
+
+Every file saved on your computer has a default file association that tells the computer which program to open when you click on the file. 
+When launched through a file association, RStudio automatically sets the working directory to the directory of the opened file. It is a good idea to save your .R files (scripts) and .csv files (data) in the same folder. You can launch RStudio by double-clicking on saved scripts so that your working directory is automatically set to the location of your data, and you do not need to worry about setting your working directory. If you open a .R file when RStudio is already running, RStudio simply opens the file and does not change the working directory.
+
+\ 
+
+#####  TRY IT: Launch RStudio by opening a saved script
+
+Create and save a new R Script in the same folder where "coffee.csv" is located. 
+
+* Open RStudio and navigate to "File > New File > R Script". 
+* Save the blank and untitled script. Navigate to "File > Save As" and save your script in the same location as the "coffee.csv" file. 
+* Close RStudio, and re-launch RStudio by double-clicking on your newly created script file. You may have to right-click on the script and use "Open With" to ensure that the file opens in RStudio rather than R. 
+
+Type ``r "getwd()"`` in the console and press enter to ensure that your working directory is automatically set to the folder where you saved the script. 
+
+
+## 2 \  Reading data from a csv file
+
+A csv (comma separated values) file is a convenient way of saving data with the following format:
+
+* The first line (called a *header*) contains the column labels
+* Subsequent rows are the data
+* Fields (or columns) are separated by commas
+
+To read a csv file in R:
+```{r, results=F}
+read.csv(file = "coffee.csv", header = TRUE, sep = ",", na.strings = "")
+```
+
+The function `read.csv()` has several arguments:
+
+* **file**: the name of the file in quotations. The file must be saved in your current working directory. Type `getwd()` in the console to find out your current working directory. You can either move "coffee.csv" to your working directory, or you can specify the complete path to locate that file. For example, if "coffee.csv" is saved in the directory "Users/mydirectory", then type `read.csv(file = "/Users/mydirectory/coffee.csv")`.
+* **header** (optional): `TRUE` or `FALSE` to indicate whether the first line contains column names (`TRUE` by default)
+* **sep** (optional): the character used to separate values (`","` by default)
+* **na.strings** (optional): strings in the data file that should be interpreted as missing values (`"NA"` by default)
+
+Type `?read.csv` in the console and press enter to learn more about the optional arguments for this function. 
+
+We do not need to name the arguments inside the function as long as they are listed in the order they appear in the R documentation (file, header, sep, ...). The **na.strings** argument is far down the list, so we should name it. 
+```{r, results=F}
+read.csv("coffee.csv", TRUE, ",", na.strings = "")
+```
+
+We do not need to provide values for arguments when we are satisfied with the default values. Our "coffee.csv" data file contains headers in the first line and uses commas to separate values, so we can omit **header** and **sep**. We should keep **na.strings** since our data file contains blank values when survey respondents skipped a question, but this argument is unnecessary if your data file does not have missing values.
+
+```{r, results=F}
+read.csv("coffee.csv", na.strings = "")
+```
+
+```{r, echo=F}
+head(read.csv(file = "coffee.csv", , na.strings = ""))
+```
+
+## 3 \  Data frames
+
+Let's assign our dataset a name so that we can access it later. 
+```{r, results=F}
+coffee <- read.csv("coffee.csv", na.strings = "")
+```
+
+The object named `coffee` is an example of a **data frame**. There are many different types of R objects, but in this course we will mainly work with data frames. A data frame is a list containing one or more variables of the same length. Each variable has a type and is usually either numeric (integer, double) or categorical (character, factor). When you use `read.csv()` to read data, the variable types are automatically assigned based on the data contained in each column. 
+
+### 3.1 \ Exploring data frames
+
+Here are some common functions you can use to explore a data frame. These are useful to check that the values look reasonable, and the length and type are what you expect. Try them out. 
+```{r, results=F}
+# print the first few rows of the data frame
+head(coffee)
+
+# print the last few rows of the data frame
+tail(coffee)
+
+# determine the structure, including number of observations (rows), number of variables (columns), column names, and column types
+str(coffee)
+
+# print a summary of each individual variable in the data frame
+summary(coffee)
+```
+
+Our coffee data frame has 65 observations and 9 variables. Each variable also has a type. For example, `studentID` is an `int` (or integer), `dollarsCoffee` is a `num` (or numeric), and `gender` is a `chr` (or character string).
+
+Examine the variable `relyCoffee` in the output for `str(coffee)`. R converted this variable to a character, but the survey was meant to collect numeric responses only. Respondents were asked how much they rely on coffee on a scale from 0 to 10. One of the responses is "~2 out of 10". If a column contains any non-numeric entry, then `read.csv()` will automatically convert that variable to a character.
+
+#####  TRY IT: Replace a value in your .csv file
+
+Open the "coffee.csv" file. This file should automatically open in Excel if you have it installed. Click on the cell containing "~2 out of 10" and replace it by typing "2". Save the changes you made to the "coffee.csv" file, and then re-run the code `coffee <- read.csv("coffee.csv")` using the corrected data file. 
+```{r echo=F, results=F}
+coffee$relyCoffee <- as.numeric(gsub("~2 out of 10", "2", as.character(coffee$relyCoffee)))
+```
+
+Check the structure of your new coffee data frame to ensure that `relyCoffee` is numeric.
+
+```{r}
+str(coffee)
+```
+
+
+<!-- #### Factors -->
+
+<!-- Factors are categorical variables that R actually stores as integers. It is more efficient to store data this way because integers require less space compared to character strings. By default, possible levels for the factor are sorted alphabetically and then assigned an integer. For example, the levels of `gender` have the following mapping: 1=Female, 2=Male, 3=Prefer not to answer. -->
+
+<!-- Examine the variable `relyCoffee` in the output for `str(coffee)`. R converted this variable to a factor, but the survey was meant to collect numeric responses only. Respondents were asked how much money they rely on coffee on a scale from 0 to 10. One of the responses is "~2 out of 10". If a column contains any non-numeric entry, then `read.csv()` will automatically convert that variable to a factor. -->
+
+<!-- To fix this, replace "~2 out of 10" with "2" in the "coffee.csv" file, and then re-run the code `coffee <- read.csv("coffee.csv")` using the corrected data file. Try it out! \ -->
+<!-- ```{r echo=F, results=F} -->
+<!-- coffee$relyCoffee <- as.numeric(gsub("~2 out of 10", "2", as.character(coffee$relyCoffee))) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- # After correcting the relyCoffee column in coffee.csv, relyCoffee should be numeric -->
+<!-- str(coffee) -->
+<!-- ``` -->
+
+
+### 3.2 \ Manipulating data frames
+
+A data frame is a two-dimensional object since it contains both rows and columns. You can refer to a particular row/column by its character string name or by its number.
+```{r}
+# Row names are numbers by default when you use read.csv()
+rownames(coffee)
+
+# Column names are usually defined in the header (first row) of the data file
+colnames(coffee)
+```
+
+\ 
+
+#### Extracting variables
+
+To examine one variable from a data frame, type `data$column`, where `data` is the name of the data frame and `column` is the name of the variable of interest.
+```{r}
+coffee$dollarsCoffee
+```
+
+Since there are 65 rows in the data frame, the output contains 65 values for the amount of money that each respondent spends on coffee per week. This is an example of a **vector**. A vector is series of values that have the same type. You can create your own vector using the `c()` function by listing the values separated by commas inside the brackets.
+
+\ 
+
+#### Removing NAs
+
+`NA` means not applicable and is the default value assigned to missing (blank) values in a data frame. Most functions in R will either ignore NAs by default or have arguments that allow you to specify how to handle them. You may wish to remove all NAs from your data frame:
+```{r, results=F}
+# remove all rows containing an NA value for any of the variables
+na.omit(coffee)
+```
+
+You need to overwrite the coffee object (`coffee <- na.omit(coffee)`) to make this change permanent, but this is not always a good idea. This function will remove entire rows if any entry in that row has an `NA`. This means you may end up excluding survey respondents who responded to some questions but left others blank. 
+
+You can use the `na.omit` function on an individual variable:
+
+```{r, results=F}
+# remove all NAs from the dollarsCoffee variable only (this does NOT remove NAs from the dollarsCoffee variable inside the data frame)
+na.omit(coffee$dollarsCoffee)
+```
+
+\ 
+
+#### Extracting individual data values
+
+To examine one value from a data frame, type `data[row, column]`, where `data` is the name of the data frame, `row` is the row name of interest, and `column` is the name of the variable of interest.
+
+The 35th survey respondent spent $4.40 on coffee per week. All of the following lines of code should return the value "4.4". 
+```{r, results=F}
+# 35th entry (row 20) for dollarsCoffee  (column 7)
+coffee["35", "dollarsCoffee"]
+
+# 35th entry (row 20) for dollarsCoffee (column 7) using row/column position numbers
+coffee[35, 7]
+
+# 35th entry (row 20) for dollarsCoffee (column 7)
+coffee[35, "dollarsCoffee"]
+
+# Or simple extract the 20th element from the dollarsCoffee variable
+# (variables only have one dimension so only one value is needed inside square brackets)
+coffee$dollarsCoffee[35]
+```
+
+\ 
+ 
+#### Subsetting data
+
+You can subset a data frame and retain only certain rows or certain columns.
+
+##### Selecting an entire row or column
+
+If you leave `column` blank in the `data[row, column]` syntax, all columns will be kept by default. 
+```{r}
+# select row 12, but keep all columns
+coffee[12, ]
+```
+
+If you leave `row` blank in the `data[row, column]` syntax, all rows will be kept by default. 
+```{r}
+# keep all rows, but select column 2
+coffee[ , 2]
+```
+
+Use `c()` to list multiple row or column selections.
+```{r}
+# select rows 12 and 15, but keep all columns
+coffee[c(12, 15), ]
+```
+
+You can also select rows or columns by name.
+```{r}
+head(coffee[ , c("studentID", "dollarsCoffee")])
+```
+
+
+##### Filtering rows using conditional statements 
+
+Let's select rows of the data frame corresponding to respondents who spend exactly \$4 on coffee per week (`dollarsCoffee` is 4). First, let's examine which rows match our desired condition. 
+
+To check whether a variable is equal to a particular value use `%in%`:
+```{r}
+coffee$dollarsCoffee %in% 4
+```
+The output contains 65 values that are either `TRUE` or `FALSE` (these are called `logical` objects) depending on whether `dollarsCoffee` contains the value "4" or not. 
+
+We can select rows of a data frame using logical vectors that are the same length as the number of rows in the data frame. Values that are `TRUE` will be kept, and values that are `FALSE` will be dropped.  
+```{r}
+keep_rows <- coffee$dollarsCoffee %in% 4
+coffee[keep_rows, ]
+
+# this code does the same thing all in one step
+coffee[coffee$dollarsCoffee %in% 4, ]
+```
+
+If you want to save a subsetted data set for later, assign it to a variable name such as `coffee4 <- coffee[keep_rows, ]`. 
+
+Use more than one condition to filter rows using `&` (AND) and `|` (OR). Here are some examples:
+```{r, results=F}
+# spend at least $20 on coffee OR buy coffee more than 3 times a week
+coffee[coffee$dollarsCoffee >= 20 | coffee$buyCoffee %in% "More than 3 times a week", ]
+
+# lives in Surrey or Langley AND prefers to drink coffee in the afternoon
+coffee[coffee$city %in% c("Surrey", "Langley") & coffee$timeCoffee %in% "Afternoon", ]
+
+# relies on coffee 10/10 and is younger than 20
+rows <- coffee$relyCoffee %in% 10 & coffee$age < 20
+cols <- c("age", "gender", "city", "relyCoffee")
+coffee[rows, cols]
+```
+
+
+---
+
+## Exercises
+
+Examine the subset of data with complete cases (respondents who gave an answer for every question on the survey) by creating a new data frame: `complete_cases <- na.omit(coffee)`. 
+
+1. How many complete case are there in the dataset? Hint: use `str()`. 
+
+2. What is the average age and maximum dollars spent on coffee among complete cases? Hint: use `summary()`.
+
+3. At what time of day (`timeCoffee`) does the respondent who spends the maximum dollar amount on coffee prefer to drink coffee? Hint: subset the data frame by filtering `dollarsCoffee`. 
+
+4. How many complete cases drink coffee in the evening and are at least 20 years of age? Hint: subset the data frame by filtering `timeCoffee` and `age`.  
+
+## Solutions
+
+1. n = 55
+```{r class.source = 'fold-hide', results=F}
+complete_cases <- na.omit(coffee)
+str(complete_cases)
+```
+
+2. Average age = 20.49 years, Maximum dollars spent on coffee = $30
+```{r class.source = 'fold-hide', results=F}
+summary(complete_cases$age)
+summary(complete_cases$dollarsCoffee)
+```
+
+3. Morning
+```{r class.source = 'fold-hide', results=F}
+complete_cases[complete_cases$dollarsCoffee == 30, ]
+```
+
+4. n = 4
+```{r class.source = 'fold-hide', results=F}
+evening <- complete_cases$timeCoffee %in% "Evening"
+age20 <- complete_cases$age >= 20
+complete_cases[evening & age20, ]
+```

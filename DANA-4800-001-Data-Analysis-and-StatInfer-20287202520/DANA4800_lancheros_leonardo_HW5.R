@@ -1,0 +1,21 @@
+# 01-08-2025
+# 
+# DANA4800_lancheros_leonardo_HW5.docx
+# r studio
+
+# Load the necessary package
+#install.packages("readxl")
+library(readxl)
+
+path<-"P:/langara/term 1/DANA-4800-001 - Data Analysis and Stat Infer  20287.202520"
+file <- file.path(path, "DANA4800_HW5_Q3_Data.xlsx")
+group <- read_excel(file)
+
+# Create a frequency table of the variable 'Distracted'
+freq_table <-table(group$Distracted)
+
+
+t.test(group$New,group$Competitor,
+       alternative="less",
+       var.equal = FALSE)
+

@@ -1,0 +1,297 @@
+---
+title: "R Tutorial: Summarizing relationships between two quantitative variables"
+#author: "Shannon Erdelyi"
+output: 
+  html_document: 
+    toc: TRUE
+    toc_depth: 4
+    toc_float: true
+    code_folding: show
+---
+
+---
+# Learning Objectives:
+
+* Create a scatterplot
+* Compute the correlation coefficient
+* Estimate the regression equation (least-squares line)
+* Create residual diagnostic plots for linear regression
+
+# Example data
+
+Read the "coffee.csv" file containing survey responses from 65 students about coffee consumption. 
+```{r, results=F}
+coffee <- read.csv("coffee.csv")
+```
+
+Let's examine the association between the quantitative variables `age` (the age in years of respondents) and `dollarsCoffee` (the amount of money respondents spend on coffee per week). First, we will exclude missing values from the data frame using the `na.omit()` function. The new data frame will have 61 complete observations. 
+
+```{r, results=F}
+coffee <- na.omit(coffee) 
+```
+
+\
+
+##### TRY IT: Check that there are 61 observations in the coffee data frame
+
+```{r, class.source = 'fold-hide', results=F}
+str(coffee)   ## 61 observations
+nrow(coffee)  ## 61 rows
+```
+
+
+# 1 \ Scatterplot
+
+The function to create a scatterplot is: `plot(x, y, main, xlab, ylab, col, pch, ...)`
+
+* **x**: numeric vector to appear on x-axis
+* **y**: numeric vector to appear on y-axis
+* **main** (optional): title for plot
+* **xlab** (optional): title for x-axis (horizontal axis)
+* **ylab** (optional): title for y-axis (vertical axis)
+* **col** (optional): colour of the points
+* **pch** (optional): integer from 0 to 25 representing the plotting symbol to use
+
+Type `?plot` in the console and press enter to see the documentation for this function. The first argument inside the plot function can also be an R object that has a defined `plot` method. We will test this out later. 
+
+
+```{r}
+plot(x = coffee$age, y = coffee$dollarsCoffee)
+```
+
+Let's add a title, axis labels, and customize the plotting symbol and colour. 
+```{r}
+plot(coffee$age, coffee$dollarsCoffee,
+     main = "Scatterplot of dollars spent on coffee per week versus age",
+     xlab = "Age (years)", ylab = "Dollars spent on coffee per week ($)",
+     col = "blue", pch = 17)
+```
+
+We can also customize the axis limits (`xlim` or `ylim`):
+```{r}
+plot(coffee$age, coffee$dollarsCoffee,
+     main = "Scatterplot of dollars spent on coffee per week versus age",
+     xlab = "Age (years)", ylab = "Dollars spent on coffee per week ($)",
+     col = "blue", pch = 17,
+     xlim = c(15, 35))
+```
+
+```{r, echo=F, eval=F}
+#Here is the complete list of plotting symbols you can use for the `pch` argument:
+symbol <- c(1:25)
+plot(symbol, rep(1, length(symbol)), frame.plot = FALSE, 
+     ylab = NA, xlab = NA, axes = FALSE,
+     pch = symbol, bg = "grey")
+text(symbol, rep(0.9, length(symbol)), labels = as.character(symbol))
+```
+
+
+# 2 \ Correlation coefficient
+
+The function to compute the correlation coefficient (r) is: `cor(x, y, ...)`
+
+* **x**: numeric vector
+* **y**: numeric vector
+
+```{r}
+cor(x = coffee$age, y = coffee$dollarsCoffee)
+```
+
+From the output, $r = -0.01784347$. 
+
+# 3 \ Linear regression
+
+## 3.1 \ Least-squares line
+
+The function to estimate the equation of the least-squares regression line is: `lm(formula, data, ...)`
+
+* **formula**: `y ~ x`, where `y` is the response variable and `x` is the explantory variable
+* **data** (optional): data frame containing the variabls `x` and `y`
+
+
+```{r, eval = F}
+# We can list the variables by extracting them from the data frame
+lm(formula = coffee$dollarsCoffee ~ coffee$age)
+
+# Or we can use the variable names, and tell the function which data frame to find them in
+lm(formula = dollarsCoffee ~ age, data = coffee)
+```
+```{r, echo=F}
+lm(dollarsCoffee ~ age, coffee)
+```
+
+The equation of the least-squares line is: 
+
+* **$\hat{ y } = 7.62055 - 0.03282x$**
+
+We can extract more information about this regression model using the `summary()` function. 
+
+```{r}
+# First we save our regresson model as an object named "model"
+model <- lm(dollarsCoffee ~ age, coffee)
+summary(model)
+```
+
+From this output, we see that 
+
+* RMSE = 6.321 (called `Residual standard error`) 
+* R-squared = 0.0003184 (called `Multiple R-squared`)
+
+Note that the R-squared value above is expressed as proportion between 0 and 1. Multiply this value by 100 to compute the percentage ($R^2 = 0.03\%$).
+
+## 3.2 \ Diagnostic plots
+
+We can use the function `residuals()` to get the residuals from our regression model object.
+```{r}
+residuals(model)
+```
+
+### 3.2.1 \ Residual plot
+
+We can use the `plot()` function to create a scatterplot of the residuals versus the explanatory variable (age). 
+
+```{r}
+plot(x = coffee$age, 
+     y = residuals(model),
+     xlab = "Age (years)",
+     ylab = "Residuals",
+     main = "Residual plot")
+```
+
+We can use the `abline()` function to add a dashed horizontal line at residual = 0 to help assess patterns on the plot. 
+```{r}
+# first draw the residual scatterplot
+plot(x = coffee$age, 
+     y = residuals(model),
+     xlab = "Age (years)",
+     ylab = "Residuals",
+     main = "Residual plot")
+
+# then add the horizontal line (h) at 0 with a dashed line type (lty)
+abline(h = 0, lty = "dashed")
+```
+
+
+### 3.2.2 \ Histogram of residuals 
+
+We will use the `hist()` function to create a histogram of the residuals.
+
+```{r}
+hist(residuals(model),
+     xlab = "Residuals",
+     main = "Residual Histogram")
+```
+<style>
+ol ul {
+margin-bottom: 10px;
+}
+</style>
+
+
+---
+# Exercises
+
+1. For the following questions, examine the relationship between `age` and `dollarsCoffee` for complete cases (respondents with no missing values) who live in Richmond. Start by creating a new data frame with these respondents only. 
+
+2. Create a scatterplot of `dollarsCoffee` versus `age`. Add a title and label the x and y axes. 
+
+3. Compute the correlation between `dollarsCoffee` and `age`.
+
+4. Find the values of the slope and intercept for the least-squares regression line predicting `dollarsCoffee` from `age`.
+
+5. Create another scatterplot of `dollarsCoffee` versus `age`, but this time add the least-squares regression line. (Hint: use `abline()`)
+
+6. Create a residual scatterplot. Add a dashed horizontal line at residual = 0. (Hint: use `abline()`)
+
+7. Create a histogram of residuals.
+
+8. What happens to the regression line when you remove the 26-year-old respondent? Create another scatterplot without this respondent and draw the new regression line on the plot. 
+
+# Solutions
+
+1. 
+```{r, class.source = 'fold-hide'}
+# 1. Complete cases who live in Richmond
+richmond <- coffee[coffee$city %in% "Richmond", ]
+richmond <- na.omit(richmond)
+str(richmond)
+```
+
+2. 
+
+```{r, class.source = 'fold-hide'}
+# 2. Scatterplot
+plot(x = richmond$age,
+     y = richmond$dollarsCoffee,
+     main = "Scatterplot of dollars spent on coffee per week versus age\nfor respondents in who live in Richmond",
+     xlab = "Age (years)", 
+     ylab = "Dollars spent on coffee per week ($)")
+```
+
+3.  
+
+```{r, class.source = 'fold-hide'}
+# 3. Correlation
+cor(richmond$age, richmond$dollarsCoffee)
+```
+
+4. 
+
+```{r, class.source = 'fold-hide'}
+# 4. Regression line
+line <- lm(dollarsCoffee ~ age, richmond)
+summary(line)
+```
+
+5. 
+
+```{r, class.source = 'fold-hide'}
+# 5. Scatterplot with regression line
+plot(x = richmond$age,
+     y = richmond$dollarsCoffee,
+     main = "Scatterplot of dollars spent on coffee per week versus age\nfor respondents in who live in Richmond",
+     xlab = "Age (years)", 
+     ylab = "Dollars spent on coffee per week ($)")
+abline(line, col = "blue", lwd = 2)
+```
+
+6.
+
+```{r, class.source = 'fold-hide'}
+# 6. Residual scatterplot
+plot(x = richmond$age,
+     y = residuals(line),
+     main = "Residual plot",
+     xlab = "Age (years)",
+     ylab = "Residual (dollars)")
+abline(h = 0, lty = "dashed")
+```
+
+7. 
+
+```{r, class.source = 'fold-hide'}
+# 7. Histogram of residuals
+hist(residuals(line),
+     main = "Histogram of residuals",
+     xlab = "Residual (dollars)")
+```
+
+8. 
+
+```{r, class.source = 'fold-hide'}
+# 8. Scatterplot with regression line excluding 26-year-old
+
+# new data frame excluding 26-year-old
+ex_26 <- richmond[richmond$age != 26, ]
+
+# scatterplot 
+plot(x = ex_26$age,
+     y = ex_26 $dollarsCoffee,
+     main = "Scatterplot of dollars spent on coffee per week versus age for
+     respondents in who live in Richmond, excluding 26-year-old",
+     xlab = "Age (years)", 
+     ylab = "Dollars spent on coffee per week ($)")
+
+# adding regression line
+abline(lm(dollarsCoffee ~ age, ex_26), col = "blue", lwd = 2)
+```

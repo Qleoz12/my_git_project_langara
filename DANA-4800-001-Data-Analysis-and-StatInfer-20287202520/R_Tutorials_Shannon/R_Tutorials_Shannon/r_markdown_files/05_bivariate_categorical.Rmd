@@ -1,0 +1,269 @@
+---
+title: "R Tutorial: Summarizing relationships between two categorical variables"
+#author: "Shannon Erdelyi"
+output: 
+  html_document: 
+    toc: TRUE
+    toc_depth: 4
+    toc_float: true
+    code_folding: show
+---
+
+---
+# Learning Objectives:
+
+* Create a contingency table of counts and percentages by row/column
+* Draw a block diagram
+* Compute the Chi-square statistic
+* Create a table of expected counts
+
+# Example data
+
+Read the "coffee.csv" file containing survey responses from 65 students about coffee consumption. 
+```{r, results=F}
+coffee <- read.csv("coffee.csv")
+```
+
+Let's examine the association between the categorical variables `gender` (Female, Male, or Prefer not to answer) and `drinkCoffee` (whether respondents drink coffee or not, Yes or No). First, we will exclude missing values from the data frame using the `na.omit` function. The new data frame will have 61 complete observations. 
+
+```{r, results=F}
+coffee <- na.omit(coffee)
+```
+
+# 1 \ Contingency tables
+
+### Counts
+The `table(var1, var2, ...)` function creates a contingency table of counts. The first variable (`var1`) will form the rows of the table, and the second variable (`var2`) will form the columns. 
+```{r}
+counts <- table(coffee$drinkCoffee, coffee$gender)
+counts
+```
+### Proportions
+After creating the table object, you can compute row and column percentages with `prop.table(table, margin, ..)`
+
+* **table**: table of counts created with `table()` 
+* **margin** (optional): `1` for row proportions, `2` for column proportions, or `c(1, 2)` for proportions of total (default)
+
+```{r}
+# Row proportions
+prop.table(counts, margin = 1)
+
+# We multiply by 100 to convert proportions into percentages
+(row_percent <- prop.table(counts, margin = 1)*100)
+
+# We can apply the round() function to improve the readability of our table
+round(row_percent, digits=1)
+
+# Column percentages
+(col_percent <- prop.table(counts, margin = 2)*100)
+```
+### Row, Column, and grand totals
+We can add row, column, and grand totals to the table using `addmargins(table, margin, ..)`
+```{r}
+# Add row/column totals to the table of counts
+addmargins(counts)
+
+# Add a new column with row totals (should sum to 100% in the row_percent table)
+addmargins(row_percent, margin = 2)
+
+# Add a new crow with column totals (should sum to 100% in the col_percent table)
+addmargins(col_percent, margin = 1)
+```
+
+# 2 \ Block diagram
+
+The function to create a block diagram (or side-by-side bar chart) is: `barplot(height, beside, legend.text, main, xlab, ylab, col, ...)`
+
+* **height**: contingency table of counts or proportions representing heights of the bars (column labels will appear on the x-axis, and row labels will appear in the legend)
+* **beside** (optional): `TRUE` for bars side-by-side (`FALSE` for stacked bars) 
+* **legend.text** (optional): `TRUE` to use the row names of your table as legend labels
+* **args.legend** (optional): additional list of arguments to customize the legend (type `?legend` to learn more)
+* **col** (optional): vector of colours the same length as the number of rows in your table of counts
+* **main** (optional): title for plot
+* **xlab** (optional): title for x-axis (horizontal axis)
+* **ylab** (optional): title for y-axis (vertical axis)
+
+Type `?barplot` in the console and press enter to see the documentation for this function. 
+
+We will create a block diagram of column percentages because we wish to compare `gender` (columns of our contingency table) with respect to the percentage of students who drink coffee. 
+
+```{r}
+barplot(height = col_percent, 
+        beside = TRUE,
+        legend.text = TRUE,
+        args.legend = list(x = "topleft", horiz = TRUE, title = "Do you drink coffee?"),
+        col = c("grey", "brown"),
+        xlab = "Gender", 
+        ylab = "Percent of students",
+        main = "Block diagram for coffee drinking by gender")
+```
+
+By default, `barplot()` will plot the column labels (`gender` in this case) of the table on the x-axis. We can transpose the table (switch the row and column categories) using the `t()` function if we wish to plot row labels on the x-axis instead. 
+
+```{r}
+# original table of column percentages
+col_percent
+
+# transposed table of column percentages
+t(col_percent)
+
+# block diagram with drinkCoffee on the x-axis
+barplot(height = t(col_percent), 
+        beside = TRUE,
+        legend.text = TRUE,
+        args.legend = list(x = "topleft", horiz = FALSE, title = "Gender"),
+        col = c("pink", "lightblue", "grey"),
+        xlab = "Do you drink coffee?", 
+        ylab = "Percent of students",
+        main = "Block diagram for coffee drinking by gender")
+```
+
+Note that both block diagrams show the same column percentages, but there may be scenarios where you wish to show row percentages. You can set the `height` argument in `barplot()` to the row percentages table. 
+
+
+# 3 \ Chi-square test
+The function to perform a chi-square test is: `chisq.test(x, y, ...)`
+
+* **x**: contingency table of counts, or a vector representing the first categorical variable
+* **y** (optional):  vector representing the second categorical variable (ignored if x is a table of counts)
+
+
+```{r}
+# we can use the table of counts we already created
+chisq.test(counts)
+
+# we can also list the two categorical variables (will give the same result)
+chisq.test(coffee$gender, coffee$drinkCoffee)
+```
+This function will print the chi-square statistic ($\chi^2 = 1.2016$) and degrees of freedom ($df=2$). A warning may appear if the expected counts are not all at least 5.
+
+### Observed and expected counts
+You can also save the result of the chi-square test as an object and extract more information, including observed and expected counts. 
+```{r, warning=F}
+# we will save the results as an R object called "test"
+test <- chisq.test(counts)
+
+# chi-square statistic
+test$statistic      
+
+# observed counts
+(o <- test$observed) 
+
+# expected counts
+(e <- test$expected) 
+
+# individual cell contributions to chi-square statistics
+(cont <- (o-e)^2/e)  
+
+# chi-square statistic (computed by hand, should be the same as "test$statistic")
+sum(cont)            
+
+```
+
+
+<style>
+ol ul {
+margin-bottom: 10px;
+}
+</style>
+
+---
+# Exercises
+
+For the following questions, examine the relationship between `gender` and `timeCoffee`.
+
+1. Create a contingency table of counts with `gender` in the rows of the table and `timeCoffee` in the columns of the table. Exclude respondents with blank values (\"\") for `timeCoffee` and "Prefer not to answer" for `gender`. 
+
+2. Compute row percentages for your table.
+
+3. Create a block diagram that displays row percentages. 
+
+4. Compute the chi-square statistic.
+
+5. Create a table of expected counts. 
+
+# Solutions
+
+1. Contingency table
+```{r, class.source = 'fold-hide'}
+# 1. Contingency table
+
+# exclude blanks and prefer not answer
+not_blank <- coffee$timeCoffee != ""
+not_no_answer <- coffee$gender != "Prefer not to answer"
+clean_data <- coffee[not_blank & not_no_answer, ]
+
+# table of counts
+(counts <- table(clean_data$gender, clean_data$timeCoffee))
+```
+
+2. Row percentages
+
+```{r, class.source = 'fold-hide'}
+# 2. Row percentages
+row_percent <- prop.table(counts, margin=1)*100
+round(row_percent, 1)
+```
+
+3. Block diagram
+
+`timeCoffee` on x-axis
+```{r, class.source = 'fold-hide'}
+# 3. Block diagram
+barplot(height = row_percent, 
+        beside = TRUE,
+        legend.text = TRUE,
+        args.legend = list(x = "topleft", horiz = TRUE, title = "Gender"),
+        col = c("pink", "lightblue"),
+        xlab = "Preferred time to drink coffee", 
+        ylab = "Percent of students",
+        main = "Block diagram for preferred time to drink coffee by gender")
+```
+
+`gender` on x-axis
+```{r, class.source = 'fold-hide'}
+barplot(height = t(row_percent), 
+        beside = TRUE,
+        legend.text = TRUE,
+        args.legend = list(x = "topleft", horiz = TRUE, title = "Preferred time to drink coffee"),
+        #col = c("yellow", "orange", "lightblue", "darkblue"),
+        col = c("orange", "lightblue", "yellow", "darkblue"),
+        ylim = c(0, 70), ## allow extra space for legend by setting larger y-axis limit
+        xlab = "Gender", 
+        ylab = "Percent of students",
+        main = "Block diagram for preferred time to drink coffee by gender")
+```
+
+Since `timeCoffee` is ordinal, we should arrange the time categories by time of day.
+```{r, class.source = 'fold-hide'}
+# change the category ordering directly in the row_percent table
+col_order <- c("Morning", "Afternoon", "Evening", "Night")
+ordered_row_percent <- row_percent[ , col_order]
+
+# gender on x-axis
+barplot(height = t(ordered_row_percent), 
+        beside = TRUE,
+        legend.text = TRUE,
+        args.legend = list(x = "topleft", horiz = TRUE, title = "Preferred time to drink coffee"),
+        col = c("yellow", "orange", "lightblue", "darkblue"),
+        ylim = c(0, 70), ## allow extra space for legend by setting larger y-axis limit
+        xlab = "Gender", 
+        ylab = "Percent of students",
+        main = "Block diagram for preferred time to drink coffee by gender")
+```
+
+4. Chi-square statistic: $\chi^2 = 1.565$
+
+```{r, class.source = 'fold-hide'}
+# 4. Chi-square
+(test <- chisq.test(counts))
+
+```
+
+
+5. Table of expected counts
+
+```{r, class.source = 'fold-hide'}
+# 5. Expected counts
+round(test$expected, 1)
+```

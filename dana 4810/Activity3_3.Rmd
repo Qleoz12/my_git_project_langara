@@ -1,0 +1,211 @@
+---
+title: "Class Activity 2 – SNOWGEESE"
+author: "Leonardo L Sanchez"
+date: "2026-01-21"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+# Consider question 3.46 form the textbook and the data set: SNOWGEESE.
+
+Botanists at the University of Toronto conducted a series of experiments to investigate the feeding habits of baby snow geese (Journal of Applied Ecology, Vol. 32, 1995). Goslings were deprived of food until their guts were empty, then were allowed to feed for 6 hours on a diet of plants or Purina Duck Chow. For each of 42 feeding trials, the change in the weight of the gosling after 2.5 hours was recorded as a percentage of initial weight. Two other variables recorded were digestion efficiency (measured as a percentage) and amount of acid-detergent fiber in the digestive tract (also measured as a percentage). The data for selected feeding trials are listed in the table below.
+
+```{r}
+setwd("P:/langara/term 3/dana 4810")
+SNOWGEESE <- read.table("SNOWGEESE.txt", header = TRUE)
+
+#View(SNOWGEESE)
+str(SNOWGEESE)
+sapply(SNOWGEESE, class)
+```
+
+### 1) [1] List the variable(s) of interest in this study along with their types, list of categories, unit of measurements when appropriate. (Note: To identify how many categories and what categories the categorical variable(s) have, use an R code.)
+
+```{r}
+
+# 1) Variables of interest: type, categories, units
+
+# variable types
+sapply(SNOWGEESE, class)
+
+# categorical variables + categories
+categorical_vars <- names(SNOWGEESE)[sapply(SNOWGEESE, function(x) is.factor(x) || is.character(x))]
+categorical_vars
+lapply(SNOWGEESE[categorical_vars], unique)
+
+# quantitative variables
+quantitative_vars <- names(SNOWGEESE)[sapply(SNOWGEESE, is.numeric)]
+quantitative_vars
+
+# units
+units <- data.frame(
+  Variable = c("WtChange", "DigEff", "ADFiber"),
+  Unit = c(
+    "Percent change in initial weight (%)",
+    "Digestion efficiency (%)",
+    "Acid-detergent fiber (%)"
+  )
+)
+units
+
+```
+
+The categorical variable has two categories: Chow and Plants
+
+### 2) [1] Create a scatterplot and describe a possible relationship between weight change and digestion efficiency.
+
+```{r}
+ # closes any broken plot state
+       # if it errors, ignore and keep going
+
+SNOWGEESE$Diet <- factor(SNOWGEESE$Diet)
+
+model <- lm(WtChange ~ DigEff, data = SNOWGEESE)
+
+plot(
+  WtChange ~ DigEff,
+  data = SNOWGEESE,
+  pch = 19,
+  col = as.integer(Diet),
+  xlab = "Digestion Efficiency (%)",
+  ylab = "Weight Change (%)",
+  main = "Weight Change vs Digestion Efficiency"
+)
+
+legend(
+  "topleft",
+  legend = levels(SNOWGEESE$Diet),
+  col = seq_along(levels(SNOWGEESE$Diet)),
+  pch = 19,
+  bty = "n"
+)
+
+abline(model, col = "red", lwd = 2)
+```
+
+It seems that Weight Change and Digestion Efficiency have a positive relationship. As Digestion Efficiency increases, Weight Change also tends to increase.
+
+#### 3) [1] Calculate the coefficient of correlation relating weight change to digestion efficiency. Interpret this value.
+
+```{r}
+corWtChangevsDigEff <- cor(SNOWGEESE$WtChange, SNOWGEESE$DigEff)
+corWtChangevsDigEff
+# 4) Hypothesis test for correlation (alpha = 0.01)
+cor_test <- cor.test(
+  SNOWGEESE$WtChange,
+  SNOWGEESE$DigEff,
+  alternative = "two.sided",
+  conf.level = 0.99
+)
+cor_test
+```
+
+The correlation coefficient (R = 0.6123) suggests a moderate- strong positive correlation. This means that as Digestion Efficiency increases, Weight Change also tends to increase. Since the correlation is positive, it indicates that goslings with higher digestion efficiency generally gain more weight.
+
+### 4) [7] Conduct a test to determine whether weight change is correlated with a digestion efficiency. Use alpha = :01.
+
+```{r}
+cor_test <- cor.test(SNOWGEESE$WtChange, SNOWGEESE$DigEff, conf.level = 0.99)
+cor_test
+```
+
+The p-value is much smaller than the significance level (p-value 0.00001642 vs α = 0.01).
+
+This means we reject the null hypothesis that there is no correlation between weight change and digestion efficiency.
+
+There is strong statistical evidence that a significant relationship exists between these variables.
+
+The positive correlation means goslings with higher digestion efficiency tend to gain more weight.
+
+#### 5) [4] Assuming the relationship between the variables mentioned in part (2) is best described by a straight line, use the method of least squares to estimate the y-intercept and slope of the line. (Also, provide the Least Squares Regression Line in the context of the question.)
+
+```{r}
+model <- lm(WtChange ~ DigEff, data = SNOWGEESE)
+summary(model)
+anova(model)
+
+
+intercept <- coef(model)[1]
+slope <- coef(model)[2]
+```
+
+The Least Squares Regression Line is:
+
+WtChange =-3.17 +0.1414\*DigEff
+
+#### 6) [2] Provide an interpretation of the slope estimate and intercept of the Least Square Regression Line in the context of the question.
+
+The slope (0.1414) indicates that for each 1% increase in digestion efficiency, the goslings' weight is expected to increase by 0.1414%.
+
+#### 7) [4] Find a 90% confidence interval for the slope and provide an interpretation for the calculated interval.
+
+```{r}
+confint(model, level = 0.90)
+intercept <- coef(model)[1]
+slope <- coef(model)[2]
+
+intercept
+slope
+```
+
+We are 90% confident that the true slope of the relationship between Weight Change and Digestion Efficiency lies between 0.0928 and 0.1901.This means that for every 1% increase in Digestion Efficiency, the goslings' Weight Change is expected to increase between 0.0928% and 0.1901% of their initial weight. Since the confidence interval does not include 0, it confirms that there is a statistically significant positive relationship between the two variables.
+
+#### 8) [4] Find a 90% confidence interval for the mean weight change of all goslings with digestion efficiency of 17%. Interpret the result.
+
+```{r}
+new_data <- data.frame(DigEff = 17)
+conf_pred <- predict(model, new_data, interval = "confidence", level = 0.90)
+print(conf_pred)
+```
+
+We are 90% confident that the mean value of weight change for goslings with digestion efficiency of 17% is between -1.9868% and 0.4553%
+
+#### 9) [4] Find a 90% prediction interval for the weight change of a gosling with digestion efficiency of 17%. Interpret the result.
+
+```{r}
+pred_interval <- predict(model, new_data, interval = "prediction", level = 0.90)
+
+print(pred_interval)
+```
+
+With 90% confidence, we predict that the weight change for a single gosling with Digestion Efficiency of 17% falls between -7.6154% and 6.084%.
+
+#### 10) [5] Plot the least squares line on your scatterplot and depict 90% confidence intervals for mean values and prediction intervals for new values over the entire range of the regression line.
+
+```{r}
+plot(
+  SNOWGEESE$DigEff, 
+  SNOWGEESE$WtChange,
+  main = "Regression Line with Confidence and Prediction Intervals",
+  xlab = "Digestive Efficiency (%)",
+  ylab = "Weight Change (%)",
+  pch = 19,
+  col = "blue"
+)
+
+abline(model, col = "red", lwd = 2)
+
+dig_eff_seq <- seq(min(SNOWGEESE$DigEff), max(SNOWGEESE$DigEff), length.out = 100)
+pred_values <- data.frame(DigEff = dig_eff_seq)
+
+conf_band <- predict(model, newdata = pred_values, interval = "confidence", level = 0.90)
+pred_band <- predict(model, newdata = pred_values, interval = "prediction", level = 0.90)
+
+lines(dig_eff_seq, conf_band[,2], col = "green", lty = 2)
+lines(dig_eff_seq, conf_band[,3], col = "green", lty = 2)
+
+lines(dig_eff_seq, pred_band[,2], col = "purple", lty = 2)
+lines(dig_eff_seq, pred_band[,3], col = "purple", lty = 2)
+
+legend("topleft", legend = c("Regression Line", "Confidence Interval", "Prediction Interval"),
+       col = c("red", "green", "purple"), lty = c(1,2,2), bty = "n", inset = 0.05)
+
+```
+
+#### 11) [1] Find the coefficient of determination from the RSudio output and interpret the value.
+
+```{r}
+r_squared <- summary(model)$r.squared
+r_squared
+```

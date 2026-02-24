@@ -1,0 +1,202 @@
+---
+title: "Chapter 4 Activity 1"
+author: "Maria Sandate"
+date: "2025-01-30"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+#### Chapter 4 
+#### Activity 1
+
+A collector of antique grandfather clocks sold at auction believes that the price received for the clocks depends on both the age of the clocks and the number of bidders at the auction. A sample of 32 auction prices of grandfather clocks, along with their age and the number of bidders, is given in GFCLOCKS
+
+```{r}
+GFCLOCKS <- read.table("GFCLOCKS.txt", header = TRUE, sep = "", stringsAsFactors = FALSE)
+
+```
+
+
+#### a. Use scattergrams to plot the sample data. Interpret the plots.
+
+```{r}
+plot(GFCLOCKS$AGE, GFCLOCKS$PRICE,
+     main = "Scatterplot: Price vs Age",
+     xlab = "Age",
+     ylab = "Price ($)",
+     pch = 16, col = "blue")
+```
+### Positive correlation and it looks likely linear correlation
+
+```{r}
+plot(GFCLOCKS$NUMBIDS, GFCLOCKS$PRICE,
+     main = "Scatterplot: Price vs Number of bidders",
+     xlab = "Number of bidders",
+     ylab = "Price ($)",
+     pch = 16, col = "blue")
+```
+
+```{r}
+pairs(~PRICE+AGE+NUMBIDS, data = GFCLOCKS,
+      main="Scatterplot Matrix of Price clocks")
+```
+
+
+### Positive correlation and it looks likely linear correlation
+
+#### b. Use the method of least squares to estimate the unknown parameters 𝛽0, 𝛽1, and 𝛽2 of the model.
+
+```{r}
+modelA1 <- lm(PRICE ~ AGE + NUMBIDS, data = GFCLOCKS)
+summary(modelA1)
+```
+𝛽0 = -1338.9513
+𝛽1=12.7406
+𝛽2=85.9530
+
+#### c. Find the value of SSE that is minimized by the least squares method.
+
+```{r}
+SSE <- sum(resid(modelA1)^2)
+SSE
+```
+```{r}
+anova(modelA1)
+```
+SSE= 516727
+
+#### d. Find the MSE (mean square error) and Root MSE. What is the root MSE?
+
+MSE=SSE/(n-(k+1))
+
+```{r}
+SSE=516727
+n=32
+k=2
+MSE=SSE/(n-(k+1))
+MSE
+```
+```{r}
+ME= sqrt(MSE)
+ME
+```
+Thus, we expect the model to provide predictions of prices to within about 2s= 2*(133.48) = $267 . Or, about 95% of sample prices fall within +-$267  of their predicted values using the model.
+
+#### e. Is the regression model appropriate here? Write down the null and alternative hypothesis and make your conclusion based on the appropriate test.
+
+H0 : beta1 = beta2... = betak = 0
+Ha : At least one betai <> 0
+
+F-statistic =120.2
+p_value =9.216e-15
+
+Decision: We reject H0.
+Conclusion: At 5% level of significance, the date provide strong evidence to conclude that the model is useful in predicting the price.
+
+#### f. Test the hypothesis that the mean auction price of a clock increases as the number of bidders increases when age is held constant.
+
+H0 : beta2 = 0
+Ha : beta2 > 0
+
+t-statistic =9.847 
+p_value = 9.34e-11 / 2
+
+Decision: We reject H0.
+Conclusion: At 5% level of significance, the date provide strong evidence to conclude that the price clock increases as the number of bidders increases when age is held constant.
+
+
+```{r}
+summary(modelA1)$coefficients["NUMBIDS", ]
+```
+#### g. Form a 95% confidence interval for 𝛽1 and interpret the result.
+
+```{r}
+confint(modelA1, level = 0.95)
+```
+CI(10.89017,14.59098)
+
+
+#### h. Estimate the average auction price for all 150-year-old clocks sold at auctions with 10 bidders using a 95% confidence interval. Interpret the result.
+
+
+```{r}
+new_data <- data.frame(AGE = 150, NUMBIDS = 10)
+predict(modelA1, new_data, interval = "confidence", level = 0.95)
+```
+
+The estimated average auction price for all 150-year-old clocks sold at auctions with 10 bidders is $1431.67.
+
+The 95% confidence interval ranges from $1381.40 to $1481.93, meaning that we are 95% confident that the true mean auction price for all such clocks falls within this range.
+
+#### i. Predict the auction price for a single 150-year-old clock sold at an auction with 10 bidders using a 95% prediction interval. Interpret the result.
+
+
+```{r}
+predict(modelA1, new_data, interval = "prediction", level = 0.95)
+```
+The predicted auction price for a single 150-year-old clock sold at an auction with 10 bidders is $1431.67.
+
+The 95% prediction interval ranges from $1154.07 to $1709.26, meaning that we are 95% confident that the auction price for an individual clock of this type will fall within this range.
+
+
+#### j. Suppose you want to predict the auction price for one clock that is 50 years old and has two bidders. How should you proceed?
+
+
+
+```{r}
+new_data2 <- data.frame(AGE = 50, NUMBIDS = 2)
+
+predict(modelA1, new_data2, interval = "confidence", level = 0.95)
+
+
+predict(modelA1, new_data2, interval = "prediction", level = 0.95)
+```
+The predicted auction price for a 50-year-old clock with two bidders is -530.02, with:
+
+A 95% confidence interval ranging from -781.52 to -278.52.
+A 95% prediction interval ranging from -901.21 to -158.82.
+A negative price is not realistic because the model is extrapolating beyond the range of the data.
+
+
+#### k. Suppose the collector of grandfather clocks, having observed many auctions, believes that the rate of increase of the auction price with age will be driven upward by a large number of bidders. Thus, instead of a relationship like that shown in Figure a, in which the rate of increase in price with age is the same for any number of bidders, the collector believes the relationship is like that shown in Figure b. Note that as the number of bidders increases from 5 to 15, the slope of the price versus age line increases.
+
+The collector's hypothesis suggests that the effect of age on auction price depends on the number of bidders. This means there is a potential interaction effect between AGE and NUMBIDS.
+
+```{r}
+model_interaction <- lm(PRICE ~ AGE * NUMBIDS, data = GFCLOCKS)
+
+summary(model_interaction)
+```
+The significant interaction term (AGE:NUMBIDS) confirms the collector’s belief: As the number of bidders increases, the effect of age on price also increases.
+This means that for a higher number of bidders, older clocks tend to sell at even higher prices, consistent with Figure (b).
+The model explains a large proportion of the variation in auction prices (R-squared = 0.9539), indicating a strong fit.
+
+#### l. Test the overall utility of the model using the global F-test at 𝛼 = .05.
+
+```{r}
+anova(model_interaction)
+```
+
+Since the p-values for all terms are far below 0.05, we reject the null hypothesis and conclude that the model is statistically useful for predicting auction prices.
+Overall, the model provides a strong fit, meaning that AGE, NUMBIDS, and their interaction significantly contribute to explaining auction prices.
+
+#### m. Test the hypothesis (at 𝛼 = .05) that the price–age slope increases as the number of bidders increases—that is, that age and number of bidders, x2, interact positively.
+
+
+```{r}
+summary(model_interaction)$coefficients["AGE:NUMBIDS", ]
+```
+
+Since the p-value is much smaller than 0.05, we reject the null hypothesis that there is no interaction.
+This confirms that as the number of bidders increases, the effect of age on auction price becomes stronger.
+
+#### n. Estimate the change in auction price of a 150-year-old grandfather clock, y, for each additional bidder.
+
+
+```{r}
+summary(model_interaction)$coefficients["NUMBIDS", ]
+```
+
+This means that for each additional bidder, the base auction price decreases by approximately $93.26.

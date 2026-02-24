@@ -1,0 +1,200 @@
+---
+title: "logict regresion model loans"
+output: pdf_document
+date: "2026-02-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Review: Logistic Regression Model
+You are a data analyst at a company that sells consumer electronics online. The marketing team wants to increase sales efficiently by identifying which customers are most likely to make a purchase.
+The company has historical data on thousands of customers, including:
+
+
+the amount of money spent on marketing for the customer (in dollars)
+
+
+the number of months the customer has been with the company
+
+
+The dataset is downloaded from this link:
+http://mylinux.langara.bc.ca/~sli/4820/business_logistic_regression_dataset.csv
+The objective is to predict whether a customer will make a purchase (Purchase = 1) or not (Purchase = 0) based on the following predictors:
+
+
+Marketing Spending – the amount of money spent on marketing for the customer (in dollars)
+
+
+Customer_Months – the number of months the customer has been with the company
+
+
+
+Questions
+a. State the logistic regression model that describes the relationship between the predictors and purchase probability.
+
+variables 
+- p the purchase the probability
+- xspending be amount of money spent on marketing for a costumer
+- xmonths be the number of months a costumer has been with the company
+
+ln(p/1-p) = A 
++ Bspending*xspending
++ Bmonths*xmonths
+
+
+
+```{r setup, include=FALSE}
+data=read.csv("http://mylinux.langara.bc.ca/~sli/4820/business_logistic_regression_dataset.csv")
+
+data
+
+
+names(data)
+
+# set the predictors
+x.spending = data$Marketing_Spend
+x.months = data$Customer_Tenure_Months
+
+# set up the response variables
+
+y = factor(data$Purchase)
+print(y)
+
+# fit the regresion logistic model 
+
+model= glm(formula = "y~ x.spending + x.months", family = binomial )
+
+```
+
+
+b. Fit the logistic regression model to the data and obtain the regression output.
+```{r}
+summary(model)
+```
+c. Is the model significantly useful in predicting probability that a customer will make a purchase based on the predictors?
+Use the likelihood ratio test to test the null hypothesis that all predictor coefficients are simultaneously zero.
+
+at leas one of the predictors ... at least one of the probability (either marketing spending or number of months)
+is related to the purchase probability
+
+null hypothesis
+
+Ho: all predictor are not related to the purchase
+bSpending + bmonths + 0
+ln(p/(1-p))=A
+
+ha: at leas one of the predictors ... at least one of the probability (either marketing spending or number of months) is related to the purchase probability
+bSpending + bmonths>0
+
+calculate the test statistic and p-value using likelihood ratio Test (LRT)
+R = likelihood under Ho / maximum likelihood under HA
+
+if the logistic regresion model uder H0 provides as good a fit to the logistic regression under Ha, then the likelihood ratio should be close to 1, otherwise if the logistic regression model under h0, then  the likelihood ratio should be musch less than 1  (or closer to cero)
+
+
+to decide whether the likelihood is close to 1 or much less than 0, we can convvert to the likelihood ratio to a chi-square statisticv and get the p-value from the chi-square. How? 
+
+D=-2LnRthe chi-square statusuc D follow the chi-square distribution with the degree of freedom given by 2
+(the number f coefficien being tested)
+
+step 1 fit the logistic  regression model with the intercep only to the data and get  the likelihood value 
+step 2  calculate the likelihood ratio 
+step 3 convert the likelihood ratio to chi square statistic and get the p-value
+
+
+d. Estimate the odds of a customer making a purchase if:
+
+ marketing spending for this customer is $4,000
+ this customer has been with the company for 12 months
+
+
+```{r}
+
+model.intercept.only= glm(formula = "y~ 1", family = binomial )
+print(model.intercept.only)
+
+anova(model.intercept.only,model,test = "Chisq")
+
+mymodelcoef=coef(model)
+x0=c(1,4000,12)
+
+print(x0*mymodelcoef)
+
+print(sum(x0*mymodelcoef))
+
+logoods=sum(x0*mymodelcoef)
+
+odds=exp(logoods)
+
+print(odds)
+
+
+print(odds/0.3894065)
+print(1/0.3894065)
+```
+
+since the p-value  2.2*10-16 is smaller the significance level 0.05, we reject  HO at the significance lever, the sample data provide , sufficent evidence to conclude that at least one of the predictors  (either marketing  spending or number of months )  is related to the purchase probability
+
+e. Interpret the odds by completing the following:
+For every 1 customer who makes a purchase, we expect there are ______ customers who do not make a purchase given:
+
+
+marketing spending for this customer is $4,000
+
+
+this customer has been with the company for 12 months
+
+
+
+
+
+
+
+```{r}
+#
+mymodelcoef=coef(model)
+x0=c(1,4001,12)
+logoods=sum(x0*mymodelcoef)
+print(logoods)
+odds=exp(logoods)
+print(odds)
+print(odds/(1+odds))
+
+```
+
+
+
+```{r}
+#
+mymodelcoef=coef(model)
+x0=c(1,4000,13)
+logoods=sum(x0*mymodelcoef)
+print(logoods)
+odds=exp(logoods)
+print(odds)
+print(odds/(1+odds))
+
+```
+
+
+```{r}
+# interpret the logods
+mymodelcoef=coef(model)
+x0=c(1,4000,13)
+logoods=sum(x0*mymodelcoef)
+```
+
+
+log odds 
+for every  $1 increase in marketing  spending, we expect  that the log odss of a ustome marketing a purchase  increase by o.ooo6 given the number  of months  a customer has been with company remains unchange
+
+
+odds ratios 
+
+for every  $1 increase in marketing  spending, we expect  that the odss of a  customer marketing a purchase  increase by a factor e^o.ooo6 given the number  of months  a customer has been with company remains unchange
+
+

@@ -1,0 +1,880 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Support for Eliminating Tariffs on Electric Vehicles from China (Practice: Comparing Multiple Proportions)},
+  pdfauthor={Leonardo L Sanchez},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Support for Eliminating Tariffs on Electric Vehicles from China
+(Practice: Comparing Multiple Proportions)}
+\author{Leonardo L Sanchez}
+\date{2026-02-23}
+
+\begin{document}
+\maketitle
+
+\subsection{Goal}\label{goal}
+
+This practice file shows \textbf{how to do the test manually} (step by
+step) and then verify in \texttt{R}.
+
+Topic covered:
+
+\begin{itemize}
+\tightlist
+\item
+  Comparing multiple proportions (chi-square test of homogeneity)
+\item
+  Pairwise comparisons using Marascuilo-style simultaneous intervals
+\item
+  A follow-up two-proportion z-test (West vs East)
+\item
+  Confidence interval for the overall proportion
+\end{itemize}
+
+\subsection{Given Data}\label{given-data}
+
+A random sample of Canadians from four major cities was surveyed.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+City & Sample Size (n) & \% Yes & Yes & No \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Vancouver & 400 & 62\% & 248 & 152 \\
+Calgary & 250 & 58\% & 145 & 105 \\
+Toronto & 300 & 52\% & 156 & 144 \\
+Montreal & 250 & 48\% & 120 & 130 \\
+\end{longtable}
+}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Use the exact counts from the problem (best practice for inference)}
+\NormalTok{city }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Vancouver"}\NormalTok{, }\StringTok{"Calgary"}\NormalTok{, }\StringTok{"Toronto"}\NormalTok{, }\StringTok{"Montreal"}\NormalTok{)}
+\NormalTok{n    }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{400}\NormalTok{, }\DecValTok{250}\NormalTok{, }\DecValTok{300}\NormalTok{, }\DecValTok{250}\NormalTok{)}
+\NormalTok{yes  }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{248}\NormalTok{, }\DecValTok{145}\NormalTok{, }\DecValTok{156}\NormalTok{, }\DecValTok{120}\NormalTok{)}
+\NormalTok{no   }\OtherTok{\textless{}{-}}\NormalTok{ n }\SpecialCharTok{{-}}\NormalTok{ yes}
+\NormalTok{p\_hat\_city }\OtherTok{\textless{}{-}}\NormalTok{ yes }\SpecialCharTok{/}\NormalTok{ n}
+
+\CommentTok{\# Build a clean data frame}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{City =}\NormalTok{ city,}
+  \AttributeTok{n =}\NormalTok{ n,}
+  \AttributeTok{Yes =}\NormalTok{ yes,}
+  \AttributeTok{No =}\NormalTok{ no,}
+  \AttributeTok{p\_hat =}\NormalTok{ p\_hat\_city}
+\NormalTok{)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{YesPercent }\OtherTok{\textless{}{-}} \DecValTok{100} \SpecialCharTok{*}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{p\_hat}
+
+\CommentTok{\# Reorder columns for display}
+\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"City"}\NormalTok{, }\StringTok{"n"}\NormalTok{, }\StringTok{"YesPercent"}\NormalTok{, }\StringTok{"Yes"}\NormalTok{, }\StringTok{"No"}\NormalTok{, }\StringTok{"p\_hat"}\NormalTok{)]}
+\NormalTok{df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        City   n YesPercent Yes  No p_hat
+## 1 Vancouver 400         62 248 152  0.62
+## 2   Calgary 250         58 145 105  0.58
+## 3   Toronto 300         52 156 144  0.52
+## 4  Montreal 250         48 120 130  0.48
+\end{verbatim}
+
+\subsection{Part A - Test for Differences Among Cities (Chi-square Test
+of
+Homogeneity)}\label{part-a---test-for-differences-among-cities-chi-square-test-of-homogeneity}
+
+\subsubsection{1) Hypotheses}\label{hypotheses}
+
+Let \(p_V, p_C, p_T, p_M\) be the true proportions of ``Yes'' in
+Vancouver, Calgary, Toronto, and Montreal.
+
+\[
+H_0: p_V = p_C = p_T = p_M
+\]
+
+\[
+H_a: \text{At least one population proportion is different}
+\]
+
+\subsubsection{2) Manual idea (what we do by
+hand)}\label{manual-idea-what-we-do-by-hand}
+
+Under \(H_0\), all cities share \textbf{one common proportion}. We
+estimate it using the pooled sample proportion:
+
+\[
+\hat p_{\text{pooled}} = \frac{\text{total Yes}}{\text{total sample size}}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# MANUAL STEP 1: pooled proportion under H0}
+\NormalTok{x\_total }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(yes)}
+\NormalTok{n\_total }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(n)}
+\NormalTok{p\_pool }\OtherTok{\textless{}{-}}\NormalTok{ x\_total }\SpecialCharTok{/}\NormalTok{ n\_total}
+
+\NormalTok{x\_total}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 669
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n\_total}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1200
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_pool}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5575
+\end{verbatim}
+
+So,
+
+\[
+\hat p_{\text{pooled}} = \frac{669}{1200} = 0.5575
+\]
+
+\subsubsection{\texorpdfstring{3) Expected counts under
+\(H_0\)}{3) Expected counts under H\_0}}\label{expected-counts-under-h_0}
+
+For each city:
+
+\begin{itemize}
+\tightlist
+\item
+  Expected Yes = \(n_i \hat p_{\text{pooled}}\)
+\item
+  Expected No = \(n_i (1 - \hat p_{\text{pooled}})\)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# MANUAL STEP 2: expected counts under H0}
+\NormalTok{expected\_yes }\OtherTok{\textless{}{-}}\NormalTok{ n }\SpecialCharTok{*}\NormalTok{ p\_pool}
+\NormalTok{expected\_no  }\OtherTok{\textless{}{-}}\NormalTok{ n }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p\_pool)}
+
+\NormalTok{expected\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{City =}\NormalTok{ city,}
+  \AttributeTok{Obs\_Yes =}\NormalTok{ yes,}
+  \AttributeTok{Exp\_Yes =}\NormalTok{ expected\_yes,}
+  \AttributeTok{Obs\_No =}\NormalTok{ no,}
+  \AttributeTok{Exp\_No =}\NormalTok{ expected\_no}
+\NormalTok{)}
+\NormalTok{expected\_df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        City Obs_Yes Exp_Yes Obs_No  Exp_No
+## 1 Vancouver     248 223.000    152 177.000
+## 2   Calgary     145 139.375    105 110.625
+## 3   Toronto     156 167.250    144 132.750
+## 4  Montreal     120 139.375    130 110.625
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Condition check: all expected counts should be \textgreater{}= 5}
+\FunctionTok{all}\NormalTok{(expected\_yes }\SpecialCharTok{\textgreater{}=} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{all}\NormalTok{(expected\_no }\SpecialCharTok{\textgreater{}=} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\subsubsection{4) Chi-square statistic (manual
+computation)}\label{chi-square-statistic-manual-computation}
+
+We compute:
+
+\[
+\chi^2 = \sum \frac{(O - E)^2}{E}
+\]
+
+across all cells in the 4 x 2 table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# MANUAL STEP 3: contribution from each cell = (O{-}E)\^{}2/E}
+\NormalTok{contrib\_yes }\OtherTok{\textless{}{-}}\NormalTok{ (yes }\SpecialCharTok{{-}}\NormalTok{ expected\_yes)}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/}\NormalTok{ expected\_yes}
+\NormalTok{contrib\_no  }\OtherTok{\textless{}{-}}\NormalTok{ (no  }\SpecialCharTok{{-}}\NormalTok{ expected\_no )}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/}\NormalTok{ expected\_no}
+
+\NormalTok{contrib\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{City =}\NormalTok{ city,}
+  \AttributeTok{contrib\_yes =}\NormalTok{ contrib\_yes,}
+  \AttributeTok{contrib\_no =}\NormalTok{ contrib\_no,}
+  \AttributeTok{contrib\_total\_city =}\NormalTok{ contrib\_yes }\SpecialCharTok{+}\NormalTok{ contrib\_no}
+\NormalTok{)}
+\NormalTok{contrib\_df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        City contrib_yes contrib_no contrib_total_city
+## 1 Vancouver   2.8026906  3.5310734          6.3337640
+## 2   Calgary   0.2270179  0.2860169          0.5130349
+## 3   Toronto   0.7567265  0.9533898          1.7101163
+## 4  Montreal   2.6933857  3.3933616          6.0867472
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Manual chi{-}square statistic}
+\NormalTok{chisq\_manual }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(contrib\_yes }\SpecialCharTok{+}\NormalTok{ contrib\_no)}
+\NormalTok{chisq\_manual}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14.64366
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Degrees of freedom for a 4 x 2 table: (r{-}1)(c{-}1) = (4{-}1)(2{-}1) = 3}
+\CommentTok{\# (Equivalent to k{-}1 when comparing k proportions.)}
+\NormalTok{df\_chi }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{length}\NormalTok{(city) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{2} \SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+\NormalTok{df\_chi}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# p{-}value from chi{-}square distribution (right tail)}
+\NormalTok{p\_value\_manual }\OtherTok{\textless{}{-}} \FunctionTok{pchisq}\NormalTok{(chisq\_manual, }\AttributeTok{df =}\NormalTok{ df\_chi, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{p\_value\_manual}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.00214793
+\end{verbatim}
+
+\subsubsection{\texorpdfstring{5) Verify with
+\texttt{chisq.test()}}{5) Verify with chisq.test()}}\label{verify-with-chisq.test}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Build city x response table (4 rows, 2 columns)}
+\NormalTok{tab\_city\_response }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\AttributeTok{Yes =}\NormalTok{ yes, }\AttributeTok{No =}\NormalTok{ no)}
+\FunctionTok{rownames}\NormalTok{(tab\_city\_response) }\OtherTok{\textless{}{-}}\NormalTok{ city}
+
+\CommentTok{\# R verification (no continuity correction; correction is for 2x2 only)}
+\NormalTok{test\_A }\OtherTok{\textless{}{-}} \FunctionTok{chisq.test}\NormalTok{(tab\_city\_response, }\AttributeTok{correct =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{test\_A}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  tab_city_response
+## X-squared = 14.644, df = 3, p-value = 0.002148
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compare manual vs R}
+\FunctionTok{c}\NormalTok{(}\AttributeTok{chisq\_manual =}\NormalTok{ chisq\_manual, }\AttributeTok{chisq\_R =} \FunctionTok{unname}\NormalTok{(test\_A}\SpecialCharTok{$}\NormalTok{statistic))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## chisq_manual      chisq_R 
+##     14.64366     14.64366
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{c}\NormalTok{(}\AttributeTok{p\_manual =}\NormalTok{ p\_value\_manual, }\AttributeTok{p\_R =}\NormalTok{ test\_A}\SpecialCharTok{$}\NormalTok{p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   p_manual        p_R 
+## 0.00214793 0.00214793
+\end{verbatim}
+
+\subsubsection{6) Conclusion (alpha =
+0.05)}\label{conclusion-alpha-0.05}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alpha }\OtherTok{\textless{}{-}} \FloatTok{0.05}
+
+\ControlFlowTok{if}\NormalTok{ (p\_value\_manual }\SpecialCharTok{\textless{}}\NormalTok{ alpha) \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Decision: Reject H0.}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{n}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{n"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Conclusion: There is sufficient evidence that support differs among the four cities.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Decision: Fail to reject H0.}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{n}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{n"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Conclusion: There is not enough evidence to say the city proportions differ.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Decision: Reject H0.\n\nConclusion: There is sufficient evidence that
+support differs among the four cities.
+
+\subsection{Part B - Pairwise Comparisons (Marascuilo-style Simultaneous
+Intervals)}\label{part-b---pairwise-comparisons-marascuilo-style-simultaneous-intervals}
+
+After finding a significant overall difference, we often ask
+\textbf{which cities differ}.
+
+We use a familywise error rate of 5\% (overall alpha = 0.05) and a
+Marascuilo critical value.
+
+\subsubsection{Important interpretation
+rule}\label{important-interpretation-rule}
+
+For an interval for \((p_i - p_j)\):
+
+\begin{itemize}
+\tightlist
+\item
+  If the interval \textbf{includes 0}, the pair is \textbf{not
+  significantly different}.
+\item
+  If the entire interval is \textbf{above 0}, then city \(i\) is
+  \textbf{higher} than city \(j\).
+\item
+  If the entire interval is \textbf{below 0}, then city \(i\) is
+  \textbf{lower} than city \(j\).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Marascuilo{-}style simultaneous interval for a pair (i, j)}
+\CommentTok{\# CI for (p\_i {-} p\_j): diff +/{-} CR\_ij, where}
+\CommentTok{\# CR\_ij = sqrt(chi{-}square critical) * sqrt(p\_i(1{-}p\_i)/n\_i + p\_j(1{-}p\_j)/n\_j)}
+
+\NormalTok{alpha\_overall }\OtherTok{\textless{}{-}} \FloatTok{0.05}
+\NormalTok{k }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(df)}
+\NormalTok{chisq\_crit }\OtherTok{\textless{}{-}} \FunctionTok{qchisq}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ alpha\_overall, }\AttributeTok{df =}\NormalTok{ k }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+
+\NormalTok{pair\_ci\_marascuilo }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(i, j, data, chisq\_crit) \{}
+\NormalTok{  pi }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{p\_hat[i]}
+\NormalTok{  pj }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{p\_hat[j]}
+\NormalTok{  ni }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{n[i]}
+\NormalTok{  nj }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{n[j]}
+
+\NormalTok{  diff\_ij }\OtherTok{\textless{}{-}}\NormalTok{ pi }\SpecialCharTok{{-}}\NormalTok{ pj}
+\NormalTok{  me\_ij }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(chisq\_crit) }\SpecialCharTok{*} \FunctionTok{sqrt}\NormalTok{(pi }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ pi) }\SpecialCharTok{/}\NormalTok{ ni }\SpecialCharTok{+}\NormalTok{ pj }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ pj) }\SpecialCharTok{/}\NormalTok{ nj)}
+
+\NormalTok{  lower }\OtherTok{\textless{}{-}}\NormalTok{ diff\_ij }\SpecialCharTok{{-}}\NormalTok{ me\_ij}
+\NormalTok{  upper }\OtherTok{\textless{}{-}}\NormalTok{ diff\_ij }\SpecialCharTok{+}\NormalTok{ me\_ij}
+
+  \CommentTok{\# Interpretation label for studying}
+\NormalTok{  relation }\OtherTok{\textless{}{-}} \ControlFlowTok{if}\NormalTok{ (lower }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+    \StringTok{"higher than"}
+\NormalTok{  \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (upper }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) \{}
+    \StringTok{"lower than"}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+    \StringTok{"not significantly different from"}
+\NormalTok{  \}}
+
+  \FunctionTok{data.frame}\NormalTok{(}
+    \AttributeTok{City1 =}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{City[i],}
+    \AttributeTok{City2 =}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{City[j],}
+    \AttributeTok{p1 =}\NormalTok{ pi,}
+    \AttributeTok{p2 =}\NormalTok{ pj,}
+    \AttributeTok{diff =}\NormalTok{ diff\_ij,}
+    \AttributeTok{lower =}\NormalTok{ lower,}
+    \AttributeTok{upper =}\NormalTok{ upper,}
+    \AttributeTok{relation =}\NormalTok{ relation,}
+    \AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}
+\NormalTok{  )}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Vancouver vs Calgary}\label{vancouver-vs-calgary}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vc }\OtherTok{\textless{}{-}} \FunctionTok{pair\_ci\_marascuilo}\NormalTok{(}
+  \AttributeTok{i =} \FunctionTok{which}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{City }\SpecialCharTok{==} \StringTok{"Vancouver"}\NormalTok{),}
+  \AttributeTok{j =} \FunctionTok{which}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{City }\SpecialCharTok{==} \StringTok{"Calgary"}\NormalTok{),}
+  \AttributeTok{data =}\NormalTok{ df,}
+  \AttributeTok{chisq\_crit =}\NormalTok{ chisq\_crit}
+\NormalTok{)}
+\NormalTok{vc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       City1   City2   p1   p2 diff       lower    upper
+## 1 Vancouver Calgary 0.62 0.58 0.04 -0.07053301 0.150533
+##                           relation
+## 1 not significantly different from
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Print as percentages for the sentence format used in class/assignments}
+\FunctionTok{sprintf}\NormalTok{(}
+  \StringTok{"Vancouver vs Calgary: \%s by between \%.2f\%\% and \%.2f\%\% (for p\_V {-} p\_C)."}\NormalTok{,}
+\NormalTok{  vc}\SpecialCharTok{$}\NormalTok{relation,}
+  \DecValTok{100} \SpecialCharTok{*}\NormalTok{ vc}\SpecialCharTok{$}\NormalTok{lower,}
+  \DecValTok{100} \SpecialCharTok{*}\NormalTok{ vc}\SpecialCharTok{$}\NormalTok{upper}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Vancouver vs Calgary: not significantly different from by between -7.05% and 15.05% (for p_V - p_C)."
+\end{verbatim}
+
+\subsubsection{Vancouver vs Toronto}\label{vancouver-vs-toronto}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vt }\OtherTok{\textless{}{-}} \FunctionTok{pair\_ci\_marascuilo}\NormalTok{(}
+  \AttributeTok{i =} \FunctionTok{which}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{City }\SpecialCharTok{==} \StringTok{"Vancouver"}\NormalTok{),}
+  \AttributeTok{j =} \FunctionTok{which}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{City }\SpecialCharTok{==} \StringTok{"Toronto"}\NormalTok{),}
+  \AttributeTok{data =}\NormalTok{ df,}
+  \AttributeTok{chisq\_crit =}\NormalTok{ chisq\_crit}
+\NormalTok{)}
+\NormalTok{vt}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       City1   City2   p1   p2 diff        lower    upper
+## 1 Vancouver Toronto 0.62 0.52  0.1 -0.005378975 0.205379
+##                           relation
+## 1 not significantly different from
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sprintf}\NormalTok{(}
+  \StringTok{"Vancouver vs Toronto: \%s by between \%.2f\%\% and \%.2f\%\% (for p\_V {-} p\_T)."}\NormalTok{,}
+\NormalTok{  vt}\SpecialCharTok{$}\NormalTok{relation,}
+  \DecValTok{100} \SpecialCharTok{*}\NormalTok{ vt}\SpecialCharTok{$}\NormalTok{lower,}
+  \DecValTok{100} \SpecialCharTok{*}\NormalTok{ vt}\SpecialCharTok{$}\NormalTok{upper}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Vancouver vs Toronto: not significantly different from by between -0.54% and 20.54% (for p_V - p_T)."
+\end{verbatim}
+
+\subsubsection{(Optional) All pairwise comparisons at
+once}\label{optional-all-pairwise-comparisons-at-once}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Useful for practice: see every pair in one table}
+\NormalTok{pairs\_idx }\OtherTok{\textless{}{-}} \FunctionTok{combn}\NormalTok{(}\FunctionTok{seq\_len}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(df)), }\DecValTok{2}\NormalTok{)}
+\NormalTok{all\_pairs }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(}
+\NormalTok{  rbind,}
+  \FunctionTok{lapply}\NormalTok{(}\FunctionTok{seq\_len}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(pairs\_idx)), }\ControlFlowTok{function}\NormalTok{(m) \{}
+\NormalTok{    i }\OtherTok{\textless{}{-}}\NormalTok{ pairs\_idx[}\DecValTok{1}\NormalTok{, m]}
+\NormalTok{    j }\OtherTok{\textless{}{-}}\NormalTok{ pairs\_idx[}\DecValTok{2}\NormalTok{, m]}
+    \FunctionTok{pair\_ci\_marascuilo}\NormalTok{(i, j, }\AttributeTok{data =}\NormalTok{ df, }\AttributeTok{chisq\_crit =}\NormalTok{ chisq\_crit)}
+\NormalTok{  \})}
+\NormalTok{)}
+
+\CommentTok{\# Format percentages for readability}
+\NormalTok{all\_pairs}\SpecialCharTok{$}\NormalTok{diff\_pct  }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\DecValTok{100} \SpecialCharTok{*}\NormalTok{ all\_pairs}\SpecialCharTok{$}\NormalTok{diff, }\DecValTok{2}\NormalTok{)}
+\NormalTok{all\_pairs}\SpecialCharTok{$}\NormalTok{lower\_pct }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\DecValTok{100} \SpecialCharTok{*}\NormalTok{ all\_pairs}\SpecialCharTok{$}\NormalTok{lower, }\DecValTok{2}\NormalTok{)}
+\NormalTok{all\_pairs}\SpecialCharTok{$}\NormalTok{upper\_pct }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\DecValTok{100} \SpecialCharTok{*}\NormalTok{ all\_pairs}\SpecialCharTok{$}\NormalTok{upper, }\DecValTok{2}\NormalTok{)}
+
+\NormalTok{all\_pairs[, }\FunctionTok{c}\NormalTok{(}\StringTok{"City1"}\NormalTok{, }\StringTok{"City2"}\NormalTok{, }\StringTok{"diff\_pct"}\NormalTok{, }\StringTok{"lower\_pct"}\NormalTok{, }\StringTok{"upper\_pct"}\NormalTok{, }\StringTok{"relation"}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       City1    City2 diff_pct lower_pct upper_pct
+## 1 Vancouver  Calgary        4     -7.05     15.05
+## 2 Vancouver  Toronto       10     -0.54     20.54
+## 3 Vancouver Montreal       14      2.86     25.14
+## 4   Calgary  Toronto        6     -5.88     17.88
+## 5   Calgary Montreal       10     -2.42     22.42
+## 6   Toronto Montreal        4     -7.96     15.96
+##                           relation
+## 1 not significantly different from
+## 2 not significantly different from
+## 3                      higher than
+## 4 not significantly different from
+## 5 not significantly different from
+## 6 not significantly different from
+\end{verbatim}
+
+\subsection{Part C - West vs East (One-sided Two-Proportion
+z-test)}\label{part-c---west-vs-east-one-sided-two-proportion-z-test}
+
+Now combine cities into regions:
+
+\begin{itemize}
+\tightlist
+\item
+  West = Vancouver + Calgary
+\item
+  East = Toronto + Montreal
+\end{itemize}
+
+We test whether support is \textbf{higher in the West}.
+
+\subsubsection{Hypotheses}\label{hypotheses-1}
+
+\[
+H_0: p_W = p_E
+\]
+
+\[
+H_a: p_W > p_E
+\]
+
+\subsubsection{Manual calculation
+(z-test)}\label{manual-calculation-z-test}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Combine counts}
+\NormalTok{x\_W }\OtherTok{\textless{}{-}}\NormalTok{ yes[city }\SpecialCharTok{==} \StringTok{"Vancouver"}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ yes[city }\SpecialCharTok{==} \StringTok{"Calgary"}\NormalTok{]}
+\NormalTok{n\_W }\OtherTok{\textless{}{-}}\NormalTok{ n[city }\SpecialCharTok{==} \StringTok{"Vancouver"}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ n[city }\SpecialCharTok{==} \StringTok{"Calgary"}\NormalTok{]}
+
+\NormalTok{x\_E }\OtherTok{\textless{}{-}}\NormalTok{ yes[city }\SpecialCharTok{==} \StringTok{"Toronto"}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ yes[city }\SpecialCharTok{==} \StringTok{"Montreal"}\NormalTok{]}
+\NormalTok{n\_E }\OtherTok{\textless{}{-}}\NormalTok{ n[city }\SpecialCharTok{==} \StringTok{"Toronto"}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ n[city }\SpecialCharTok{==} \StringTok{"Montreal"}\NormalTok{]}
+
+\NormalTok{pW\_hat }\OtherTok{\textless{}{-}}\NormalTok{ x\_W }\SpecialCharTok{/}\NormalTok{ n\_W}
+\NormalTok{pE\_hat }\OtherTok{\textless{}{-}}\NormalTok{ x\_E }\SpecialCharTok{/}\NormalTok{ n\_E}
+
+\CommentTok{\# Under H0 for the z{-}test, use pooled proportion across the two groups}
+\NormalTok{p\_pool\_WE }\OtherTok{\textless{}{-}}\NormalTok{ (x\_W }\SpecialCharTok{+}\NormalTok{ x\_E) }\SpecialCharTok{/}\NormalTok{ (n\_W }\SpecialCharTok{+}\NormalTok{ n\_E)}
+
+\CommentTok{\# Standard error under H0 (pooled SE)}
+\NormalTok{SE\_pool }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(p\_pool\_WE }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p\_pool\_WE) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{/}\NormalTok{ n\_W }\SpecialCharTok{+} \DecValTok{1} \SpecialCharTok{/}\NormalTok{ n\_E))}
+
+\CommentTok{\# Test statistic for Ha: pW \textgreater{} pE}
+\NormalTok{z\_stat }\OtherTok{\textless{}{-}}\NormalTok{ (pW\_hat }\SpecialCharTok{{-}}\NormalTok{ pE\_hat) }\SpecialCharTok{/}\NormalTok{ SE\_pool}
+
+\CommentTok{\# One{-}sided p{-}value (right tail)}
+\NormalTok{p\_value\_one\_sided }\OtherTok{\textless{}{-}} \FunctionTok{pnorm}\NormalTok{(z\_stat, }\AttributeTok{lower.tail =} \ConstantTok{FALSE}\NormalTok{)}
+
+\FunctionTok{c}\NormalTok{(}
+  \AttributeTok{x\_W =}\NormalTok{ x\_W, }\AttributeTok{n\_W =}\NormalTok{ n\_W, }\AttributeTok{pW\_hat =}\NormalTok{ pW\_hat,}
+  \AttributeTok{x\_E =}\NormalTok{ x\_E, }\AttributeTok{n\_E =}\NormalTok{ n\_E, }\AttributeTok{pE\_hat =}\NormalTok{ pE\_hat,}
+  \AttributeTok{p\_pool\_WE =}\NormalTok{ p\_pool\_WE,}
+  \AttributeTok{SE\_pool =}\NormalTok{ SE\_pool,}
+  \AttributeTok{z\_stat =}\NormalTok{ z\_stat,}
+  \AttributeTok{p\_value\_one\_sided =}\NormalTok{ p\_value\_one\_sided}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               x_W               n_W            pW_hat               x_E 
+##    393.0000000000    650.0000000000      0.6046153846    276.0000000000 
+##               n_E            pE_hat         p_pool_WE           SE_pool 
+##    550.0000000000      0.5018181818      0.5575000000      0.0287760827 
+##            z_stat p_value_one_sided 
+##      3.5723139864      0.0001769204
+\end{verbatim}
+
+\subsubsection{\texorpdfstring{Verify with \texttt{prop.test()} (same
+problem in
+R)}{Verify with prop.test() (same problem in R)}}\label{verify-with-prop.test-same-problem-in-r}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# prop.test can do a one{-}sided test for 2 proportions.}
+\CommentTok{\# We turn off continuity correction to better match the manual z{-}test.}
+\NormalTok{prop\_test\_WE }\OtherTok{\textless{}{-}} \FunctionTok{prop.test}\NormalTok{(}
+  \AttributeTok{x =} \FunctionTok{c}\NormalTok{(x\_W, x\_E),}
+  \AttributeTok{n =} \FunctionTok{c}\NormalTok{(n\_W, n\_E),}
+  \AttributeTok{alternative =} \StringTok{"greater"}\NormalTok{,}
+  \AttributeTok{correct =} \ConstantTok{FALSE}
+\NormalTok{)}
+\NormalTok{prop\_test\_WE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  2-sample test for equality of proportions without continuity correction
+## 
+## data:  c(x_W, x_E) out of c(n_W, n_E)
+## X-squared = 12.761, df = 1, p-value = 0.0001769
+## alternative hypothesis: greater
+## 95 percent confidence interval:
+##  0.05562926 1.00000000
+## sample estimates:
+##    prop 1    prop 2 
+## 0.6046154 0.5018182
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Note: prop.test reports a chi{-}square statistic for the 2{-}sided framework.}
+\CommentTok{\# For 2 groups, chi{-}square = z\^{}2 (when using the same correction setting).}
+\FunctionTok{c}\NormalTok{(}\AttributeTok{z\_manual =}\NormalTok{ z\_stat, }\AttributeTok{chisq\_from\_z =}\NormalTok{ z\_stat}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     z_manual chisq_from_z 
+##     3.572314    12.761427
+\end{verbatim}
+
+\subsubsection{Conclusion for Part C}\label{conclusion-for-part-c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (p\_value\_one\_sided }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Reject H0. There is sufficient evidence that support is higher in the West than in the East.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Fail to reject H0. There is not enough evidence that support is higher in the West than in the East.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Reject H0. There is sufficient evidence that support is higher in the
+West than in the East.
+
+\subsection{Part D - 95\% Confidence Interval for the Overall
+Proportion}\label{part-d---95-confidence-interval-for-the-overall-proportion}
+
+We estimate the overall population proportion of Canadians (across these
+four cities) who agree.
+
+\subsubsection{Manual formula}\label{manual-formula}
+
+\[
+\hat p \pm z_{0.975}\sqrt{\frac{\hat p(1-\hat p)}{n}}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Overall sample proportion}
+\NormalTok{p\_hat\_overall }\OtherTok{\textless{}{-}}\NormalTok{ x\_total }\SpecialCharTok{/}\NormalTok{ n\_total}
+
+\CommentTok{\# 95\% CI critical value}
+\NormalTok{z\_crit }\OtherTok{\textless{}{-}} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{)}
+
+\CommentTok{\# Standard error for CI (uses p{-}hat, not pooled H0 proportion)}
+\NormalTok{SE\_ci }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(p\_hat\_overall }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p\_hat\_overall) }\SpecialCharTok{/}\NormalTok{ n\_total)}
+\NormalTok{ME }\OtherTok{\textless{}{-}}\NormalTok{ z\_crit }\SpecialCharTok{*}\NormalTok{ SE\_ci}
+
+\NormalTok{lower\_CI }\OtherTok{\textless{}{-}}\NormalTok{ p\_hat\_overall }\SpecialCharTok{{-}}\NormalTok{ ME}
+\NormalTok{upper\_CI }\OtherTok{\textless{}{-}}\NormalTok{ p\_hat\_overall }\SpecialCharTok{+}\NormalTok{ ME}
+
+\FunctionTok{c}\NormalTok{(}
+  \AttributeTok{p\_hat\_overall =}\NormalTok{ p\_hat\_overall,}
+  \AttributeTok{SE\_ci =}\NormalTok{ SE\_ci,}
+  \AttributeTok{ME =}\NormalTok{ ME,}
+  \AttributeTok{lower\_CI =}\NormalTok{ lower\_CI,}
+  \AttributeTok{upper\_CI =}\NormalTok{ upper\_CI}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## p_hat_overall         SE_ci            ME      lower_CI      upper_CI 
+##    0.55750000    0.01433800    0.02810196    0.52939804    0.58560196
+\end{verbatim}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (lower\_CI }\SpecialCharTok{\textgreater{}} \FloatTok{0.50}\NormalTok{) \{}
+  \FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}
+    \StringTok{"The 95\%\% CI is (\%.4f, \%.4f), which lies entirely above 0.50. This supports the claim that more than 50\%\% of Canadians (in this study context) support eliminating tariffs.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+\NormalTok{    lower\_CI, upper\_CI}
+\NormalTok{  ))}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{cat}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}
+    \StringTok{"The 95\%\% CI is (\%.4f, \%.4f). Because it is not entirely above 0.50, we cannot conclude that more than 50\%\% support the policy at the 95\%\% confidence level.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+\NormalTok{    lower\_CI, upper\_CI}
+\NormalTok{  ))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+The 95\% CI is (0.5294, 0.5856), which lies entirely above 0.50. This
+supports the claim that more than 50\% of Canadians (in this study
+context) support eliminating tariffs.
+
+\subsection{Study Notes (What to memorize for the
+quiz)}\label{study-notes-what-to-memorize-for-the-quiz}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Overall test first}: test all cities together with chi-square
+  (homogeneity).
+\item
+  \textbf{If significant}: do pairwise comparisons (Marascuilo /
+  simultaneous intervals) to find where differences are.
+\item
+  \textbf{Manual chi-square steps}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    pooled proportion under \(H_0\)
+  \item
+    expected counts
+  \item
+    sum of \((O-E)^2/E\)
+  \item
+    df and p-value
+  \end{itemize}
+\item
+  \textbf{For 2 groups only}: use the two-proportion z-test (or
+  equivalent chi-square test on a 2x2 table).
+\item
+  \textbf{Interpretation rule for intervals}: if 0 is inside the CI for
+  \((p_i-p_j)\), you do \textbf{not} claim a significant difference.
+\end{enumerate}
+
+\end{document}

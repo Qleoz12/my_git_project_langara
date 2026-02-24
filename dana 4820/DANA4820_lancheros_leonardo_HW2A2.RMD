@@ -1,0 +1,285 @@
+---
+title: "Support for Eliminating Tariffs on Electric Vehicles from China"
+author: "Leonardo L Sanchez"
+date: "2026-01-23"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+## Given Data
+
+A random sample of Canadians from four major cities was surveyed.
+
+| City      | Sample Size (n) | \% Yes | Yes | No  |
+|-----------|-----------------|--------|-----|-----|
+| Vancouver | 400             | 62%    | 248 | 152 |
+| Calgary   | 250             | 58%    | 145 | 105 |
+| Toronto   | 300             | 52%    | 156 | 144 |
+| Montreal  | 250             | 48%    | 120 | 130 |
+
+```{r setup, include=FALSE}
+# If you use knitr options
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r}
+setwd("P:/langara/term 3/dana 4820")
+
+# City data
+city <- c("Vancouver", "Calgary", "Toronto", "Montreal")
+n    <- c(400, 250, 300, 250)
+pyes <- c(0.62, 0.58, 0.52, 0.48)
+
+yes <- round(n * pyes)   # counts are exact here
+no  <- n - yes
+df <- data.frame(City = city, n = n, YesPercent = pyes, Yes = yes, No = no)
+df
+
+```
+
+## Part A – Test for Differences Among Cities
+
+### Hypotheses
+
+Let $p_V, p_C, p_T, p_M$ denote the true population proportions answering “Yes” in Vancouver, Calgary, Toronto, and Montreal.
+
+**Null hypothesis:**
+
+$$
+H_0: p_V = p_C = p_T = p_M
+$$
+
+**Alternative hypothesis:**
+
+$$
+H_a: \text{At least one of the proportions differs}
+$$ \### Estimated proportion assuming $H_0$ is true
+
+If the null hypothesis is true, all cities share a common population proportion. This proportion is estimated using the pooled sample proportion:
+
+$$
+\hat{p} = \frac{248 + 145 + 156 + 120}{400 + 250 + 300 + 250}
+= \frac{669}{1200}
+= 0.5575
+$$
+
+Therefore, assuming $H_0$ is true, the estimated proportion of Canadians in Vancouver who agree is **0.5575 (55.75%)**.
+
+### Chi-square test statistic and p-value
+
+```{r}
+# Counts from the problem
+yes <- c(248, 145, 156, 120)
+no  <- c(152, 105, 144, 130)
+
+# Create contingency table
+tab <- rbind(Yes = yes, No = no)
+
+colnames(tab) <- c("Vancouver", "Calgary", "Toronto", "Montreal")
+
+print(tab)
+
+# Chi-square test of homogeneity
+test <- chisq.test(tab, correct = FALSE)
+test
+print(test)
+
+```
+
+### Conclusion from the Chi-square Test (Part A)
+
+From the R output:
+
+-   Test statistic: $\chi^2 = 14.644$\
+-   Degrees of freedom: $df = 3$\
+-   p-value: $0.002148$
+
+### Decision (α = 0.05)
+
+Since\
+$$
+\text{p-value} = 0.002148 < 0.05,
+$$ we **reject the null hypothesis** $H_0$.
+
+### Conclusion
+
+At the 5% significance level, there is sufficient statistical evidence to conclude that the proportion of Canadians who agree that Canada should eliminate tariffs on electric vehicles from China **differs among the four cities**.
+
+------------------------------------------------------------------------
+
+Part B – Continuing from Part A, complete the following using appropriate confidence intervals. Assume an overall error rate of 5%. The proportion of Canadians who agree that Canada should eliminate tariffs on electric vehicles in Vancouver is (choose one: lower than / higher than / different from) Calgary by between \_\_\_\_\_\_% and \_\_\_\_\_\_%.
+
+```{r partB_van_cal}
+# Part B: CI for (p_Vancouver - p_Calgary)
+# Overall error rate = 5% using Marascuilo (chi-square critical value)
+
+# Number of cities
+k <- nrow(df)
+
+# Overall alpha
+alpha <- 0.05
+
+# Chi-square critical value
+chisq_c <- qchisq(1 - alpha, df = k - 1)
+
+# Extract proportions and sample sizes from df
+p_V <- df$YesPercent[df$City == "Vancouver"]
+p_C <- df$YesPercent[df$City == "Calgary"]
+
+n_V <- df$n[df$City == "Vancouver"]
+n_C <- df$n[df$City == "Calgary"]
+
+# Difference in proportions
+diff_VC <- p_V - p_C
+
+# Margin of error (Marascuilo)
+me_VC <- sqrt(chisq_c) * sqrt(
+  p_V * (1 - p_V) / n_V +
+  p_C * (1 - p_C) / n_C
+)
+
+# Confidence interval
+lower_VC <- diff_VC - me_VC
+upper_VC <- diff_VC + me_VC
+
+# Print results as percentages
+paste(
+  "Vancouver vs Calgary CI:",
+  round(100 * lower_VC, 2), "% to",
+  round(100 * upper_VC, 2), "%"
+)
+
+```
+
+> **The proportion of Canadians who agree that Canada should eliminate tariffs on electric vehicles in Vancouver is *different from* Calgary by between −7.05% and 15.05%.**
+
+```{r partB_van_tor}
+# Part B: CI for (p_Vancouver - p_Toronto)
+# Overall error rate = 5% using Marascuilo (chi-square critical value)
+
+# Number of cities
+k <- nrow(df)
+
+# Overall alpha
+alpha <- 0.05
+
+# Chi-square critical value
+chisq_c <- qchisq(1 - alpha, df = k - 1)
+
+# Extract proportions and sample sizes from df
+p_V <- df$YesPercent[df$City == "Vancouver"]
+p_T <- df$YesPercent[df$City == "Toronto"]
+
+n_V <- df$n[df$City == "Vancouver"]
+n_T <- df$n[df$City == "Toronto"]
+
+# Difference in proportions
+diff_VT <- p_V - p_T
+
+# Margin of error (Marascuilo)
+me_VT <- sqrt(chisq_c) * sqrt(
+  p_V * (1 - p_V) / n_V +
+  p_T * (1 - p_T) / n_T
+)
+
+# Confidence interval
+lower_VT <- diff_VT - me_VT
+upper_VT <- diff_VT + me_VT
+
+# Print results as percentages
+paste(
+  "Vancouver vs Toronto CI:",
+  round(100 * lower_VT, 2), "% to",
+  round(100 * upper_VT, 2), "%"
+)
+```
+
+> **The proportion of Canadians who agree that Canada should eliminate tariffs on electric vehicles in Vancouver is *different from* Toronto by between −0.54% and 20.54%.**
+
+------------------------------------------------------------------------
+
+## Part C – West vs East (One-sided two-proportion z-test)
+
+We want to test whether support is **higher in the West** (Vancouver + Calgary) than in the **East** (Toronto + Montreal).
+
+### Step 1: Define the parameters
+
+Let
+
+-   $p_W$ = true proportion of Canadians who agree in the **western cities** (Vancouver + Calgary)\
+-   $p_E$ = true proportion of Canadians who agree in the **eastern cities** (Toronto + Montreal)
+
+------------------------------------------------------------------------
+
+### Step 2: State the hypotheses (symbolically)
+
+$$
+H_0: p_W = p_E
+$$
+
+$$
+H_a: p_W > p_E
+$$
+
+------------------------------------------------------------------------
+
+```{r partC_west_east_compare}
+# West vs East: your chi-square approach (2x2 table)
+
+# Group sizes
+n_group <- c(West = 650, East = 550)
+
+# Sample proportions
+p_group <- c(West = 393/650, East = 276/550)
+
+# Yes / No counts
+row_yes <- n_group * p_group
+row_no  <- n_group - row_yes
+
+# 2x2 contingency table
+two_way_table_CE <- rbind(Yes = row_yes, No = row_no)
+two_way_table_CE
+
+# Chi-square test (with Yates correction, default)
+chisq.test(two_way_table_CE)
+```
+
+------------------------------------------------------------------------
+
+## Part D – Estimating the Overall Proportion of Canadians
+
+We want to estimate the proportion of all Canadians (across the four cities) who agree that Canada should eliminate tariffs on electric vehicles from China.
+
+### 95% Confidence Interval
+
+From the sample data: - Total number of respondents: $n = 1200$ - Number who responded “Yes”: $x = 669$
+
+```{r partD}
+# Part D: 95% confidence interval for the overall proportion
+
+# Total "Yes" responses and total sample size
+x_total <- 248 + 145 + 156 + 120   # 669
+n_total <- 400 + 250 + 300 + 250   # 1200
+
+# Sample proportion
+p_hat <- x_total / n_total
+
+# 95% confidence level
+alpha <- 0.05
+z_crit <- qnorm(1 - alpha/2)       # 1.96
+
+# Margin of error
+ME <- z_crit * sqrt(p_hat * (1 - p_hat) / n_total)
+
+# Confidence interval
+lower <- p_hat - ME
+upper <- p_hat + ME
+
+c(p_hat = p_hat, lower_CI = lower, upper_CI = upper)
+
+```
+
+## conclusion
+
+the entire 95% confidence interval for the population proportion (0.5294,0.5856) lies above 0.50, we can conclude at the 95% confidence level that more than 50% of Canadians support eliminating tariffs on electric vehicles from China

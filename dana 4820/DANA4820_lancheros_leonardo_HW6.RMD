@@ -1,0 +1,218 @@
+---
+title: "Including Categorical Variables in a Logistic Regression Model"
+output: pdf_document
+date: "2026-02-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This dataset contains information of students enrolled in a Introductory Data Science course. 
+The objective is to model the probability that a student passes the course using logistic regression. 
+The dataset includes: 
+● a numerical predictor,  the number of hours a student studies per week 
+● a categorical predictor, coding experience (none, intermediate, proficient) 
+● One binary outcome variable, pass  
+o 1 = student passed the course, 
+o 0 = student failed the course 
+The dataset is downloaded from the link below: 
+http://mylinux.langara.bc.ca/~sli/4820/datascience_pass_dataset.csv
+
+ln(p/1-p) = A 
++ Bspending*xspending
++ Bmonths*xmonths
+
+
+
+```{r setup, include=FALSE}
+data=read.csv("http://mylinux.langara.bc.ca/~sli/4820/datascience_pass_dataset.csv")
+
+data
+names(data)
+
+print(str(data))
+```
+
+Questions 
+a. State the logistic regression model that relates the probability that a student passes the course with the number of 
+hours a student studies per week and their level of coding experience. 
+Helpful Note:  
+To include a categorical variable in a regression model, we must convert it into dummy variables (indicator variables). 
+A dummy variable is a variable that takes two possible values: 1  or 0. 
+• Use 1 to indicate the presence of a specific category 
+• Use 0 to indicate the absence of that category 
+• If a categorical variable has k categories, we only need K− 1 dummy variables. 
+• E.g. If a categorical variable has 3 categories, we only need 2 dummy variables. 
+
+```{R}
+
+names(data)
+table(data$coding_experience)
+
+cod_exp=ifelse(data$coding_experience=='None',1,0)
+cod_proficient=ifelse(data$coding_experience=='Proficient' ,1,0)
+hour =data$study_hours_per_week
+passFactor=factor(data$pass)
+mymodel<-glm(formula = "passFactor~hour+cod_exp+cod_proficient", family=binomial)
+summary(mymodel)
+
+```
+
+
+ln(p/(1-p))=
+A+Bhour*hour
++BNone*codingnone
+=Bcoding_proficient *coding_proficient
+
+
+Determine if coding experience is a significant predictor of the probability of a student passing the course. 
+Note: You must use Likelihood Ratio Test. 
+
+H0:coding experience IS NOT a significant predictor of the probability of a student passing the course. 
+
+- regression coeficients  asociated with coding experience o
+
+- Bnone = Bproficient = 0
+- logodds = A Bhour*hours
+
+
+Ha: coding experience is significant predictor of the probability of a student passing the course. 
+
+- regression coeficients  asociated with coding does not equal to 0
+
+- Bnone = Bproficient <> 0
+  
+  R=likelihhod under Ho/maximum likelihood under Ha
+
+then convert the likelihoodratio, R to chis-square statistic called deviance 
+
+D = -2LnR
+
+
+```{R}
+mymodelonlyhour<-glm(formula = "passFactor~+hour", family=binomial)
+summary(mymodel)
+
+
+anova(mymodelonlyhour,mymodel,test ='Chisq')
+
+```
+the p- value is 1.544e-07 < alpa .05 so we reject the null hypothesis at the 5% significance level , we have sufficent evedince to concluse the the codding experience is a significant predictor of the probability of passing the course
+
+
+d.	Suppose a student studies for 10 hours a week. Predict the log-odds / odds / probability of passing the course for a student with:
+I.	no coding experience.
+
+```{R}
+# I.	no coding experience.
+mymodelcoef=coef(mymodel)
+#A - hour - codigo exp codign proficien
+x0= c(1,10,1,0)
+print(x0*mymodelcoef)
+
+print(sum(x0*mymodelcoef))
+
+logoods=sum(x0*mymodelcoef)
+print(logoods)
+
+
+odds=exp(logoods)
+
+print(odds)
+
+p=odds/(1+odds)
+print(p)
+
+
+## II.	intermediate coding experience
+
+mymodelcoef=coef(mymodel)
+#A - hour - codigo exp codign proficien
+x0= c(1,10,0,0)
+print(x0*mymodelcoef)
+
+print(sum(x0*mymodelcoef))
+
+logoods=sum(x0*mymodelcoef)
+print(logoods)
+
+
+odds=exp(logoods)
+
+print(odds)
+
+p=odds/(1+odds)
+print(p)
+
+
+## III.	proficient coding experience.
+x0= c(1,10,0,1)
+print(x0*mymodelcoef)
+
+print(sum(x0*mymodelcoef))
+
+logoods=sum(x0*mymodelcoef)
+print(logoods)
+
+
+odds=exp(logoods)
+
+print(odds)
+
+p=odds/(1+odds)
+print(p)
+
+
+```
+
+$$
+\textbf{I. No Coding Experience}
+$$
+
+$$
+\ln\left(\frac{p}{1-p}\right)
+=
+\beta_0 + \beta_1(\text{hour}) + \beta_2(\text{NoCoding})
+$$
+
+$$
+\textbf{II. Intermediate Coding Experience}
+$$
+
+$$
+\ln\left(\frac{p}{1-p}\right)
+=
+\beta_0 + \beta_1(\text{hour})
+$$
+
+$$
+\textbf{III. Proficient Coding Experience}
+$$
+
+$$
+\ln\left(\frac{p}{1-p}\right)
+=
+\beta_0 + \beta_1(\text{hour}) + \beta_3(\text{ProficientExperience}) *X\text{ProficientExperience}
+$$
+
+$$
+\ln\left(\frac{p}{1-p}\right)
+=
+\beta_0 + \beta_1(\text{hour}) + \beta_3(\text{ProficientExperience})
+$$
+
+
+we estimate the log odds od passing the course for a studnets who have  no experience  is lower than those with intermediate experience by  0.904,
+
+it's equivaltns to say  
+we estimate the odds of passing the course for students who have no experience us lower than those wuth intermediate experience by a factor a of exp^0.9044829~0.405     
+
+
+regression coefficiente for coding proificien 
+
+compare again show the diference 
+then agains the result 
+

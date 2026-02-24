@@ -1,0 +1,535 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={ch4},
+  pdfauthor={qleoz12},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{ch4}
+\author{qleoz12}
+\date{2026-01-26}
+
+\begin{document}
+\maketitle
+
+\paragraph{Chapter 4}\label{chapter-4}
+
+\paragraph{Activity 1}\label{activity-1}
+
+A collector of antique grandfather clocks sold at auction believes that
+the price received for the clocks depends on both the age of the clocks
+and the number of bidders at the auction. A sample of 32 auction prices
+of grandfather clocks, along with their age and the number of bidders,
+is given in GFCLOCKS
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{GFCLOCKS }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"GFCLOCKS.txt"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{sep =} \StringTok{""}\NormalTok{, }\AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{a. Use scattergrams to plot the sample data. Interpret the
+plots.}\label{a.-use-scattergrams-to-plot-the-sample-data.-interpret-the-plots.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(GFCLOCKS}\SpecialCharTok{$}\NormalTok{AGE, GFCLOCKS}\SpecialCharTok{$}\NormalTok{PRICE,}
+     \AttributeTok{main =} \StringTok{"Scatterplot: Price {-} Age"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"Age"}\NormalTok{,}
+     \AttributeTok{ylab =} \StringTok{"Price ($)"}\NormalTok{,}
+     \AttributeTok{pch =} \DecValTok{16}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{ch4_files/figure-latex/unnamed-chunk-2-1.pdf}}
+
+\subsubsection{Positive correlation and it looks likely linear
+correlation}\label{positive-correlation-and-it-looks-likely-linear-correlation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(GFCLOCKS}\SpecialCharTok{$}\NormalTok{NUMBIDS, GFCLOCKS}\SpecialCharTok{$}\NormalTok{PRICE,}
+     \AttributeTok{main =} \StringTok{"Scatterplot: Price  {-} Number of bidders"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"Number of bidders"}\NormalTok{,}
+     \AttributeTok{ylab =} \StringTok{"Price ($)"}\NormalTok{,}
+     \AttributeTok{pch =} \DecValTok{16}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{ch4_files/figure-latex/unnamed-chunk-3-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pairs}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{PRICE}\SpecialCharTok{+}\NormalTok{AGE}\SpecialCharTok{+}\NormalTok{NUMBIDS, }\AttributeTok{data =}\NormalTok{ GFCLOCKS,}
+      \AttributeTok{main=}\StringTok{"Scatterplot Matrix of Price clocks"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{ch4_files/figure-latex/unnamed-chunk-4-1.pdf}}
+
+\subsubsection{Positive correlation and it looks likely linear
+correlation}\label{positive-correlation-and-it-looks-likely-linear-correlation-1}
+
+\paragraph{b. Use the method of least squares to estimate the unknown
+parameters 𝛽0, 𝛽1, and 𝛽2 of the
+model.}\label{b.-use-the-method-of-least-squares-to-estimate-the-unknown-parameters-ux1d6fd0-ux1d6fd1-and-ux1d6fd2-of-the-model.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelA1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(PRICE }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AGE }\SpecialCharTok{+}\NormalTok{ NUMBIDS, }\AttributeTok{data =}\NormalTok{ GFCLOCKS)}
+\FunctionTok{summary}\NormalTok{(modelA1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PRICE ~ AGE + NUMBIDS, data = GFCLOCKS)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -206.49 -117.34   16.66  102.55  213.50 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -1338.9513   173.8095  -7.704 1.71e-08 ***
+## AGE            12.7406     0.9047  14.082 1.69e-14 ***
+## NUMBIDS        85.9530     8.7285   9.847 9.34e-11 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 133.5 on 29 degrees of freedom
+## Multiple R-squared:  0.8923, Adjusted R-squared:  0.8849 
+## F-statistic: 120.2 on 2 and 29 DF,  p-value: 9.216e-15
+\end{verbatim}
+
+𝛽0 = -1338.9513 𝛽1=12.7406 𝛽2=85.9530
+
+\paragraph{c.~Find the value of SSE that is minimized by the least
+squares
+method.}\label{c.-find-the-value-of-sse-that-is-minimized-by-the-least-squares-method.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SSE }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{resid}\NormalTok{(modelA1)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{SSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 516726.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(modelA1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: PRICE
+##           Df  Sum Sq Mean Sq F value    Pr(>F)    
+## AGE        1 2555224 2555224 143.406 9.527e-13 ***
+## NUMBIDS    1 1727838 1727838  96.971 9.345e-11 ***
+## Residuals 29  516727   17818                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+SSE= 516727
+
+\paragraph{d.~Find the MSE (mean square error) and Root MSE. What is the
+root
+MSE?}\label{d.-find-the-mse-mean-square-error-and-root-mse.-what-is-the-root-mse}
+
+MSE=SSE/(n-(k+1))
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SSE}\OtherTok{=}\DecValTok{516727}
+\NormalTok{n}\OtherTok{=}\DecValTok{32}
+\NormalTok{k}\OtherTok{=}\DecValTok{2}
+\NormalTok{MSE}\OtherTok{=}\NormalTok{SSE}\SpecialCharTok{/}\NormalTok{(n}\SpecialCharTok{{-}}\NormalTok{(k}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))}
+\NormalTok{MSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 17818.17
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ME}\OtherTok{=} \FunctionTok{sqrt}\NormalTok{(MSE)}
+\NormalTok{ME}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 133.4847
+\end{verbatim}
+
+Thus, we expect the model to provide predictions of prices to within
+about 2s= 2*(133.48) = \$267 . Or, about 95\% of sample prices fall
+within +-\$267 of their predicted values using the model.
+
+\paragraph{e. Is the regression model appropriate here? Write down the
+null and alternative hypothesis and make your conclusion based on the
+appropriate
+test.}\label{e.-is-the-regression-model-appropriate-here-write-down-the-null-and-alternative-hypothesis-and-make-your-conclusion-based-on-the-appropriate-test.}
+
+H0 : beta1 = beta2\ldots{} = betak = 0 Ha : At least one betai
+\textless\textgreater{} 0
+
+F-statistic =120.2 p\_value =9.216e-15
+
+Decision: We reject H0. Conclusion: At 5\% level of significance, the
+date provide strong evidence to conclude that the model is useful in
+predicting the price.
+
+\paragraph{f.~Test the hypothesis that the mean auction price of a clock
+increases as the number of bidders increases when age is held
+constant.}\label{f.-test-the-hypothesis-that-the-mean-auction-price-of-a-clock-increases-as-the-number-of-bidders-increases-when-age-is-held-constant.}
+
+H0 : beta2 = 0 Ha : beta2 \textgreater{} 0
+
+t-statistic =9.847 p\_value = 9.34e-11 / 2
+
+Decision: We reject H0. Conclusion: At 5\% level of significance, the
+date provide strong evidence to conclude that the price clock increases
+as the number of bidders increases when age is held constant.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(modelA1)}\SpecialCharTok{$}\NormalTok{coefficients[}\StringTok{"NUMBIDS"}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Estimate   Std. Error      t value     Pr(>|t|) 
+## 8.595298e+01 8.728523e+00 9.847368e+00 9.344953e-11
+\end{verbatim}
+
+\paragraph{g. Form a 95\% confidence interval for 𝛽1 and interpret the
+result.}\label{g.-form-a-95-confidence-interval-for-ux1d6fd1-and-interpret-the-result.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confint}\NormalTok{(modelA1, }\AttributeTok{level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   2.5 %     97.5 %
+## (Intercept) -1694.43162 -983.47106
+## AGE            10.89017   14.59098
+## NUMBIDS        68.10115  103.80482
+\end{verbatim}
+
+CI(10.89017,14.59098)
+
+\paragraph{h. Estimate the average auction price for all 150-year-old
+clocks sold at auctions with 10 bidders using a 95\% confidence
+interval. Interpret the
+result.}\label{h.-estimate-the-average-auction-price-for-all-150-year-old-clocks-sold-at-auctions-with-10-bidders-using-a-95-confidence-interval.-interpret-the-result.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{AGE =} \DecValTok{150}\NormalTok{, }\AttributeTok{NUMBIDS =} \DecValTok{10}\NormalTok{)}
+\FunctionTok{predict}\NormalTok{(modelA1, new\_data, }\AttributeTok{interval =} \StringTok{"confidence"}\NormalTok{, }\AttributeTok{level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        fit      lwr      upr
+## 1 1431.665 1381.398 1481.931
+\end{verbatim}
+
+The estimated average auction price for all 150-year-old clocks sold at
+auctions with 10 bidders is \$1431.67.
+
+The 95\% confidence interval ranges from \$1381.40 to \$1481.93, meaning
+that we are 95\% confident that the true mean auction price for all such
+clocks falls within this range.
+
+\paragraph{i. Predict the auction price for a single 150-year-old clock
+sold at an auction with 10 bidders using a 95\% prediction interval.
+Interpret the
+result.}\label{i.-predict-the-auction-price-for-a-single-150-year-old-clock-sold-at-an-auction-with-10-bidders-using-a-95-prediction-interval.-interpret-the-result.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{predict}\NormalTok{(modelA1, new\_data, }\AttributeTok{interval =} \StringTok{"prediction"}\NormalTok{, }\AttributeTok{level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        fit      lwr     upr
+## 1 1431.665 1154.069 1709.26
+\end{verbatim}
+
+The predicted auction price for a single 150-year-old clock sold at an
+auction with 10 bidders is \$1431.67.
+
+The 95\% prediction interval ranges from \$1154.07 to \$1709.26, meaning
+that we are 95\% confident that the auction price for an individual
+clock of this type will fall within this range.
+
+\paragraph{j. Suppose you want to predict the auction price for one
+clock that is 50 years old and has two bidders. How should you
+proceed?}\label{j.-suppose-you-want-to-predict-the-auction-price-for-one-clock-that-is-50-years-old-and-has-two-bidders.-how-should-you-proceed}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{new\_data2 }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{AGE =} \DecValTok{50}\NormalTok{, }\AttributeTok{NUMBIDS =} \DecValTok{2}\NormalTok{)}
+
+\FunctionTok{predict}\NormalTok{(modelA1, new\_data2, }\AttributeTok{interval =} \StringTok{"confidence"}\NormalTok{, }\AttributeTok{level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         fit       lwr       upr
+## 1 -530.0167 -781.5167 -278.5166
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{predict}\NormalTok{(modelA1, new\_data2, }\AttributeTok{interval =} \StringTok{"prediction"}\NormalTok{, }\AttributeTok{level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         fit       lwr       upr
+## 1 -530.0167 -901.2106 -158.8227
+\end{verbatim}
+
+The predicted auction price for a 50-year-old clock with two bidders is
+-530.02, with:
+
+A 95\% confidence interval ranging from -781.52 to -278.52. A 95\%
+prediction interval ranging from -901.21 to -158.82. A negative price is
+not realistic because the model is extrapolating beyond the range of the
+data.
+
+\paragraph{k. Suppose the collector of grandfather clocks, having
+observed many auctions, believes that the rate of increase of the
+auction price with age will be driven upward by a large number of
+bidders. Thus, instead of a relationship like that shown in Figure a, in
+which the rate of increase in price with age is the same for any number
+of bidders, the collector believes the relationship is like that shown
+in Figure b. Note that as the number of bidders increases from 5 to 15,
+the slope of the price versus age line
+increases.}\label{k.-suppose-the-collector-of-grandfather-clocks-having-observed-many-auctions-believes-that-the-rate-of-increase-of-the-auction-price-with-age-will-be-driven-upward-by-a-large-number-of-bidders.-thus-instead-of-a-relationship-like-that-shown-in-figure-a-in-which-the-rate-of-increase-in-price-with-age-is-the-same-for-any-number-of-bidders-the-collector-believes-the-relationship-is-like-that-shown-in-figure-b.-note-that-as-the-number-of-bidders-increases-from-5-to-15-the-slope-of-the-price-versus-age-line-increases.}
+
+The collector's hypothesis suggests that the effect of age on auction
+price depends on the number of bidders. This means there is a potential
+interaction effect between AGE and NUMBIDS.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_interaction }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(PRICE }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AGE }\SpecialCharTok{*}\NormalTok{ NUMBIDS, }\AttributeTok{data =}\NormalTok{ GFCLOCKS)}
+
+\FunctionTok{summary}\NormalTok{(model\_interaction)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = PRICE ~ AGE * NUMBIDS, data = GFCLOCKS)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -154.995  -70.431    2.069   47.880  202.259 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 320.4580   295.1413   1.086  0.28684    
+## AGE           0.8781     2.0322   0.432  0.66896    
+## NUMBIDS     -93.2648    29.8916  -3.120  0.00416 ** 
+## AGE:NUMBIDS   1.2978     0.2123   6.112 1.35e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 88.91 on 28 degrees of freedom
+## Multiple R-squared:  0.9539, Adjusted R-squared:  0.9489 
+## F-statistic:   193 on 3 and 28 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+The significant interaction term (AGE:NUMBIDS) confirms the collector's
+belief: As the number of bidders increases, the effect of age on price
+also increases. This means that for a higher number of bidders, older
+clocks tend to sell at even higher prices, consistent with Figure (b).
+The model explains a large proportion of the variation in auction prices
+(R-squared = 0.9539), indicating a strong fit.
+
+\paragraph{l. Test the overall utility of the model using the global
+F-test at 𝛼 =
+.05.}\label{l.-test-the-overall-utility-of-the-model-using-the-global-f-test-at-ux1d6fc-.05.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(model\_interaction)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: PRICE
+##             Df  Sum Sq Mean Sq F value    Pr(>F)    
+## AGE          1 2555224 2555224 323.209 < 2.2e-16 ***
+## NUMBIDS      1 1727838 1727838 218.554 9.382e-15 ***
+## AGE:NUMBIDS  1  295364  295364  37.361 1.353e-06 ***
+## Residuals   28  221362    7906                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Since the p-values for all terms are far below 0.05, we reject the null
+hypothesis and conclude that the model is statistically useful for
+predicting auction prices. Overall, the model provides a strong fit,
+meaning that AGE, NUMBIDS, and their interaction significantly
+contribute to explaining auction prices.
+
+\paragraph{m. Test the hypothesis (at 𝛼 = .05) that the price--age slope
+increases as the number of bidders increases---that is, that age and
+number of bidders, x2, interact
+positively.}\label{m.-test-the-hypothesis-at-ux1d6fc-.05-that-the-priceage-slope-increases-as-the-number-of-bidders-increasesthat-is-that-age-and-number-of-bidders-x2-interact-positively.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(model\_interaction)}\SpecialCharTok{$}\NormalTok{coefficients[}\StringTok{"AGE:NUMBIDS"}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Estimate   Std. Error      t value     Pr(>|t|) 
+## 1.297846e+00 2.123326e-01 6.112325e+00 1.353474e-06
+\end{verbatim}
+
+Since the p-value is much smaller than 0.05, we reject the null
+hypothesis that there is no interaction. This confirms that as the
+number of bidders increases, the effect of age on auction price becomes
+stronger.
+
+\paragraph{n.~Estimate the change in auction price of a 150-year-old
+grandfather clock, y, for each additional
+bidder.}\label{n.-estimate-the-change-in-auction-price-of-a-150-year-old-grandfather-clock-y-for-each-additional-bidder.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(model\_interaction)}\SpecialCharTok{$}\NormalTok{coefficients[}\StringTok{"NUMBIDS"}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Estimate    Std. Error       t value      Pr(>|t|) 
+## -93.264824365  29.891616152  -3.120099759   0.004164589
+\end{verbatim}
+
+This means that for each additional bidder, the base auction price
+decreases by approximately \$93.26.
+
+\end{document}

@@ -1,0 +1,161 @@
+---
+title: "logict regresion model loans"
+date: "2026-02-02"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  editor_options: 
+    markdown: 
+      wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Logistic Regression Model
+
+The Loan Default dataset contains information on 240 individuals, including their annual income and loan default status (default or no default). The objective of this analysis is to model the relationship between a borrower’s annual income and the likelihood of loan default.
+
+The variables included in the dataset are described in detail below.
+Variable Name
+Description
+
+Income
+Annual income of the borrower in thousands of dollars. 
+Loan-default-indicator
+A value of 1 indicates the borrower defaulted on the loan, while 0 indicates no default.
+
+loan default indicator 
+A value of 1 indicates the borrower defaulted on the loan
+0  indicates no default
+
+
+a. Formulate the logistic regression model describing the relationship between borrower annual income and the probability of loan default.
+
+log(p(x)/1−p(x))=β0+β1x
+
+b. Estimate the parameters of the logistic regression model using the observed data and report the corresponding regression output.
+
+```{r}
+mydata = read.csv( './loan_default.csv' )
+names( mydata )
+# output:[1] "Income"                 "Loan.default.indicator"
+str(mydata)
+# 'data.frame':	240 obs. of  2 variables:
+#  $ Income                : num  20.1 20.1 20.2 20.6 21.2 ...
+#  $ Loan.default.indicator: int  0 1 1 1 1 0 0 1 1 1 ...
+
+# Define the predictor variable (x),
+x = mydata$Income
+# Define the response variable (y) 
+y = mydata$Loan.default.indicator
+# The 'y' variable currently contains labels (e.g., "F", "P")
+# To do that, we can use the factor(...) function
+y = factor(mydata$Loan.default.indicator)
+# In R, the second level of a factor is considered the "success" category by default.
+# In this case, "Pass" is considered the success.
+# To confirm the factor levels, use the levels() function
+levels(y)
+
+fitted.model = glm(y ~ x, family = binomial)
+
+#Use the summary function to get the regression ouput
+summary(fitted.model)
+
+
+```
+# Estimating an interpreting coeffcients 
+
+```{R}
+coeficients=coefficients(fitted.model)
+print(fitted.model)
+```
+
+
+```{r}
+b0factor=exp(0.823610)
+print(b0factor)
+
+b1factor=exp(-0.043751)
+print(b1factor)
+```
+
+B0=0.823610
+When income is 0 (theoretical case),
+Recall, The intercept B0/A is estimated to be 0.823610
+So, the odds of get a default is estimated to e^0.823610 =>2.28
+
+E^0.823610 ≈ 2.28
+
+B1=-0.043751
+we predict the odds of a borrower decreases  by a factor fo e^B1 when B1>0
+For every $1,000 increase in income, the odds of default are multiplied by 0.957.
+Each additional $1,000 reduces the odds of default by about 4.3%.
+
+E^-0.043751 ≈ 0.957
+
+c. Evaluate the statistical significance and predictive utility of the fitted model in explaining the probability of loan default.
+
+```{r}
+fitted.model = glm(y ~ x, family = binomial)
+# The model includes only an intercept (denoted by "1").
+fitted.model.no.predictor = glm( y ~ 1, family = binomial)
+#Use the summary function to get the regression ouput
+summary(fitted.model.no.predictor)
+
+```
+
+
+Since the p-value (1.2e-06) is far below the significance level of 0.05, we reject the null hypothesis that the income coefficient is equal to zero. Therefore, there is strong statistical evidence that annual income is significantly associated with the probability of loan default.
+ 
+
+```{r}
+# against the null model (intercept only)
+anova(
+fitted.model.no.predictor, # the null model (without predictor)
+fitted.model,        
+# the alternative model (with predictor)
+test = "Chisq"         
+)
+```
+Likelihood Ratio Test:  significant G² statistic=29.61, p-value=5.283e-08 (p < 0.05), indicating that including income variable significantly improves the model’s predictive ability.
+
+
+ -------------------
+ 
+ 
+d.  Compute the estimated odds of loan default for borrowers with annual incomes of 20 thousand dollars and interpret the odds.
+```{r}
+beta0 <- 0.823610
+beta1 <- -0.043751
+
+odds_20 <- exp(beta0 + beta1 * 20)
+odds_20
+
+p= odds_20/(1+odds_20)
+print(p)
+```
+
+e. Compute the estimated probabilities of loan default for borrowers with annual incomes of 20, 30, 40, 50, and 60 thousand dollars.
+```{r}
+income_vals <- c(20,30,40,50,60)
+p <- plogis(beta0 + beta1 * income_vals)
+data.frame(Income_k = income_vals, ProbDefault = p)
+```
+
+f. Interpret the intercept parameter of the logistic regression model in the context of loan default risk.
+
+The intercept is the log-odds of default when income is $0k; since $0k is unrealistic, it mainly serves as a baseline for computing probabilities.
+
+
+g. Interpret the slope parameter of the logistic regression model, emphasizing its effect on the odds of loan default as annual income changes.
+
+The slope coefficient is  b1 =>E^-0.043751 ≈ 0.957
+
+This means that for every $1,000 increase in annual income, the log-odds of loan default decrease by 0.0437(1-0.957).
+
+In other words, the odds of default decrease by approximately 4.3% for every $1,000 increase in annual income.
+
+
+

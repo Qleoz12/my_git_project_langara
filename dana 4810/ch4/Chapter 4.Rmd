@@ -1,0 +1,109 @@
+---
+title: "Chapter 4"
+author: "leo sanchez"
+date: "2025-01-30"
+output: html_document
+---
+```{r}
+GASTURBINE <- read.table("gasturbine.txt", header = TRUE, sep = "", stringsAsFactors = TRUE)
+```
+
+#### a) Use scatter-plot-matrix to plot the sample data. Interpret the plots.
+
+First, we use a scatter-plot-matrix to visualize the relationships between each pair of variables and how the response variable,
+HEATRATE, relates to all five predictors simultaneously.
+
+```{r}
+pairs(~HEATRATE+RPM+CPRATIO+INLET.TEMP+EXH.TEMP+AIRFLOW, data = GASTURBINE,
+      main="Scatterplot Matrix of Gas Turbines")
+```
+#### b) Write a first-order model for heat rate (y) as a function of speed, inlet temperature, exhaust temperature, cycle pressureratio, and air flow rate.
+
+E(y) = Beta_0 + Beta_1*x1 + Beta_2*x2 + ... + Beta_5*x5
+
+
+#### c) Fit the model to the data using the method of least squares.
+
+```{r}
+model413 <- lm(HEATRATE ~ RPM + CPRATIO + INLET.TEMP + EXH.TEMP + AIRFLOW, data = GASTURBINE)
+summary(model413)
+```
+```{r}
+anova(model413)
+```
+
+```{r}
+New <- data.frame(RPM = c(7500), CPRATIO = c(13.5), INLET.TEMP = c(1000), 
+                  EXH.TEMP = c(525), AIRFLOW = c(10))
+
+predict(model413, New)
+
+predict(model413, New, interval = "confidence", level = 0.95)
+
+predict(model413, New, interval = "prediction", level = 0.95)
+```
+
+#### a) Researchers hypothesize that the linear relationship between heat rate (y) and temperature (both inlet and exhaust) depends on air flow rate. Write a model for heat rate that incorporates the researchers’ theories.
+E(y) = Beta_0 + Beta_3*x3 + Beta_4*x4 + Beta_6*x3*x5 + Beta_7*x4*x5
+
+when x1 = RPM, x2 = CPRATIO, x3 = INLET.TEMP, x4 = EXH.TEMP, and x5 = AIRFLOW
+
+#### b) Use statistical software to fit the interaction model, part a, to the data in the GASTURBINE file. Give the least squares prediction equation.
+
+```{r}
+model <- lm(HEATRATE ~ INLET.TEMP + EXH.TEMP + AIRFLOW+INLET.TEMP:AIRFLOW + EXH.TEMP:AIRFLOW, 
+            data = GASTURBINE)
+
+summary(model)
+
+coef(model)
+
+b <- coef(model)
+
+cat("\nLeast Squares Prediction Equation:\n")
+cat("yhat =",
+    round(b[1], 4), "+",
+    round(b["INLET.TEMP"], 4), "*INLET.TEMP +",
+    round(b["EXH.TEMP"], 4), "*EXH.TEMP +",
+    round(b["AIRFLOW"], 4), "*AIRFLOW +",
+    round(b["INLET.TEMP:AIRFLOW"], 4), "*INLET.TEMP*AIRFLOW +",
+    round(b["EXH.TEMP:AIRFLOW"], 4), "*EXH.TEMP*AIRFLOW\n")
+
+```
+
+
+
+```{r}
+model1432 <- lm(HEATRATE ~ INLET.TEMP + EXH.TEMP + INLET.TEMP * AIRFLOW + EXH.TEMP * AIRFLOW, data = GASTURBINE)
+
+summary(model1432)
+```
+
+
+#### c) Conduct a test (at alpha = .05) to determine whether inlet temperature and air flow rate interact to effect heat rate.
+
+```{r}
+summary(model)$coefficients["INLET.TEMP:AIRFLOW", ]
+anova(model)
+
+```
+At the 5% significance level, the p-value for the interaction between inlet temperature and air flow rate is less than 0.05. Therefore, we reject the null hypothesis and conclude that inlet temperature and air flow rate interact to affect heat rate.
+
+
+
+#### d) Conduct a test (at alpha = .05) to determine whether exhaust temperature and air flow rate interact to effect heat rate.
+#### e) Estimate the change in heat rate of a gas durbin when EXH-TEMP= 525, and AIRFLOW= 10 for each additional 1 (°C) of Inlet Temperature,.
+
+#### Refer to Example 4.37 from the textbook. A study of the variables that affect  endogenous nitrogen excretion (ENE) in carp raised in Japan. Carps were divided into groups according to body weight and each group of 2-15 fish placed in a separate tank. The data set CARP shows the amount of ENE (in milligrams per 100 grams of body weight per day) measured in each tank after 20 days of feeding them a protein- free diet three times daily and the mean body weight (in grams) for each carp group.
+
+```{r}
+CARP <- read.table("carp.txt", header = TRUE, sep = "", stringsAsFactors = TRUE)
+```
+
+
+```{r}
+modelQuad <- lm(ENE ~ WEIGHT + I(WEIGHT^2), data=CARP)
+
+summary(modelQuad)
+```
+

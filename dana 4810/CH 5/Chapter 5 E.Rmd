@@ -1,0 +1,289 @@
+---
+title: "Chapter 5"
+author: "Maria Sandate"
+date: "2025-02-27"
+output:
+  word_document: default
+  html_document: default
+---
+# 5.2 Models with a Single Quantitative Independent Variable
+
+## Graphs for different second-order polynomial models
+
+```{r}
+######Parabola
+
+par(mfrow=c(3,2))
+#beta1
+eq=function(x){1-5*x+x^2}
+curve(eq,from=-20, to=20, xlab="x", ylab="y", ylim=c(-5,100), xlim = c(-20,10))
+title(main="1-5*x+x^2")
+eq=function(x){1+5*x+x^2}
+curve(eq,from=-20, to=10, xlab="x", ylab="y", ylim=c(-5,100), xlim = c(-20,10))
+title(main="1+5*x+x^2")
+#beta2
+eq=function(x){x+10*x^2}
+curve(eq,from=-10, to=10, xlab="x", ylab="y", ylim=c(0,100), xlim = c(-10,10))
+title(main="x+10*x^2")
+eq=function(x){x+x^2}
+curve(eq,from=-10, to=10, xlab="x", ylab="y", ylim=c(0,100), xlim = c(-10,10))
+title(main="x+x^2")
+#-Beta2
+eq=function(x){x+10*x^2}
+curve(eq,from=-10, to=10, xlab="x", ylab="y", ylim=c(0,100), xlim = c(-10,10))
+title(main="x+10*x^2")
+eq=function(x){x-10*x^2}
+curve(eq,from=-10, to=10, xlab="x", ylab="y", ylim=c(-100,10), xlim = c(-10,10))
+title(main="x-10*x^2")
+```
+\newpage
+
+## Graphs of two third-order polynomial models
+
+```{r}
+#######third order
+par(mfrow=c(1,2))
+#beta3
+eq=function(x){1+x+x^2+x^3}
+curve(eq, xlab="x", ylab="y", ylim=c(-5,5), xlim = c(-5,5))
+title(main="1+x+x^2+x^3")
+eq=function(x){1+x+x^2-x^3}
+curve(eq, xlab="x", ylab="y", ylim=c(-5,5), xlim = c(-5,5))
+title(main="1+x+x^2-x^3")
+```
+
+\newpage
+
+## Example 5.2.1
+
+Refer to the Cooling method for gas turbines data set.
+
+
+```{r}
+####
+GASTURBINE <- read.delim("GASTURBINE.txt")
+View(GASTURBINE)
+
+attach(GASTURBINE)
+head(GASTURBINE)
+```
+
+### a) Construct a scatterplot relating heat rate to airflow. What type of model is suggested by the plot?
+
+```{r}
+# Scatterplot
+
+plot( x= AIRFLOW,y= HEATRATE, main="HEAT RATE vs. AIR FLOW", pch=19, col="blue",
+      ylim = c(8000, 20000), xlim =c(0, 800), xlab = "Air flow (kilograms per second)", 
+      ylab = " Heat rate (kilojoules per kilowatt per hour)" )
+```
+
+#### Interpretation
+
+- The scatterplot suggests a nonlinear relationship.
+- As airflow increases, the heat rate decreases rapidly at first and then levels off.
+- This pattern suggests that a curvilinear (quadratic or cubic) model might be a better fit than a simple linear regression.
+
+**Thus, the expected model should include polynomial terms.**
+
+### b) Fit the third-order model to the data for the heat rate (y) using AIRFLOW. Is there evidence that the cubic term, $\beta_3$ * $x_3$, contributes information for the prediction of heat rate? Test at $\alpha$ = 0.05
+
+```{r}
+# Model
+
+model=lm(HEATRATE~AIRFLOW+I(AIRFLOW^2)+I(AIRFLOW^3),data = GASTURBINE)
+summary(model)
+```
+H0 : $\beta_3$ = 0  
+Ha : $\beta_3$ $\neq$ 0  
+Since the p-value= 0.002697 < 0.05 for the above test, there is sufficient evidence of a third-order relationship between heat
+rate and air flow.
+
+### c) Write a complete second-order model for heat rate (kilojoules per kilowatt per hour)(y) as a function of cycle speed (RPM) and cycle pressure ratio (CPRATIO).
+
+
+y = $\beta_0$ + $\beta_1$$x_1$ + $\beta_2$$x_2$ + $\beta_3$$x_1$$x_2$ + $\beta_4$$x_1^2$ + $\beta_5$$x_2^2$
+
+
+### d) Fit the model to the data and give the least squares prediction equation.
+
+
+```{r}
+#####5.19
+
+model519=lm(HEATRATE~RPM+CPRATIO+RPM*CPRATIO+I(RPM^2)+I(CPRATIO^2))
+summary(model519)
+
+```
+
+$\hat{y}$=15580 + 0.07823$x_1$ - 523.1$x_2$ - 0.004452$x_1$$x_2$ + 0.0000001806$x_1^2$ + 8.84$x_2^2$
+
+When $x_1$ = RPM, $x_2$ = CPRATIO
+
+### e) Conduct a global F-test for overall model adequacy.
+
+H0 : $\beta_1$ = $\beta_2$ = $\beta_3$ = $\beta_4$ = $\beta_5$ = 0  
+Ha : at least one $\beta_i$i $\neq$ 0  
+F-statistic = 93.55 on 5 and 61 DF, p-value: < 2:2e-16  
+There is sufficient evidence to indicate that the model is statistically useful for predicting heat rate.
+
+### f) Based on the prediction equation, graph the relationship between heat rate and cycle pressure ratio when cycle speed is held constant at 5,000 rpm. Repeat part d when cycle speed is held constant at 15,000 rpm. Compare the two graphs, parts d and e. What do you observe?
+
+```{r}
+###RPM is Constant
+
+new1=data.frame(RPM=c(5000), CPRATIO=GASTURBINE$CPRATIO)
+y=predict(model519, newdata=new1)
+plot(x=CPRATIO,y=y, main = "Scatterplot of predicted Heat Rate and CPRATIO, RPM=5000", 
+     ylab = "Predicted Heat Rate", xlab ="CPRATIO", 
+     ylim = c(8000, 15000), xlim=c(0,40),pch=19, col="blue")
+new2=data.frame(RPM=c(15000), CPRATIO=GASTURBINE$CPRATIO)
+y=predict(model519, newdata=new2)
+plot(x=CPRATIO,y=y, main = "Scatterplot of predicted Heat Rate and CPRATIO, RPM=15000", 
+     ylab = "Predicted Heat Rate", xlab ="CPRATIO", 
+     ylim = c(8000, 15000), xlim=c(0,40),pch=19, col="blue")
+
+```
+
+#### Interpretation
+
+- Both curves show a similar shape (curved, decreasing).
+- Only a vertical shift is observed—the heat rate values are different, but the overall trend remains the same.
+- This suggests that the effect of CPRATIO on Heat Rate is the same at different RPM values, meaning there is no interaction effect.
+
+### Model without interaction
+```{r}
+modelni=lm(HEATRATE~RPM+CPRATIO+I(RPM^2)+I(CPRATIO^2))
+summary(modelni)
+```
+
+
+```{r}
+anova(model519,modelni)
+```
+
+#### Interpretation
+
+- Since p = 0.4282 > 0.05, we fail to reject H0, meaning the interaction term does not improve the model significantly.
+- Model 2 (without interaction) is preferable because it is simpler and performs just as well.
+
+
+#5.3 Models with Two Qualitative Independent Variables
+
+## Example 5.3.1 
+
+The performance, y (measured as mass burning rate per degree of crank angle), for the six combinations of fuel type and engine brand is shown in Table 5.8. The number of test runs per combination varies from one for levels (F1, B2) to three for levels (F1, B1).
+
+```{r}
+DIESEL <- read.delim("DIESEL.txt")
+View(DIESEL)
+
+##DIESEL
+attach(DIESEL)
+head(DIESEL)
+table(FUEL)
+table(BRAND)
+x1=ifelse(FUEL=="F2", 1, 0)
+x2=ifelse(FUEL=="F3", 1, 0)
+x3=ifelse(BRAND=="B2", 1, 0)
+```
+
+
+```{r}
+######Interaction
+modelDUMMY2=lm(PERFORM~x1+x2+x3+x1*x3+x2*x3)
+summary(modelDUMMY2)
+```
+
+
+
+### (a) Assume the interaction between F and B is negligible. Fit the model for E(y) with interaction terms omitted.
+
+E(y) = $\beta_0$+$\beta_1$$x_1$+$\beta_2$$x_2$+$\beta_3$$x_3$
+
+```{r}
+##creating a data frame
+DIESELDUMMY=data.frame(DIESEL,PERFORM=DIESEL$PERFORM, x1, x2,x3)
+modelDUMMY1=lm(PERFORM~x1+x2+x3)
+summary(modelDUMMY1)
+```
+$\hat{y}$=64.455 + 6.705$x_1$ - 2.295$x_2$ - 15.818$x_3$
+
+
+```{r}
+predict(modelDUMMY1,DIESELDUMMY, interval="confidence",level=0.95)
+
+
+predict(modelDUMMY1,DIESELDUMMY, interval="prediction",level=0.95)
+#%95CI for F3 B2 for Main Model
+New=data.frame(x1=c(0), x2=c(1), x3=c(1))
+predict(modelDUMMY1,New, interval="confidence",level=0.95)
+```
+
+### (b) Fit the complete model for E(y) allowing for the fact that interactions might occur.
+
+
+```{r}
+######Interaction
+modelDUMMY2=lm(PERFORM~x1+x2+x3+x1*x3+x2*x3)
+summary(modelDUMMY2)
+```
+
+$\hat{y}$=68.6667 + 11.3333$x_1$ - 21.6667$x_2$ - 32.6667$x_3$-0.8333$x_1$$x_3$+47.1667$x_2$$x_3$
+
+
+### (c) Use the prediction equation for the model, part a to estimate the mean engine performance when fuel F3 is used in brand B2. Then calculate the sample mean for this cell in Table 5.8. Repeat for the model, part b. Explain the discrepancy between the sample mean for levels (F3;B2) and the estimate(s) obtained from one or both of the two prediction equations.
+
+
+
+```{r}
+######Interaction no x1x3
+modelDUMMY3=lm(PERFORM~x1+x2+x3+x2*x3)
+summary(modelDUMMY3)
+```
+
+
+```{r}
+#%95CI for F3 B2 for Complete Model
+New=data.frame(x1=c(0), x2=c(1), x3=c(1))
+predict(modelDUMMY2,New, interval="confidence",level=0.95)
+```
+
+
+```{r}
+##Table for a subset of the data set
+Table_F3_B2=subset(DIESEL, FUEL=="F3"&BRAND=="B2")
+Table_F3_B2
+ybar32=mean(Table_F3_B2$PERFORM)
+ybar32
+```
+
+
+### (d) Do the data provide sufficient evidence to indicate that F and B interact?
+
+```{r}
+
+###Graph of sample means for engine performance
+library(ggplot2)
+
+ggplot(DIESEL,aes(x=factor(FUEL),y=PERFORM,colour=BRAND,group=BRAND))+
+   geom_point()+
+   stat_summary(aes(y=PERFORM,group=BRAND),fun= mean,geom = "line")+
+   ggtitle("RStudio graph of sample means for engine performance")
+```
+
+
+```{r}
+
+##Partial F Test
+
+modelDUMMY1=lm(PERFORM~x1+x2+x3)
+
+modelDUMMY2=lm(PERFORM~x1+x2+x3+x1*x3+x2*x3)
+anova(modelDUMMY1, modelDUMMY2)
+```
+
+
+
+
+

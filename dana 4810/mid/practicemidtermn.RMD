@@ -1,0 +1,76 @@
+---
+title: "Mid"
+author: "Leo L sanchez"
+date: "2025-02-14"
+output:
+  word_document: default
+  html_document: default
+---
+
+
+#Data
+
+```{r}
+# 1) Cargar el .Rdata (NO lo asignes)
+load("low_bwt.Rdata")
+
+# 2) Ver qué objeto cargó
+ls()
+
+# 3) (Asumiendo que el objeto se llama low_bwt)
+head(low.bwt)
+str(low.bwt)
+
+# 4) Ajustar el modelo correctamente
+model <- lm(birthwt ~ toxemia, data = low.bwt)
+
+# 5) Resultado
+summary(model)
+```
+
+write the model equation 
+
+predicted birth weight = 1097.215 + 7.785toxemiaYes 
+
+report a  95% confidence interval for the slope and interpret the interval
+```{r}
+  confint(model,level = 0.95)
+```
+
+we are 95% confidence interval for the slode is 1124.42,139.98
+captures the population difference in mean between infants from mother diagnosted by toxemia   and infant with mothers no diagnosted by toxemia
+
+
+
+```{r}
+# 1) Cargar el .Rdata (NO lo asignes)
+load("low_bwt.Rdata")
+
+# 2) Ver qué objeto cargó
+ls()
+
+# 3) (Asumiendo que el objeto se llama low_bwt)
+head(low.bwt)
+str(low.bwt)
+
+# 4) Ajustar el modelo correctamente
+modelb <- lm(birthwt ~ toxemia+gestage , data = low.bwt)
+
+# 5) Resultado
+summary(modelb)
+```
+
+b0 -1286.200 
+represent the value baseline when toxemia is no and our gestage also is 0  
+
+b1 toxemiayes  206.591
+represent  the effect of categorical variable toxemia, since "NO" is the baseline (absence variable) the coefficien toxemiaYes indicates the difference in the mean response between the two groups when we keep gestage constant
+
+b2 gestage 84.058
+holding toxemia variable fic¿xed, for every increase of gestage, the mean birht weight  is estimeate to increase by 84058
+
+intercep is meaningful?
+the intercep dooes not  have a practical interpretation since -1286 is not a real value for birthweight
+
+
+

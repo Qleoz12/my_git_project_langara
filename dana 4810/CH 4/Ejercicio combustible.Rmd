@@ -1,0 +1,103 @@
+---
+title: "Ejercicios DANA 4810"
+author: "Maria Sandate"
+date: "2025-02-06"
+output: html_document
+---
+
+###📌 Escenario: Predicción del Consumo de Combustible
+
+Vamos a trabajar con un conjunto de datos que simula el consumo de combustible de automóviles en función de:
+
+Peso del auto (kg)
+Velocidad (km/h)
+Potencia del motor (HP)
+Utilizaremos un modelo de regresión múltiple para predecir el consumo de combustible (litros por 100 km).
+
+####Paso 1: Generar los datos en R
+Primero, creamos datos simulados en R:
+
+```{r}
+# Cargar librerías necesarias
+library(ggplot2)
+
+# Generar datos simulados
+set.seed(123)
+n <- 100  # número de observaciones
+
+peso <- rnorm(n, mean = 1500, sd = 200)  # Peso del auto (kg)
+velocidad <- rnorm(n, mean = 100, sd = 15)  # Velocidad del auto (km/h)
+potencia <- rnorm(n, mean = 150, sd = 30)  # Potencia del motor (HP)
+
+# Generar consumo de combustible con una relación lineal + ruido
+consumo <- 8 + 0.002*peso + 0.01*velocidad - 0.005*potencia + rnorm(n, sd = 1.5)
+
+# Crear DataFrame
+datos <- data.frame(peso, velocidad, potencia, consumo)
+
+# Ver los primeros datos
+head(datos)
+```
+#### Paso 2: Ajustar un modelo de regresión múltiple en R
+Ahora ajustamos el modelo usando la función lm():
+
+```{r}
+# Ajustar el modelo de regresión múltiple
+modelo <- lm(consumo ~ peso + velocidad + potencia, data = datos)
+
+# Resumen del modelo
+summary(modelo)
+```
+
+#### Paso 4: Diagnóstico del modelo
+Para evaluar si las suposiciones de regresión se cumplen, generamos gráficos de diagnóstico:
+
+```{r}
+# Diagnóstico del modelo
+par(mfrow=c(2,2))  # Dividir el área gráfica en 4 partes
+plot(modelo)
+```
+
+#### Paso 5: Predicción con el modelo
+Supongamos que queremos predecir el consumo de combustible para un auto con:
+
+Peso = 1600 kg
+Velocidad = 110 km/h
+Potencia = 170 HP
+
+```{r}
+# Datos nuevos para predicción
+nuevos_datos <- data.frame(peso = 1600, velocidad = 110, potencia = 170)
+
+# Predicción del consumo
+predict(modelo, newdata = nuevos_datos, interval = "prediction")
+```
+
+#### Modelo extendido
+
+```{r}
+# Ajustar modelo con términos cuadráticos e interacciones
+modelo_completo <- lm(consumo ~ peso + I(peso^2) + velocidad + I(velocidad^2) + 
+                      potencia + I(potencia^2) + 
+                      peso:velocidad + peso:potencia + velocidad:potencia, 
+                      data = datos)
+
+# Resumen del nuevo modelo
+summary(modelo_completo)
+```
+
+#### Eliminar variables innecesarias (simplificación del modelo)
+
+Usar stepwise para seleccionar solo las variables más relevantes:
+
+```{r}
+modelo_step <- step(modelo_completo, direction = "both")
+summary(modelo_step)
+```
+#### Probar transformaciones en la variable dependiente
+
+```{r}
+modelo_log <- lm(log(consumo) ~ peso + velocidad + potencia, data = datos)
+summary(modelo_log)
+```
+

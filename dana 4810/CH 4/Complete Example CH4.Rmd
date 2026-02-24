@@ -1,0 +1,159 @@
+---
+title: "Complete example CH4"
+author: "Maria Sandate"
+date: "2025-02-13"
+output: html_document
+---
+
+
+In US, commercial contractors bid for the right to construct state highways and roads. A state government agency, usually
+the Department of Transportation (DOT), notifies various contractors of the state’s intent to build a highway. Contractor with the lowest bid (building cost) is awarded the road construction contract. Our objective is to build and test the adequacy of a model designed to predict the cost y of a road construction contract awarded using the sealed-bid system in Florida.
+
+
+```{r}
+
+#FLAG <- read.table("FLAG.txt", header = TRUE, sep = "", stringsAsFactors = FALSE)
+
+FLAG <- read.delim("FLAG.txt", header = TRUE)
+View(FLAG)
+
+```
+
+## Scatterplot
+```{r}
+pairs(~COST + DOTEST +I(DOTEST^2)+ STATUS, data = FLAG,
+      main="Scatterplot Matrix of Cost")
+```
+
+Dependent variable, y: Contract Cost (in thousands of dollars)
+Independent variables:
+1. x1: The DOT engineer’s estimate of the cost (in thousands of dollars), Numerical
+2. x2: Status of the bid contract, (Fixed, Competitive), Categorical
+Status is a categorical variable with two levels, so we need one dummy variable,
+x2 =
+1 if Fixed
+0 if not
+Base Level = Competitive
+
+E(y)= B0 + B1X1 + B2X1^2 + B3X2 + B4X1*X2 +B5X1^2*X2
+
+### Model completed
+
+```{r}
+model_C <- lm(COST~DOTEST+I(DOTEST^2)+STATUS+DOTEST*STATUS+STATUS*I(DOTEST^2), data = FLAG)
+summary(model_C)
+```
+
+#### CV (Coefficient of Variation)
+
+Residual standard error, s = 296.6 therefore, about 95% of the contract costs for the sample of n = 235 contracts fall within $593,200 (2s) of the model predicted values.
+
+```{r}
+#s=sqrt(sum(model_C $residuals^2)/(length(FLAG$COST)-(dim(model.matrix(model_C))[2])))
+
+
+s <-summary(model_C)$sigma
+s
+
+cv=(sm/mean(FLAG$COST))*100
+cv
+```
+The relatively high value of %23 of C.V leads to less precise predictions by having wide prediction intervals.[C.V. of which a value of %10 or smaller usually leads to more precise predictions].
+
+
+### Global F-test
+
+Although the extremely small p-value < 2.2e -16 indicates that the model (H0 : B1 = B2 = B3 = B4 = B5 = 0 vs:
+Ha : at least one Bj != 0) is statistically adequate (at alpha = 0.1) for predicting contract cost, y, we are not sure whether all the terms in the model statistically significant predictors.
+
+### Model reduced (Conduct t-tests on only the most important β’s)
+
+To determine whether the curvilinear terms should be included in the model or not, we test:
+H0 : B2 = B5 = 0
+Ha : At least one of the curvature B’s is nonzero.
+
+Reduced Model:
+E(y) = B0 + B1x1 + B3x2 + B4x1x2
+
+
+```{r}
+model_R <- lm(COST~DOTEST+STATUS+DOTEST*STATUS, data = FLAG)
+summary(model_R)
+```
+
+## Test to compare Models (Anova)
+
+```{r}
+#anova(modelReduce, modelFull)
+anova(model_R,model_C)
+```
+Since the p-value = 0.3547 > 0.01, we fail to reject H0.
+At %1 level of significance, there is insufficient evidence to indicate that the curvature terms are useful predictors of construction cost, y.
+
+The predicted cost of contract = -6.428025 + 0.921338x1 + 28.673189x2 + 0.163282x1x2
+
+#### CV (Coefficient of Variation)
+
+Residual standard error, s = 296.6 therefore, about 95% of the contract costs for the sample of n = 235 contracts fall within $593,200 (2s) of the model predicted values.
+
+```{r}
+#s=sqrt(sum(model_C $residuals^2)/(length(FLAG$COST)-(dim(model.matrix(model_C))[2])))
+
+
+s <-summary(model_R)$sigma
+s
+
+cv=(s/mean(FLAG$COST))*100
+cv
+```
+The relatively high value of %23 of C.V leads to less precise predictions by having wide prediction intervals.[C.V. of which a value of %10 or smaller usually leads to more precise predictions].
+
+## Dummy Variables
+
+```{r}
+intercept_competitive <- coef(model_R)[1]  # Intercepto para STATUS = 0
+slope_competitive <- coef(model_R)[2]      # Pendiente para STATUS = 0
+
+intercept_fixed <- coef(model_R)[1] + coef(model_R)[3]  # Intercepto para STATUS = 1
+slope_fixed <- coef(model_R)[2] + coef(model_R)[4]      # Pendiente para STATUS = 1
+
+# Crear la gráfica con ggplot2
+ggplot(FLAG, aes(x = DOTEST, y = COST)) +
+  geom_point(color = "blue", size = 2, alpha = 0.6) +  # Puntos de datos
+  geom_abline(intercept = intercept_competitive, slope = slope_competitive, color = "green", linewidth = 1, linetype = "solid") +  # Línea para STATUS = 0
+  geom_abline(intercept = intercept_fixed, slope = slope_fixed, color = "red", linewidth = 1, linetype = "dashed") +  # Línea para STATUS = 1
+  labs(
+    title = "Scatterplot of Contract Cost vs. DOT engineer’s estimate",
+    x = "Estimate of the cost of DOT ($1000s)",
+    y = "Contract Cost ($1000s)",
+    caption = "Red: Fixed, Green: Competitive"
+  ) +
+  theme_minimal()
+```
+
+The predicted cost of contract = -6.428025 + 0.921338x1 + 28.673189x2 + 0.163282x1x2
+Fixed (x2 = 1): y_hat = -6.428025 + 0.921338x1 + 28.673189(1) + 0.163282x1(1) = 22.24516 + 1.08462x1
+Competitive (x2 = 0): y_hat = -6.428025 + 0.921338x1 + 28.673189(0) + 0.163282x1(0) = -6.42802 + 0.92134x1
+
+
+
+############### Interpretations:
+
+Fixed: On average, for every $1000 increase in the DOT engineer’s estimate of the cost, the cost of contract will be estimated
+to increase by $1084.62 for fixed contracts.
+Competitive: On average, for every $1000 increase in the DOT engineer’s estimate of the cost, the cost of contract will be
+estimated to increase by $921.338 for competitive contracts.
+
+#### Prediction
+
+The following output shows the %95 prediction interval for contract cost when the DOT estimates $1,386,290 (x1 = 1,386.29)
+and the contract is fixed (x2 = 1).
+
+```{r}
+New_data=data.frame(DOTEST=c(1386.29), STATUS=c(1))
+predict(model_R, newdata = New_data, interval="prediction", level=0.95)
+```
+
+According to the interval above, with 95% confidence, we predict that the cost of fixed contract falls between $933,731.7 and
+$2,117,954 when the DOT estimateis $1,386,290.
+

@@ -1,0 +1,224 @@
+---
+title: "Activity1"
+author: "Maria Sandate"
+date: "2025-01-14"
+output:
+  word_document: default
+  html_document: default
+---
+
+#### Activity 1
+
+2.	The weight of a specific product follows a normal distribution with a mean of 30 g and a standard deviation of 4 g.
+
+- Calculate the probability that a randomly chosen product weights less than 27.6g.
+
+```{r}
+
+pnorm(27.6,30,4, lower.tail = TRUE )
+
+```
+ 
+- What is the probability that a randomly chosen product has a weight that exceeds 26.6 g? 
+
+```{r}
+pnorm(26.6,30,4, lower.tail = FALSE )
+
+```
+
+c. What is the probability that a randomly chosen product is between 26.9 and 29.6 g?
+
+```{r}
+a <- pnorm(26.9,30,4, lower.tail = TRUE )
+b <- pnorm(29.6,30,4, lower.tail = TRUE )
+b-a
+```
+3a. What is the maximum weight of the lightest 10% of products? 
+
+```{r}
+qnorm(0.1,30, 4, lower.tail = TRUE)
+```
+
+3b. What is the minimum weight of the heaviest 5% of products? 
+
+```{r}
+qnorm(0.05,30, 4, lower.tail = FALSE)
+```
+4a. calculates the z-score for the 10th percentile, which corresponds to the maximum 
+weight of the lightest 10% of products. 
+
+```{r}
+z_score <- qnorm(0.1)
+z_score
+```
+
+4b. calculates the z-score for the 95th percentile, which corresponds to the minimum 
+weight of the heaviest 5% of products. 
+
+```{r}
+z_score <- qnorm(0.95)
+z_score
+```
+
+5. We are interested to calculate the marginal error when we are 95% Confident that 
+our interval contains the true mean of our population. What should be the z-score? 
+
+```{r}
+z_score <- qnorm(0.975)
+z_score
+```
+6. The weight of a specific product follows a normal distribution with a mean of 30 g 
+and a standard deviation of 4 g. 
+
+6a. If we select a simple random sample of 49 products, what is the probability that 
+the average weight of our sample is less than 30.6 g? 
+
+```{r}
+
+SE<-4/sqrt(49)
+
+pnorm(30.6,30,SE, lower.tail = TRUE )
+```
+
+6b. If we select a simple random sample of 49 products, what is the probability that 
+the average weight of our sample is at least 30.6 g? 
+
+```{r}
+pnorm(30.6,30,SE, lower.tail = FALSE )
+```
+
+6c. If we select a simple random sample of 49 products, what is the probability that 
+the average weight of our sample is between 28.9 and 29.6 g 
+
+```{r}
+a <- pnorm(28.9,30,SE, lower.tail = TRUE )
+b <- pnorm(29.6,30,SE, lower.tail = TRUE )
+b-a
+```
+
+6d. Ninety percent of the average weight of 49 randomly selected products are less 
+than how many grams?   
+
+```{r}
+qnorm(.9,30, SE, lower.tail = TRUE)
+```
+
+
+6e. Ninety percent of the average weight of 49 randomly selected product are greater 
+than how many grams?
+
+```{r}
+qnorm(.1,30, SE, lower.tail = TRUE)
+```
+
+7. Psychologists have found that twins, in their early years, tend to have lower 
+intelligence quotients and pick up language more slowly than nontwins. The slower 
+intellectual growth of twins may be caused by benign parental neglect.  
+
+Suppose we want to investigate this phenomenon. A random sample of n = 50 sets of 
+2.5 -year-old twin boys is selected, and the total parental attention time given to each 
+pair during 1 week is recorded. 
+
+Estimate μ, the mean attention time given to all 2.5 year-old twin boys by their 
+parents, using a 99% confidence interval. Interpret the interval in terms of the 
+problem. (Use ATTENTIMES -> chapter1 -> D2L.) 
+
+```{r}
+ATTENTIMES <- read.csv("ATTENTIMES.csv", header=TRUE)
+```
+
+```{r}
+head(ATTENTIMES)
+```
+```{r}
+install.packages("BSDA")
+```
+```{r}
+library(BSDA)
+
+```
+```{r}
+View(ATTENTIMES)
+attach(ATTENTIMES)
+head(ATTENTIMES)
+mean(Attention.Time)
+```
+
+
+8. The Geothermal Loop Experimental Facility, located in the Salton Sea in southern 
+California, is a U.S. Department of Energy operation for studying the feasibility of 
+generating electricity from the hot, highly saline water of the Salton Sea. Operating 
+experience has shown that these brines leave silica scale deposits on metallic plant 
+piping, causing excessive plant outages. Researchers found that scaling can be reduced 
+somewhat by adding chemical solutions to the brine. In one screening experiment, each 
+of five antiscalants was added to an aliquot of brine, and the solutions were filtered. A 
+silica determination (parts per million of 
+silicon dioxide) was made on each filtered sample after a holding time of 24 hours, 
+with the results stored in SILICA data set (D2L).  Estimate the mean amount of 
+silicon dioxide present in the five antiscalant solutions. Use a 95% confidence interval. 
+
+
+9. After installing a drive-thru ATM on the outside of a local bank, the bank manager
+wanted to see if customers’ waiting time inside the bank was shortened during lunch 
+hour (12noon-1pm).  In the past (before the installation of the drive-thru ATM), the 
+average customers’ waiting time (inside the bank) during lunch hour has been 15 
+minutes.  From a random sample of 20 bank customers during lunch hour (12noon-1pm), 
+the average wait time was found to be 12.3 minutes.  It is known that the wait time has a Normal distribution and a standard deviation of 9 minutes.  Can we show that the current wait time has been shortened? 
+a. Identify the parameter of interest. 
+
+The mean of the wating time of all customers
+
+b. Set up the null hypothesis and the alternative hypothesis. 
+
+Ho: mu >= 15
+Ha: mu <15
+
+P(Xbar < 12.3)
+
+c. Draw an appropriate conclusion.  Use alpha= 0.05.
+
+
+d. What if you wanted to check that waiting time ≠ 15? 
+
+
+10. Humerus bones from the same species of animal tend to have approximately 
+the same length-to-width ratios. When fossils of humerus bones are discovered, 
+archeologists can often determine the species of animal by examining the lengthto- 
+width ratios of the bones. It is known that species A has a mean ratio of 8.5. 
+Suppose 41 fossils of humerus bones were unearthed at an archeological site in East 
+Africa, where species A is believed to have flourished. (Assume that the unearthed 
+bones were all from the same unknown species.) The length-to-width ratios of 
+the bones were measured and are recorded in BONES data set. 
+
+a. Do these data present sufficient evidence to indicate that the mean ratio of all 
+bones of this species differs from 8.5? Use α = .05. 
+b. The mean ratio of all bones of this species is greater than 8.5? Use α = .05. 
+c. The mean ratio of all bones of this species is less than 8.5? Use α = .05. 
+11. A dietitian has developed a diet that is low in fats, carbohydrates, and cholesterol. 
+Although the diet was initially intended to be used by people with heart disease, 
+the dietitian wishes to examine the effect this diet has on the weights of obese 
+people. Two random samples of 100 obese people each are selected, and one group 
+of 100 is placed on the low-fat diet. The other 100 are placed on a diet that contains 
+approximately the same quantity of food but is not as low in fats, carbohydrates, 
+and cholesterol. For each person, the amount of weight lost (or gained) in a 3-week 
+period is recorded. The data, saved in DIETS data set (D2L). 
+a. Form a 95% confidence interval for the difference between the population mean 
+weight losses for the two diets. Interpret the result. 
+b. What is the alternative hypothesis in a? 
+c. What if you want to test that the differences is greater than or smaller than zero? 
+12. Suppose you wish to compare a new method of teaching reading to ‘‘slow learners’’ 
+to the current standard method. You decide to base this comparison on the results 
+of a reading test given at the end of a learning period of 6 months. Of a random 
+sample of 22 slow learners, 10 are taught by the new method and 12 are taught 
+by the standard method. All 22 children are taught by qualified instructors under 
+similar conditions for a 6-month period. The results of the reading test at the end of 
+this period are recorded in READING data set.  
+a. Use the data to test whether the true mean test scores differ for the new method 
+and the standard method. Use α = .05. 
+b. What assumptions must be made in order that the estimate be valid? 
+13. Data set: PAIRED shows the data on reading test scores for eight pairs of slow 
+learners with similar reading IQs of which one member is randomly assigned to the 
+standard teaching method while the other is assigned to the new method. 
+Do the data support the hypothesis that the population mean reading test score for 
+slow learners taught by the new method is greater than the mean reading test score 
+for those taught by the standard method.

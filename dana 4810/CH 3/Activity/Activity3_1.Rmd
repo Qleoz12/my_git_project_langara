@@ -1,0 +1,74 @@
+---
+title: "Activity3_1"
+author: "Maria Sandate"
+date: "2025-01-21"
+output:
+  word_document: default
+  html_document: default
+---
+#### DANA4810: Jan 21
+
+Real estate investors, homebuyers, and homeowners often use the appraised (or market) value of a property as a basis for predicting sale price. Data on sale prices and total appraised values of 76 residential properties sold in 2008 in an upscale Tampa, Florida, neighborhood named Tampa Palms are saved in the TAMPALMS file. 
+
+#### (a)	Propose a straight-line model to relate the appraised property value x to the sale price y for residential properties in this neighborhood.
+
+
+```{r}
+load ("C:/Users/sanda/Documents/Langara College/DANA-4810-001/Chapter 3/TAMPALMS.Rdata")
+```
+
+```{r}
+y <- TAMPALMS$Sale_Price
+x <- TAMPALMS$Market_Val
+```
+
+```{r}
+# Scatterplot or Scatter Diagram
+# Note: For 2 variables, X-var goes first in plot()
+plot(x, # X-variable
+     y, # Y-variable
+     main = "Scatterplot of Sale Price vs. Value of a Property",
+     ylab = "Sale price",
+     xlab = "Value of a property",
+     cex = 0.8, # size of the dot
+     pch = 20, # style of the dot, default is 1
+     col = "blue")
+```
+
+
+```{r}
+model=lm(y~x)
+summary(model)
+```
+#### (b)	Interpret the y-intercept of the least squares line. Does it have a practical meaning for this application? Explain. 
+
+The y-intercept in the least squares line, represented by beta0, is the value of y when x = 0. In this case, it doesn’t have a realistic meaning because a property with no market value cannot have a sale price. Also, x = 0 is outside the range of observed x-values.
+
+#### (c)	Interpret the slope of the least squares line. Over what range of x is the interpretation meaningful?
+
+The slope has a positive value, which means that x has a positive contribution on y. For every 1 unit increase in the market value of a property, the estimated sale price increases by 1.4. The interpretation of x is meaningful within the observed range, from xmin=113.1 to xmax=1262.3
+
+```{r}
+summary(x)
+```
+
+
+#### (d)	Use the least squares model to estimate the mean sale price of a property appraised at $300,000.
+
+```{r}
+beta0 = 1.35868
+beta1 = 1.40827
+x_hat = 300
+y_hat=beta0+beta1*x_hat
+y_hat
+```
+
+
+#### (e)	Compute an estimate of σ.
+
+```{r}
+y_length = length(y)
+
+s=sqrt(sum(model$residuals^2)/(y_length-2))
+s
+```

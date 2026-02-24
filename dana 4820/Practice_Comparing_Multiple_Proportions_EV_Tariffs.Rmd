@@ -1,0 +1,655 @@
+﻿---
+title: "Support for Eliminating Tariffs on Electric Vehicles from China (Practice: Comparing Multiple Proportions)"
+author: "Leonardo L Sanchez"
+date: "2026-02-23"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+## Goal
+
+This practice file shows **how to do the test manually** (step by step) and then verify in `R`.
+
+Topic covered:
+
+- Comparing multiple proportions (chi-square test of homogeneity)
+- Pairwise comparisons using Marascuilo-style simultaneous intervals
+- A follow-up two-proportion z-test (West vs East)
+- Confidence interval for the overall proportion
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+options(scipen = 999)
+```
+
+## Given Data
+
+A random sample of Canadians from four major cities was surveyed.
+
+| City      | Sample Size (n) | % Yes | Yes | No  |
+|-----------|-----------------|-------|-----|-----|
+| Vancouver | 400             | 62%   | 248 | 152 |
+| Calgary   | 250             | 58%   | 145 | 105 |
+| Toronto   | 300             | 52%   | 156 | 144 |
+| Montreal  | 250             | 48%   | 120 | 130 |
+
+```{r data}
+# Use the exact counts from the problem (best practice for inference)
+city <- c("Vancouver", "Calgary", "Toronto", "Montreal")
+n    <- c(400, 250, 300, 250)
+yes  <- c(248, 145, 156, 120)
+no   <- n - yes
+p_hat_city <- yes / n
+
+# Build a clean data frame
+df <- data.frame(
+  City = city,
+  n = n,
+  Yes = yes,
+  No = no,
+  p_hat = p_hat_city
+)
+df$YesPercent <- 100 * df$p_hat
+
+# Reorder columns for display
+df <- df[, c("City", "n", "YesPercent", "Yes", "No", "p_hat")]
+df
+```
+
+## Part A - Test for Differences Among Cities (Chi-square Test of Homogeneity)
+
+### 1) Hypotheses
+
+Let $p_V, p_C, p_T, p_M$ be the true proportions of "Yes" in Vancouver, Calgary, Toronto, and Montreal.
+
+$$
+H_0: p_V = p_C = p_T = p_M
+$$
+
+$$
+H_a: \text{At least one population proportion is different}
+$$
+
+### 2) Manual idea (what we do by hand)
+
+Under $H_0$, all cities share **one common proportion**. We estimate it using the pooled sample proportion:
+
+$$
+\hat p_{\text{pooled}} = \frac{\text{total Yes}}{\text{total sample size}}
+$$
+
+```{r partA_manual_step1}
+# MANUAL STEP 1: pooled proportion under H0
+x_total <- sum(yes)
+n_total <- sum(n)
+p_pool <- x_total / n_total
+
+x_total
+n_total
+p_pool
+```
+
+So,
+
+$$
+\hat p_{\text{pooled}} = \frac{669}{1200} = 0.5575
+$$
+
+### 3) Expected counts under $H_0$
+
+For each city:
+
+- Expected Yes = $n_i \hat p_{\text{pooled}}$
+- Expected No  = $n_i (1 - \hat p_{\text{pooled}})$
+
+```{r partA_expected_counts}
+# MANUAL STEP 2: expected counts under H0
+expected_yes <- n * p_pool
+expected_no  <- n * (1 - p_pool)
+
+expected_df <- data.frame(
+  City = city,
+  Obs_Yes = yes,
+  Exp_Yes = expected_yes,
+  Obs_No = no,
+  Exp_No = expected_no
+)
+expected_df
+
+# Condition check: all expected counts should be >= 5
+all(expected_yes >= 5)
+all(expected_no >= 5)
+```
+
+### 4) Chi-square statistic (manual computation)
+
+We compute:
+
+$$
+\chi^2 = \sum \frac{(O - E)^2}{E}
+$$
+
+across all cells in the 4 x 2 table.
+
+```{r partA_chisq_manual}
+# MANUAL STEP 3: contribution from each cell = (O-E)^2/E
+contrib_yes <- (yes - expected_yes)^2 / expected_yes
+contrib_no  <- (no  - expected_no )^2 / expected_no
+
+contrib_df <- data.frame(
+  City = city,
+  contrib_yes = contrib_yes,
+  contrib_no = contrib_no,
+  contrib_total_city = contrib_yes + contrib_no
+)
+contrib_df
+
+# Manual chi-square statistic
+chisq_manual <- sum(contrib_yes + contrib_no)
+chisq_manual
+
+# Degrees of freedom for a 4 x 2 table: (r-1)(c-1) = (4-1)(2-1) = 3
+# (Equivalent to k-1 when comparing k proportions.)
+df_chi <- (length(city) - 1) * (2 - 1)
+df_chi
+
+# p-value from chi-square distribution (right tail)
+p_value_manual <- pchisq(chisq_manual, df = df_chi, lower.tail = FALSE)
+p_value_manual
+```
+
+### 5) Verify with `chisq.test()`
+
+```{r partA_check_with_R}
+# Build city x response table (4 rows, 2 columns)
+tab_city_response <- cbind(Yes = yes, No = no)
+rownames(tab_city_response) <- city
+
+# R verification (no continuity correction; correction is for 2x2 only)
+test_A <- chisq.test(tab_city_response, correct = FALSE)
+test_A
+
+# Compare manual vs R
+c(chisq_manual = chisq_manual, chisq_R = unname(test_A$statistic))
+c(p_manual = p_value_manual, p_R = test_A$p.value)
+```
+
+### 6) Conclusion (alpha = 0.05)
+
+```{r partA_conclusion_text, results='asis'}
+alpha <- 0.05
+
+if (p_value_manual < alpha) {
+  cat("Decision: Reject H0.\\n\\n")
+  cat("Conclusion: There is sufficient evidence that support differs among the four cities.\n")
+} else {
+  cat("Decision: Fail to reject H0.\\n\\n")
+  cat("Conclusion: There is not enough evidence to say the city proportions differ.\n")
+}
+```
+
+## Part B - Pairwise Comparisons (Marascuilo-style Simultaneous Intervals)
+
+After finding a significant overall difference, we often ask **which cities differ**.
+
+We use a familywise error rate of 5% (overall alpha = 0.05) and a Marascuilo critical value.
+
+### Important interpretation rule
+
+For an interval for $(p_i - p_j)$:
+
+- If the interval **includes 0**, the pair is **not significantly different**.
+- If the entire interval is **above 0**, then city $i$ is **higher** than city $j$.
+- If the entire interval is **below 0**, then city $i$ is **lower** than city $j$.
+
+```{r partB_marascuilo_function}
+# Marascuilo-style simultaneous interval for a pair (i, j)
+# CI for (p_i - p_j): diff +/- CR_ij, where
+# CR_ij = sqrt(chi-square critical) * sqrt(p_i(1-p_i)/n_i + p_j(1-p_j)/n_j)
+
+alpha_overall <- 0.05
+k <- nrow(df)
+chisq_crit <- qchisq(1 - alpha_overall, df = k - 1)
+
+pair_ci_marascuilo <- function(i, j, data, chisq_crit) {
+  pi <- data$p_hat[i]
+  pj <- data$p_hat[j]
+  ni <- data$n[i]
+  nj <- data$n[j]
+
+  diff_ij <- pi - pj
+  me_ij <- sqrt(chisq_crit) * sqrt(pi * (1 - pi) / ni + pj * (1 - pj) / nj)
+
+  lower <- diff_ij - me_ij
+  upper <- diff_ij + me_ij
+
+  # Interpretation label for studying
+  relation <- if (lower > 0) {
+    "higher than"
+  } else if (upper < 0) {
+    "lower than"
+  } else {
+    "not significantly different from"
+  }
+
+  data.frame(
+    City1 = data$City[i],
+    City2 = data$City[j],
+    p1 = pi,
+    p2 = pj,
+    diff = diff_ij,
+    lower = lower,
+    upper = upper,
+    relation = relation,
+    stringsAsFactors = FALSE
+  )
+}
+```
+
+### Vancouver vs Calgary
+
+```{r partB_van_cal}
+vc <- pair_ci_marascuilo(
+  i = which(df$City == "Vancouver"),
+  j = which(df$City == "Calgary"),
+  data = df,
+  chisq_crit = chisq_crit
+)
+vc
+
+# Print as percentages for the sentence format used in class/assignments
+sprintf(
+  "Vancouver vs Calgary: %s by between %.2f%% and %.2f%% (for p_V - p_C).",
+  vc$relation,
+  100 * vc$lower,
+  100 * vc$upper
+)
+```
+
+### Vancouver vs Toronto
+
+```{r partB_van_tor}
+vt <- pair_ci_marascuilo(
+  i = which(df$City == "Vancouver"),
+  j = which(df$City == "Toronto"),
+  data = df,
+  chisq_crit = chisq_crit
+)
+vt
+
+sprintf(
+  "Vancouver vs Toronto: %s by between %.2f%% and %.2f%% (for p_V - p_T).",
+  vt$relation,
+  100 * vt$lower,
+  100 * vt$upper
+)
+```
+
+### (Optional) All pairwise comparisons at once
+
+```{r partB_all_pairs}
+# Useful for practice: see every pair in one table
+pairs_idx <- combn(seq_len(nrow(df)), 2)
+all_pairs <- do.call(
+  rbind,
+  lapply(seq_len(ncol(pairs_idx)), function(m) {
+    i <- pairs_idx[1, m]
+    j <- pairs_idx[2, m]
+    pair_ci_marascuilo(i, j, data = df, chisq_crit = chisq_crit)
+  })
+)
+
+# Format percentages for readability
+all_pairs$diff_pct  <- round(100 * all_pairs$diff, 2)
+all_pairs$lower_pct <- round(100 * all_pairs$lower, 2)
+all_pairs$upper_pct <- round(100 * all_pairs$upper, 2)
+
+all_pairs[, c("City1", "City2", "diff_pct", "lower_pct", "upper_pct", "relation")]
+```
+
+## Part C - West vs East (One-sided Two-Proportion z-test)
+
+Now combine cities into regions:
+
+- West = Vancouver + Calgary
+- East = Toronto + Montreal
+
+We test whether support is **higher in the West**.
+
+### Hypotheses
+
+$$
+H_0: p_W = p_E
+$$
+
+$$
+H_a: p_W > p_E
+$$
+
+### Manual calculation (z-test)
+
+```{r partC_manual_z}
+# Combine counts
+x_W <- yes[city == "Vancouver"] + yes[city == "Calgary"]
+n_W <- n[city == "Vancouver"] + n[city == "Calgary"]
+
+x_E <- yes[city == "Toronto"] + yes[city == "Montreal"]
+n_E <- n[city == "Toronto"] + n[city == "Montreal"]
+
+pW_hat <- x_W / n_W
+pE_hat <- x_E / n_E
+
+# Under H0 for the z-test, use pooled proportion across the two groups
+p_pool_WE <- (x_W + x_E) / (n_W + n_E)
+
+# Standard error under H0 (pooled SE)
+SE_pool <- sqrt(p_pool_WE * (1 - p_pool_WE) * (1 / n_W + 1 / n_E))
+
+# Test statistic for Ha: pW > pE
+z_stat <- (pW_hat - pE_hat) / SE_pool
+
+# One-sided p-value (right tail)
+p_value_one_sided <- pnorm(z_stat, lower.tail = FALSE)
+
+c(
+  x_W = x_W, n_W = n_W, pW_hat = pW_hat,
+  x_E = x_E, n_E = n_E, pE_hat = pE_hat,
+  p_pool_WE = p_pool_WE,
+  SE_pool = SE_pool,
+  z_stat = z_stat,
+  p_value_one_sided = p_value_one_sided
+)
+```
+
+### Verify with `prop.test()` (same problem in R)
+
+```{r partC_prop_test}
+# prop.test can do a one-sided test for 2 proportions.
+# We turn off continuity correction to better match the manual z-test.
+prop_test_WE <- prop.test(
+  x = c(x_W, x_E),
+  n = c(n_W, n_E),
+  alternative = "greater",
+  correct = FALSE
+)
+prop_test_WE
+
+# Note: prop.test reports a chi-square statistic for the 2-sided framework.
+# For 2 groups, chi-square = z^2 (when using the same correction setting).
+c(z_manual = z_stat, chisq_from_z = z_stat^2)
+```
+
+### Conclusion for Part C
+
+```{r partC_conclusion_text, results='asis'}
+if (p_value_one_sided < 0.05) {
+  cat("Reject H0. There is sufficient evidence that support is higher in the West than in the East.\n")
+} else {
+  cat("Fail to reject H0. There is not enough evidence that support is higher in the West than in the East.\n")
+}
+```
+
+## Part D - 95% Confidence Interval for the Overall Proportion
+
+We estimate the overall population proportion of Canadians (across these four cities) who agree.
+
+### Manual formula
+
+$$
+\hat p \pm z_{0.975}\sqrt{\frac{\hat p(1-\hat p)}{n}}
+$$
+
+```{r partD_ci_manual}
+# Overall sample proportion
+p_hat_overall <- x_total / n_total
+
+# 95% CI critical value
+z_crit <- qnorm(0.975)
+
+# Standard error for CI (uses p-hat, not pooled H0 proportion)
+SE_ci <- sqrt(p_hat_overall * (1 - p_hat_overall) / n_total)
+ME <- z_crit * SE_ci
+
+lower_CI <- p_hat_overall - ME
+upper_CI <- p_hat_overall + ME
+
+c(
+  p_hat_overall = p_hat_overall,
+  SE_ci = SE_ci,
+  ME = ME,
+  lower_CI = lower_CI,
+  upper_CI = upper_CI
+)
+```
+
+### Interpretation
+
+```{r partD_conclusion_text, results='asis'}
+if (lower_CI > 0.50) {
+  cat(sprintf(
+    "The 95%% CI is (%.4f, %.4f), which lies entirely above 0.50. This supports the claim that more than 50%% of Canadians (in this study context) support eliminating tariffs.\n",
+    lower_CI, upper_CI
+  ))
+} else {
+  cat(sprintf(
+    "The 95%% CI is (%.4f, %.4f). Because it is not entirely above 0.50, we cannot conclude that more than 50%% support the policy at the 95%% confidence level.\n",
+    lower_CI, upper_CI
+  ))
+}
+```
+
+## Study Notes (What to memorize for the quiz)
+
+1. **Overall test first**: test all cities together with chi-square (homogeneity).
+2. **If significant**: do pairwise comparisons (Marascuilo / simultaneous intervals) to find where differences are.
+3. **Manual chi-square steps**:
+   - pooled proportion under $H_0$
+   - expected counts
+   - sum of $(O-E)^2/E$
+   - df and p-value
+4. **For 2 groups only**: use the two-proportion z-test (or equivalent chi-square test on a 2x2 table).
+5. **Interpretation rule for intervals**: if 0 is inside the CI for $(p_i-p_j)$, you do **not** claim a significant difference.
+
+## Extra Practice Exercise (With Answer in This File)
+
+Use this section as a quiz-style practice problem. Try it manually first, then check the solution below.
+
+### Practice Problem
+
+A college surveyed students from four campuses and asked whether they support extending library hours to 24/7 during exams.
+
+| Campus | Sample Size (n) | Yes | No |
+|--------|------------------|-----|----|
+| North  | 200              | 122 | 78 |
+| South  | 180              | 93  | 87 |
+| East   | 220              | 110 | 110 |
+| West   | 200              | 84  | 116 |
+
+Tasks:
+
+1. Test whether the support proportions are the same across all 4 campuses (`alpha = 0.05`).
+2. Show the manual steps:
+   - pooled proportion under $H_0$
+   - expected counts
+   - chi-square statistic
+   - degrees of freedom
+   - p-value and conclusion
+3. (Optional extension) Compare North vs West using a Marascuilo-style simultaneous interval.
+
+### Answer / Worked Solution
+
+```{r extra_practice_data}
+# Separate variable names so this practice section does not overwrite the main example
+campus2 <- c("North", "South", "East", "West")
+n2 <- c(200, 180, 220, 200)
+yes2 <- c(122, 93, 110, 84)
+no2 <- n2 - yes2
+p2 <- yes2 / n2
+
+practice_df <- data.frame(
+  Campus = campus2,
+  n = n2,
+  Yes = yes2,
+  No = no2,
+  p_hat = round(p2, 4)
+)
+practice_df
+```
+
+#### Step 1 - Hypotheses
+
+$$
+H_0: p_N = p_S = p_E = p_W
+$$
+
+$$
+H_a: \text{At least one campus proportion differs}
+$$
+
+#### Step 2 - Pooled proportion under $H_0$
+
+Under $H_0$, all campuses share one common proportion, so we combine all the data:
+
+$$
+\hat p_{\text{pooled}} = \frac{\text{total Yes}}{\text{total }n}
+$$
+
+```{r extra_practice_pooled}
+# MANUAL STEP: pooled proportion under H0 (combine all campuses)
+x_total2 <- sum(yes2)
+n_total2 <- sum(n2)
+p_pool2 <- x_total2 / n_total2
+
+c(total_yes = x_total2, total_n = n_total2, p_pooled = p_pool2)
+```
+
+#### Step 3 - Expected counts under $H_0$
+
+For each campus:
+
+- Expected Yes = $n_i \hat p_{\text{pooled}}$
+- Expected No  = $n_i(1-\hat p_{\text{pooled}})$
+
+```{r extra_practice_expected}
+# MANUAL STEP: expected counts
+exp_yes2 <- n2 * p_pool2
+exp_no2  <- n2 * (1 - p_pool2)
+
+expected2_df <- data.frame(
+  Campus = campus2,
+  Obs_Yes = yes2,
+  Exp_Yes = round(exp_yes2, 3),
+  Obs_No = no2,
+  Exp_No = round(exp_no2, 3)
+)
+expected2_df
+
+# Validity check for chi-square test (expected counts should be >= 5)
+c(all_exp_yes_ge_5 = all(exp_yes2 >= 5), all_exp_no_ge_5 = all(exp_no2 >= 5))
+```
+
+#### Step 4 - Manual chi-square statistic
+
+Compute the cell contributions:
+
+$$
+\chi^2 = \sum \frac{(O-E)^2}{E}
+$$
+
+```{r extra_practice_chisq_manual}
+# MANUAL STEP: compute each cell contribution and add them
+contrib_yes2 <- (yes2 - exp_yes2)^2 / exp_yes2
+contrib_no2  <- (no2  - exp_no2 )^2 / exp_no2
+
+contrib2_df <- data.frame(
+  Campus = campus2,
+  Yes_contrib = round(contrib_yes2, 4),
+  No_contrib = round(contrib_no2, 4),
+  Campus_total = round(contrib_yes2 + contrib_no2, 4)
+)
+contrib2_df
+
+chi2_manual_2 <- sum(contrib_yes2 + contrib_no2)
+df_2 <- (length(campus2) - 1) * (2 - 1)  # (r-1)(c-1) = 3
+pval_2 <- pchisq(chi2_manual_2, df = df_2, lower.tail = FALSE)
+
+c(chi_square = chi2_manual_2, df = df_2, p_value = pval_2)
+```
+
+#### Step 5 - Verify with R
+
+```{r extra_practice_check_R}
+# Same test in R (homogeneity / independence on a 4x2 table)
+tab2 <- cbind(Yes = yes2, No = no2)
+rownames(tab2) <- campus2
+
+test2 <- chisq.test(tab2, correct = FALSE)
+test2
+
+c(manual_chi_square = chi2_manual_2, R_chi_square = unname(test2$statistic))
+c(manual_p = pval_2, R_p = test2$p.value)
+```
+
+#### Step 6 - Conclusion (alpha = 0.05)
+
+```{r extra_practice_conclusion, results='asis'}
+alpha2 <- 0.05
+
+if (pval_2 < alpha2) {
+  cat("Decision: Reject H0.\n\n")
+  cat("Conclusion: There is sufficient evidence that support for 24/7 library hours differs among the four campuses.\n")
+} else {
+  cat("Decision: Fail to reject H0.\n\n")
+  cat("Conclusion: There is not enough evidence to conclude that the campus proportions differ.\n")
+}
+```
+
+### Optional Extension Answer - North vs West (Marascuilo-style interval)
+
+This is useful after the overall test is significant.
+
+```{r extra_practice_marascuilo_north_west}
+# Optional pairwise comparison using the same Marascuilo-style idea from Part B
+k2 <- length(campus2)
+chisq_crit2 <- qchisq(0.95, df = k2 - 1)
+
+iN <- which(campus2 == "North")
+iW <- which(campus2 == "West")
+
+pN <- p2[iN]; pW <- p2[iW]
+nN <- n2[iN]; nW <- n2[iW]
+
+diff_NW <- pN - pW
+me_NW <- sqrt(chisq_crit2) * sqrt(pN * (1 - pN) / nN + pW * (1 - pW) / nW)
+
+lower_NW <- diff_NW - me_NW
+upper_NW <- diff_NW + me_NW
+
+relation_NW <- if (lower_NW > 0) {
+  "higher than"
+} else if (upper_NW < 0) {
+  "lower than"
+} else {
+  "not significantly different from"
+}
+
+data.frame(
+  comparison = "North - West",
+  diff = round(diff_NW, 4),
+  lower = round(lower_NW, 4),
+  upper = round(upper_NW, 4),
+  relation = relation_NW
+)
+
+sprintf(
+  "North is %s West by between %.2f%% and %.2f%% (for p_N - p_W).",
+  relation_NW, 100 * lower_NW, 100 * upper_NW
+)
+```
+
+### Quick Study Reminder (Spanish)
+
+- `pooled` = combinado/agrupado (usas todos los grupos juntos bajo $H_0$).
+- En el test global, **primero** pruebas si todas las proporciones son iguales.
+- Si el test global es significativo, **después** miras comparaciones por pares.

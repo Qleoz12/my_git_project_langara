@@ -1,0 +1,2 @@
+# Local secrets (API keys, etc.) — do not commit
+.env

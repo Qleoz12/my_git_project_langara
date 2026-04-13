@@ -1,0 +1,204 @@
+🧩 1. Classification Basics
+Q1. What is the goal of a classification task?
+A: To learn a model that maps input features (x) to output categories (y) so we can predict unseen data labels.
+Example: Predict spam (1) or not spam (0) from email content.
+Q2. Difference between training set and test set?
+A:
+
+
+Training set: used to teach the model (fit parameters).
+
+
+Test set: used to evaluate model performance on new data.
+
+
+Q3. Independent vs. dependent variables?
+A:
+
+
+Independent (X): predictors/features we use.
+
+
+Dependent (y): outcome or class we want to predict.
+
+
+Q4. Two real-world classification problems?
+A:
+
+
+Predicting if a tumor is benign or malignant.
+
+
+Predicting if a loan applicant will default or not.
+
+
+Q5. How classification differs from regression?
+A:
+
+
+Classification → categorical output (e.g., Yes/No).
+
+
+Regression → continuous output (e.g., price, temperature).
+
+
+
+🌳 2. Decision Tree Structure
+Q1. What is a decision node? What is a leaf node?
+A:
+
+
+Decision node: tests an attribute (e.g., “Income > 80K?”).
+
+
+Leaf node: gives the final class (e.g., “Yes = will default”).
+
+
+Q2. Why are decision trees non-parametric models?
+A: They don’t assume a mathematical form for the data (no equation like y = mx + b). They learn patterns directly from data.
+Q3. Why might two trees classify the same data correctly?
+A: Because different attributes may lead to equivalent decision paths (multiple trees can fit the same dataset equally well).
+Q4. What is overfitting? How does pruning help?
+A:
+
+
+Overfitting: the tree memorizes training data, performing poorly on unseen data.
+
+
+Pruning: removes unnecessary branches to simplify the model and improve generalization.
+
+
+Example
+Q: Which attribute likely becomes the root node in the “Default” dataset?
+A: “HomeOwner” or “Income” — whichever provides the largest information gain (reduces impurity most).
+
+⚖️ 3. Impurity Measures (Entropy, Gini, Error)
+Q1. What is node impurity?
+A: It measures how mixed (heterogeneous) the classes are in a node.
+
+
+Pure = only one class (impurity = 0).
+
+
+Mixed = multiple classes (impurity > 0).
+
+
+Q2. Why lower impurity means a better split?
+A: Because each resulting branch contains more homogeneous examples, making classification clearer.
+Q3. Compare Gini vs Entropy.
+A:
+
+
+Entropy uses log-based uncertainty; smoother.
+
+
+Gini measures squared probabilities; faster to compute.
+Both reach 0 when node is pure.
+
+
+
+Calculation Examples
+Given probabilities: Bus=0.4, Car=0.3, Train=0.3
+MetricFormulaResultMeaningEntropy−Σ p·log₂(p)1.571High uncertaintyGini Index1 − Σ p²0.66Moderate impurityClassification Error1 − max(p)0.6060% chance wrong guess
+➡️ Lowest value → most pure node.
+
+📊 4. Splitting and Attribute Types
+Q1. Binary vs multi-way split?
+A:
+
+
+Binary: divides attribute into two groups (e.g., Income > 80K?).
+
+
+Multi-way: splits into all unique values (e.g., Marital = Single, Married, Divorced).
+
+
+Q2. Nominal vs Ordinal vs Continuous attributes?
+TypeExampleHow Tree SplitsNominalColor = {Red, Blue, Green}{Red} vs {Blue,Green}OrdinalSize = {Small, Med, Large}maintain order (e.g., ≤ Medium vs > Medium)ContinuousIncomesplit using threshold (e.g., > 80K)
+Q3. What is discretization?
+A: Transforming continuous variables (like Income) into ordered categories (like Low, Medium, High).
+
+🧠 5. Tree Induction Algorithms
+Q1. Name three algorithms & measures.
+AlgorithmImpurity MeasureNotesID3EntropyEarly decision treeC4.5Entropy + Gain RatioImproved ID3CARTGini IndexUsed in sklearn
+Q2. Why are trees “greedy”?
+A: They pick the best split locally at each node instead of searching all combinations globally.
+Q3. What does “no backtracking” mean?
+A: Once a split is made, the algorithm doesn’t go back to change it.
+Q4. Advantages of trees?
+✅ Easy to interpret
+✅ Handles mixed data types
+✅ Requires little preprocessing
+✅ Can capture non-linear relationships
+
+🔄 6. Ensemble Methods
+Q1. What is an ensemble classifier?
+A: A model that combines multiple weaker models (like trees) to produce stronger, more accurate predictions.
+Q2. Bagging vs Boosting?
+TechniqueIdeaExampleBaggingTrain trees on random subsets → average resultsRandom ForestBoostingTrain trees sequentially; next focuses on previous errorsAdaBoost, XGBoost
+Q3. Why Random Forests are better than single trees?
+A: They reduce variance and overfitting by averaging many independent trees.
+
+🧮 7. Linear Regression + GridSearchCV
+Q1. Regression vs Classification?
+A: Regression predicts continuous values (e.g., price). Classification predicts discrete labels (e.g., Yes/No).
+Q2. Purpose of scaling?
+A: To normalize feature ranges so that large-scale variables don’t dominate smaller ones (important for distance-based or regularized models).
+Q3. Purpose of GridSearchCV?
+A: To automatically search for the best combination of model hyperparameters using cross-validation.
+Q4. What is cross-validation?
+A: Split the data into multiple folds, train on some and test on the rest — ensures results aren’t due to one lucky split.
+Q5. What is overfitting and how can CV help?
+A: Overfitting = too specific to training data. Cross-validation checks performance on different subsets, reducing that risk.
+
+💻 8. Pandas and Data Preparation
+Q1. Code: load CSV, show head, drop missing
+import pandas as pd
+df = pd.read_csv('data.csv')
+print(df.head())
+df = df.dropna()
+
+Q2. Select numeric columns:
+df.select_dtypes(include='number')
+
+Q3. Filter Income > 80K:
+df[df['Income'] > 80000]
+
+Q4. Replace missing with mean:
+df['Income'].fillna(df['Income'].mean(), inplace=True)
+
+Q5. Difference .loc[] vs .iloc[]
+
+
+.loc[] → label-based (by name)
+
+
+.iloc[] → index-based (by position)
+
+
+
+🧩 9. Real-world Mini Challenge
+AgeSalaryOwnsCarBuysInsurance2530KNoNo4080KYesYes3560KNoYes2840KNoNo5090KYesYes
+Step-by-step answers:
+
+
+Entropy at root:
+Classes Yes=3, No=2 → p(Yes)=0.6, p(No)=0.4
+→ Entropy = −(0.6log₂0.6 + 0.4log₂0.4) = 0.971
+
+
+Best attribute to split:
+
+
+“OwnsCar” divides Yes vs No cleanly → best information gain.
+
+
+
+
+Predict new case: Age=38, Salary=70K, OwnsCar=No
+→ Falls in group similar to “No car + medium salary” → BuysInsurance = Yes (based on 35/60K case).
+
+
+
+Would you like me to create a printable or interactive quiz notebook where you can type your answers and automatically check them with Python (sklearn + pandas)?
+That’s great for review and practice before tests.

@@ -1,2 +1,9 @@
 
 DANA-4800-001-Data-Analysis-and-StatInfer-20287202520/projectb/data/
+
+# French 1115 — very large local recording (keep on disk; do not commit)
+french 1115/L4/Record (online-voice-recorder.com).mp3
+/CPSC-4830-001/*.mat
+/CPSC-4830-001/*.mp4
+french\ 1115/L4/*.mp3 
+/CPSC-4830-001/Regression - Part 1/Regression - Part 1.mp4

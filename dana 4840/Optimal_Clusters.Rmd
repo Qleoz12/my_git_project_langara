@@ -1,0 +1,60 @@
+---
+title: "Optimal Clusters"
+author: "DANA 4840"
+output:
+  word_document: default
+  html_document: default
+---
+
+
+```{r}
+library(factoextra)
+```
+
+
+```{r}
+# Standardize the data
+df <- scale(USArrests)
+head(df)
+```
+
+
+#### Elbow method
+
+```{r}
+fviz_nbclust(df, kmeans, method = "wss") +
+    geom_vline(xintercept = 4, linetype = 2)+
+  labs(subtitle = "Elbow method")
+
+```
+
+
+#### Silhouette method
+```{r}
+fviz_nbclust(df, kmeans, method = "silhouette")+
+  labs(subtitle = "Silhouette method")
+
+```
+
+
+#### Gap statistic
+```{r}
+# nboot = 50 to keep the function speedy. 
+# recommended value: nboot= 500 for your analysis.
+# Use verbose = FALSE to hide computing progression.
+set.seed(123)
+fviz_nbclust(df, kmeans, nstart = 25,  method = "gap_stat", nboot = 50)+
+  labs(subtitle = "Gap statistic method")
+
+```
+
+
+- Elbow method: 4 clusters solution suggested
+
+- Silhouette method: 2 clusters solution suggested
+
+- Gap statistic method: 4 clusters solution suggested
+
+According to these observations, it’s possible to define k = 4 as the optimal number
+of clusters in the data.
+

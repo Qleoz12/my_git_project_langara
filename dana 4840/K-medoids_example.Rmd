@@ -1,0 +1,94 @@
+---
+title: "K-medoids"
+author: "DANA 4840"
+output:
+  pdf_document: default
+  html_document: default
+---
+In this article, We'll describe the PAM algorithm and provide practical examples using **R** software. In the next chapter, we'll also discuss a variant of PAM named **CLARA** (Clustering Large Applications) which is used for analyzing large data sets.
+
+
+Note that, in practice, you should get similar results most of the time, using either euclidean or Manhattan distance. If your data contains outliers, Manhattan distance should give more robust results, whereas euclidean would be influenced by unusual values.
+
+```{r}
+data("USArrests")      # Load the data set
+df <- scale(USArrests) # Scale the data
+head(df, n = 3)        # View the firt 3 rows of the data
+```
+
+
+### Loading Pacakges
+```{r}
+library(cluster)
+library(factoextra)
+```
+
+
+
+### Estimating the optimal number of clusters
+
+```{r}
+library(cluster)
+library(factoextra)
+fviz_nbclust(df, pam, method = "silhouette")+
+  theme_classic()
+```
+
+From the plot, the suggested number of clusters is 2. In the next section, we'll classify the observations into 2 clusters.
+
+```{r}
+pam.res <- pam(df, 2)
+print(pam.res)
+```
+
+The printed output shows:
+
+- the cluster medoids: a matrix, which rows are the medoids and columns are
+variables.
+
+- the clustering vector: A vector of integers (from 1:k) indicating the cluster to which each point is allocated
+
+
+
+If you want to add the point classifications to the original data, use this:
+
+```{r}
+dd <- cbind(USArrests, cluster = pam.res$cluster)
+head(dd, n = 3)
+```
+
+
+### Accessing to the result of the pam() function
+
+The function _pam()_ returns an object of class pam which components include:
+
+- medoids: Objects that represent clusters
+- clustering: a vector containing the cluster number of each object
+
+```{r}
+# Cluster medoids: New Mexico, Nebraska
+pam.res$medoids
+```
+
+
+```{r}
+# Cluster numbers
+head(pam.res$clustering)
+```
+
+
+
+### Visualizing PAM clusters
+
+```{r}
+fviz_cluster(pam.res, 
+             palette = c("#00AFBB", "#FC4E07"), # color palette
+             ellipse.type = "t", # Concentration ellipse
+             repel = TRUE, # Avoid label overplotting (slow)
+             ggtheme = theme_classic()
+             )
+```
+
+
+Note that, for large data sets,  \textit{pam}() may need too much memory or too much computation time. In this case, the function \textit{clara}() is preferable. This should not be a problem for modern computers.
+

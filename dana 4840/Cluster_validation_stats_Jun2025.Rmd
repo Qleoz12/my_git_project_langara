@@ -1,0 +1,209 @@
+---
+title: "Cluster Validation Statistics (updated June 2025)"
+author: "DANA 4840"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+
+```{r}
+library(factoextra)
+library(fpc)
+```
+
+
+We’ll use the built-in R data set iris:
+```{r}
+# Excluding the column "Species" at position 5
+df <- iris[, -5]
+# Standardize
+df <- scale(df)
+```
+
+
+#### Clustering Analysis
+
+We’ll use the function eclust() [enhanced clustering, in factoextra] which provides
+several advantages:
+
+- It simplifies the workflow of clustering analysis
+-  It can be used to compute hierarchical clustering and partitioning clustering in a single line function call
+- Compared to the standard partitioning functions (kmeans, pam, clara and fanny)
+which requires the user to specify the optimal number of clusters, the function
+eclust() computes automatically the gap statistic for estimating the right number
+of clusters.
+-  It provides silhouette information for all partitioning methods and hierarchical
+clustering
+-  It draws beautiful graphs using ggplot2
+
+
+To compute a partitioning clustering, such as k-means clustering with k = 3, type
+this:
+
+```{r}
+
+# K-means clustering
+km.res <- eclust(df, "kmeans", k = 3, nstart = 25, graph = FALSE)
+# Visualize k-means clusters
+fviz_cluster(km.res, geom = "point", ellipse.type = "norm",
+             palette = "jco", ggtheme = theme_minimal())
+```
+
+
+To compute a hierarchical clustering, use this:
+
+```{r}
+# Hierarchical clustering
+hc.res <- eclust(df, "hclust", k = 3, hc_metric = "euclidean", 
+                 hc_method = "ward.D2", graph = FALSE)
+
+# Visualize dendrograms
+fviz_dend(hc.res, show_labels = FALSE,
+         palette = "jco", as.ggplot = TRUE)
+```
+
+
+#### Cluster Validation
+
+Recall that the silhouette coefficient (Si) measures how similar an object i is to the
+the other objects in its own cluster versus those in the neighbor cluster. Si values
+range from 1 to - 1:
+
+- A value of Si close to 1 indicates that the object is well clustered. In the other
+words, the object i is similar to the other objects in its group.
+- A value of Si close to -1 indicates that the object is poorly clustered, and that
+assignment to some other cluster would probably improve the overall results.
+
+
+```{r}
+fviz_silhouette(km.res, palette = "jco", 
+                ggtheme = theme_classic())
+```
+
+
+Silhouette information can be extracted as follow:
+
+```{r}
+## # Silhouette information
+silinfo <- km.res$silinfo
+ names(silinfo)
+```
+
+```{r}
+
+## # Silhouette widths of each observation
+ head(silinfo$widths[, 1:3], 10)
+```
+
+
+```{r}
+## # Average silhouette width of each cluster
+silinfo$clus.avg.widths
+```
+
+```{r}
+
+## # The total average (mean of all individual silhouette widths)
+ silinfo$avg.width
+```
+
+
+
+```{r}
+## # The size of each clusters
+km.res$size
+```
+
+It can be seen that several samples, in cluster 3, have a negative silhouette coefficient. This means that they are not in the right cluster. We can find the name of these samples and determine the clusters they are closer (neighbor cluster), as follow:
+
+```{r}
+# Silhouette width of observation
+sil <- km.res$silinfo$widths[, 1:3]
+# Objects with negative silhouette
+neg_sil_index <- which(sil[, 'sil_width'] < 0)
+sil[neg_sil_index, , drop = FALSE]
+```
+
+
+#### Computing Dunn index and other cluster validation statistics
+
+In the following sections, we’ll compute the clustering quality statistics for k-means.
+Look at the within.cluster.ss (within clusters sum of squares), the average.within
+(average distance within clusters) and clus.avg.silwidths (vector of cluster average
+silhouette widths).
+
+
+```{r}
+# Statistics for k-means clustering
+km_stats <- cluster.stats(dist(df),  km.res$cluster)
+# Dun index
+km_stats$dunn
+```
+
+#### External Clustering Validation
+
+Among the values returned by the function cluster.stats(), there are indexes to assess the similarity of two clustering.  One of the indices is the corrected Rand index.
+
+We know that the iris data contains exactly 3 groups of species.
+
+Does the K-means clustering matches with the true structure of the data?
+
+We can use the function cluster.stats() to answer to this question.
+
+Let start by computing a cross-tabulation between k-means clusters and the reference Species labels:
+
+```{r}
+table(iris$Species, km.res$cluster)
+```
+
+It can be seen that:
+- All setosa species (n = 50) has been classified in cluster 1
+- A large number of versicor species (n = 39 ) has been classified in cluster 3.
+Some of them ( n = 11) have been classified in cluster 2.
+- A large number of virginica species (n = 36 ) has been classified in cluster 2.
+Some of them (n = 14) have been classified in cluster 3.
+
+It’s possible to quantify the agreement between Species and k-means clusters using the corrected Rand index:
+
+```{r}
+#library("fpc")
+# Compute cluster stats
+species <- as.numeric(iris$Species)
+clust_stats <- cluster.stats(d = dist(df), 
+                             species, km.res$cluster)
+```
+
+
+```{r}
+# Corrected Rand index
+clust_stats$corrected.rand
+```
+
+The corrected **Rand index** provides a measure for assessing the similarity between two partitions, adjusted for chance. Its range is -1 (no agreement) to 1 (perfect agreement). Agreement between the species types and the cluster solution is 0.62 using **Rand index**.
+
+The same analysis can be computed for both PAM and hierarchical clustering:
+
+```{r}
+## # Agreement between species and pam clusters
+pam.res <- eclust(df, "pam", k = 3, graph = FALSE)
+table(iris$Species, pam.res$cluster)
+cluster.stats(d = dist(df),
+               species, pam.res$cluster)$corrected.rand
+```
+
+
+```{r}
+## # Agreement between species and HC clusters
+res.hc <- eclust(df, "hclust", k = 3, graph = FALSE)
+table(iris$Species, res.hc$cluster)
+cluster.stats(d = dist(df),
+               species, res.hc$cluster)$corrected.rand
+```
+
+
+
+External clustering validation, can be used to select suitable clustering algorithm for a given data set.
+

@@ -1,0 +1,185 @@
+---
+title: "Hierarchical"
+author: "DANA 4840"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+In this article we start by describing the agglomerative clustering algorithms. Next, we provide R lab sections with many examples for computing and visualizing hierarchical clustering. We continue by explaining how to interpret dendrogram. Finally, we provide R codes for cutting dendrograms into groups.
+
+Note that, it's generally recommended to standardize variables in the data set before performing subsequent analysis. Standardization makes variables comparable, when they are measured in different scales. For example one variable can measure the height in meter and another variable can measure the weight in kg. The R function *scale*() can be used for standardization, See ?scale documentation.
+
+```{r}
+# Load the data
+data("USArrests")
+
+# Standardize the data
+df <- scale(USArrests)
+
+# Show the first 6 rows
+head(df, nrow = 6)
+
+```
+
+
+
+```{r}
+# Compute the dissimilarity matrix
+# df = the standardized data
+res.dist <- dist(df, method = "euclidean")
+
+```
+
+
+ Note that, the function \textit{dist}() computes the distance between the rows of a data matrix using the specified distance measure method.
+
+
+
+```{r}
+as.matrix(res.dist)[1:6, 1:6]
+```
+
+
+
+```{r}
+res.hc <- hclust(d = res.dist, method = "ward.D2")
+
+```
+
+
+
+- Maximum or *complete linkage*: The distance between two clusters is defined as the maximum value of all pairwise distances between the elements in cluster 1 and the elements in cluster 2. It tends to produce more compact clusters.
+
+
+```{r}
+## Complete linkage and Ward's method are generally preferred.
+
+## ----visualize-dendrogram, fig.height=4----------------------------------
+# cex: label size
+library("factoextra")
+fviz_dend(res.hc, cex = 0.5)
+
+```
+
+
+
+Note that, conclusions about the proximity of two objects can be drawn only based on the height where branches containing those two objects first are fused. We cannot use the proximity of two objects along the horizontal axis as a criteria of their similarity.
+
+```{r}
+# Compute cophentic distance
+res.coph <- cophenetic(res.hc)
+
+# Correlation between cophenetic distance and
+# the original distance
+cor(res.dist, res.coph)
+
+
+
+```
+
+
+```{r}
+res.hc2 <- hclust(res.dist, method = "average")
+
+cor(res.dist, cophenetic(res.hc2))
+
+
+```
+
+
+```{r}
+# Cut tree into 4 groups
+grp <- cutree(res.hc, k = 4)
+head(grp, n = 4)
+# Number of members in each cluster
+table(grp)
+# Get the names for the members of cluster 1
+rownames(df)[grp == 1]
+```
+
+
+
+```{r}
+## ----cutree-cut-dendrogram, height = 4-----------------------------------
+# Cut in 4 groups and color by groups
+fviz_dend(res.hc, k = 4, # Cut in four groups
+          cex = 0.5, # label size
+          k_colors = c("#2E9FDF", "#00AFBB", "#E7B800", "#FC4E07"),
+          color_labels_by_k = TRUE, # color labels by groups
+          rect = TRUE # Add rectangle around groups
+          )
+
+```
+
+
+```{r}
+## ----cluster-plot, fig.width=6, fig.height=6-----------------------------
+fviz_cluster(list(data = df, cluster = grp),
+             palette = c("#2E9FDF", "#00AFBB", "#E7B800", "#FC4E07"), 
+             ellipse.type = "convex", # Concentration ellipse
+             repel = TRUE, # Avoid label overplotting (slow)
+             show.clust.cent = FALSE, ggtheme = theme_minimal())
+
+
+```
+
+
+#### Agnes hierarchical clustering
+
+```{r}
+library("cluster")
+## # Agglomerative Nesting (Hierarchical Clustering)
+
+res.agnes <- agnes(x = USArrests, # data matrix
+                   stand = TRUE, # Standardize the data
+                  metric = "euclidean", # metric for distance matrix
+                  method = "ward" # Linkage method
+                   )
+
+```
+
+
+
+#### Divisive Analysis Clustering
+
+```{r}
+res.diana <- diana(x = USArrests, # data matrix
+                   stand = TRUE, # standardize the data
+                   metric = "euclidean" # metric for distance matrix
+                   )
+
+```
+
+
+```{r}
+fviz_dend(res.agnes, cex = 0.4, k = 4)
+```
+
+Note that, when the data are scaled, the Euclidean distance of the z-scores is the same as correlation distance.
+
+```{r}
+factoextra::fviz_dend(hclust(dist(scale(USArrests)), "ward.D2"), 
+          main = "Hierarchical Clustering", sub = "", cex = 0.4)
+```
+
+
+#### compute diana
+
+```{r}
+# Compute diana()
+library(cluster)
+res.diana <- diana(USArrests, stand = TRUE)
+
+# Plot the dendrogram
+library(factoextra)
+fviz_dend(res.diana, cex = 0.5,
+          k = 4, # Cut in four groups
+          palette = "jco" # Color palette
+          )
+
+
+```
+
+

@@ -1,0 +1,68 @@
+---
+title: "Week 3: Email Analysis and Annotations"
+subtitle: "Maria's Recommendations to Kyle"
+author: "Leonardo Lancheros Sanchez"
+date: "May 20, 2026"
+geometry: margin=0.75in
+output:
+  pdf_document:
+    toc: false
+    number_sections: false
+    latex_engine: pdflatex
+    includes:
+      in_header: annotation_header.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+# Part 1: Original Email with Annotations
+
+```{=latex}
+\begin{samepage}
+\small
+\noindent
+\begin{minipage}[t]{0.52\textwidth}
+\raggedright
+\textbf{FROM:} Maria Gallopolos \textless mgallopolos@datanet.ca\textgreater\\
+\textbf{TO:} Kyle Mackenzie \textless kmackenzie@datanet.ca\textgreater\\[4pt]
+\textbf{SUBJECT:} \issuered{Problems} \hfill \fbox{\scriptsize 1}\\[6pt]
+
+Pursuant to your request, I am responding. Your inquiry of April 29 suggested that you wanted to know how to deal with your database problems. \hfill \fbox{\scriptsize 2}\\[6pt]
+
+Evidently the biggest problem is that it contains a lot of \issue{useless, obsolete} information, including customers who haven't purchased anything in five or more years. Another problem is that the old database is not compatible with the new software that is being used by our mailing service, this makes it \issue{nearly impossible} to merge files. \issuered{It's obvious} that both problems can be solved by starting a new database. Really, \issue{this should have been done years ago}. \hfill \fbox{\scriptsize 3}\\[4pt]
+
+This would be the place where we put the names of all new customers. And we would have it entered using Access software. The problem with outdated information could be solved by finding out if the customers in our old database wish to continue receiving our newsletter and product announcements. Finally we would re-enter the names of all active customers in the new database. We should do this right away, \issuered{whatever the cost}. \hfill \fbox{\scriptsize 4}\\[6pt]
+
+\issue{M.} \hfill \fbox{\scriptsize 5}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.44\textwidth}
+\raggedright
+\textbf{Annotations}\\[6pt]
+
+\textbf{Comment 1 — Subject}\\[-2pt]
+Maria needs a better subject. This is a recommendation email, not a list of problems.\\[8pt]
+
+\textbf{Comment 2 — Structure}\\[-2pt]
+For me the email is too long and hard to follow. A table with each issue and one recommendation is easier to read.\\[8pt]
+
+\textbf{Comment 3 — Tone}\\[-2pt]
+This sounds like complaining. ``It's obvious'' and ``impossible'' are too strong. Kyle is her boss, so the tone should be more positive and less technical.\\[8pt]
+
+\textbf{Comment 4 — Action and cost}\\[-2pt]
+``Whatever the cost'' is not ok for a work email. I think we need analysis first, then more information, and then we can take action.\\[8pt]
+
+\textbf{Comment 5 — Signature}\\[-2pt]
+``M.'' is too short. In most companies the signature includes full name, job title, email, and phone number.
+\end{minipage}
+\end{samepage}
+```
+
+# Part 3: Tone Feedback (Conclusion)
+
+The email sounds **negative and too informal**.   
+Maria talks a lot about what is wrong, but not enough about what to do next.   
+Words like *useless*, *obsolete*, and *whatever the cost* can sound rude, especially because Kyle is her boss.   
+The same ideas are fine, but the email needs a clearer and more polite tone.  

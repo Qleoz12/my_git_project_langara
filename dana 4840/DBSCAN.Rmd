@@ -1,0 +1,71 @@
+---
+title: "DBSCAN"
+author: "DANA 4840"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r}
+# Load the data set
+library("factoextra")
+data("multishapes")
+df <- multishapes[, 1:2]
+# Visualize the data
+ggplot(df, aes(x, y)) + geom_point()
+```
+##### Checking K-means
+```{r}
+set.seed(123)
+km.res <- kmeans(df, 5, nstart = 25)
+fviz_cluster(km.res, df, geom = "point",
+ellipse= FALSE, show.clust.cent = FALSE,
+palette = "jco", ggtheme = theme_classic())
+```
+
+```{r}
+## Compute DBSCAN using fpc package
+library("fpc")
+set.seed(123)
+db <- fpc::dbscan(df, eps = 0.15, MinPts = 5)
+```
+
+
+
+```{r}
+# Plot DBSCAN results
+library("factoextra")
+fviz_cluster(db, data = df, stand = FALSE,
+             ellipse = FALSE, show.clust.cent = FALSE,
+             geom = "point",palette = "jco", ggtheme = theme_classic())
+```
+
+Note that, the function *fviz_cluster*() uses different point symbols for core points (i.e, seed points) and border points. Black points correspond to outliers. You can play with *eps* and *MinPts* for changing cluster configurations.
+
+It can be seen that DBSCAN performs better for these data sets and can identify the correct set of clusters compared to k-means algorithms.
+ 
+
+```{r}
+print(db)
+```
+In the table above, column names are cluster number. Cluster 0 corresponds to outliers (black points in the DBSCAN plot). The function print.dbscan() shows a statistic of the number of points belonging to the clusters that are seeds and border points.
+
+```{r}
+db$cluster[sample(1:1089, 20)]
+
+```
+
+DBSCAN algorithm requires users to specify the optimal eps values and the parameter MinPts. In the R code above, we used eps = 0.15 and MinPts = 5. One limitation of DBSCAN is that it is sensitive to the choice of $\epsilon$, in particular if clusters have different densities. If $\epsilon$ is too small, sparser clusters will be defined as noise. If $\epsilon$ is too large, denser clusters may be merged together. This implies that, if there are clusters with different local densities, then a single $\epsilon$ value may not suffice.
+
+A natural question is:
+
+ How to define the optimal value of \textit{eps}?
+
+
+The function kNNdistplot() [in dbscan package] can be used to draw the k-distance plot:
+
+```{r}
+dbscan::kNNdistplot(df, k =  5)
+abline(h = 0.15, lty = 2)
+```
+

@@ -1,0 +1,300 @@
+---
+title: "Comparing and Visualing Dendrogram"
+author: "DANA 4840"
+date: "27/09/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+## Prepare Data
+
+```{r}
+df <- scale(USArrests)
+```
+
+```{r}
+# Subset containing 10 rows
+set.seed(123)
+ss <- sample(1:50, 10)
+df <- df[ss,]
+```
+
+
+#### Comparing Dendrograms
+
+```{r}
+library(dendextend)
+
+# Compute distance matrix
+res.dist <- dist(df, method = "euclidean")
+
+# Compute 2 hierarchical clusterings using 2 methods
+hc1 <- hclust(res.dist, method = "average")
+hc2 <- hclust(res.dist, method = "ward.D2")
+
+# Create two dendrograms
+dend1 <- as.dendrogram (hc1)
+dend2 <- as.dendrogram (hc2)
+
+# Create a list to hold dendrograms
+dend_list <- dendlist(dend1, dend2)
+```
+
+
+
+### Visual Comparison of two dendrograms
+
+```{r}
+tanglegram(dend1, dend2)
+```
+
+
+
+```{r}
+
+#Customized the tanglegram using many other options as follow:
+tanglegram(dend1, dend2,
+highlight_distinct_edges = FALSE, # Turn-off dashed lines
+common_subtrees_color_lines = FALSE, # Turn-off line colors
+common_subtrees_color_branches = TRUE, # Color common branches
+main = paste("entanglement =", round(entanglement(dend_list), 2))
+)                   # Alignment quality
+```
+
+Note that, "unique" nodes, with a combination of labels/items not present in the other tree, are highlighted with dashed lines.
+
+#### Correlation matrix between a list of dendrograms
+
+The function cor.dendlist() is used to compute “Baker” or “Cophenetic” correlation matrix between a list of trees. The value can range between -1 to 1. With near 0 values meaning that the two trees are not statistically similar.
+
+
+```{r}
+# Cophenetic correlation matrix
+cor.dendlist(dend_list, method = "cophenetic")
+```
+
+
+```{r}
+# Baker correlation matrix
+cor.dendlist(dend_list, method = "baker")
+```
+
+
+
+```{r}
+# Cophenetic correlation coefficient
+cor_cophenetic(dend1, dend2)
+```
+
+
+```{r}
+# Baker correlation coefficient
+cor_bakers_gamma(dend1, dend2)
+```
+
+It’s also possible to compare simultaneously multiple dendrograms. A chaining operator
+%>% is used to run multiple function at the same time. It’s useful for simplifying the
+code:
+
+```{r}
+# Create multiple dendrograms by chaining
+dend1 <- df %>% dist %>% hclust("complete") %>% as.dendrogram
+dend2 <- df %>% dist %>% hclust("single") %>% as.dendrogram
+dend3 <- df %>% dist %>% hclust("average") %>% as.dendrogram
+dend4 <- df %>% dist %>% hclust("centroid") %>% as.dendrogram
+```
+
+
+```{r}
+# Compute correlation matrix
+dend_list <- dendlist("Complete" = dend1, "Single" = dend2,
+                      "Average" = dend3, "Centroid" = dend4)
+
+```
+
+
+```{r}
+cors <- cor.dendlist(dend_list)
+# Print correlation matrix
+round(cors, 2)
+```
+
+
+```{r}
+# Visualize the correlation matrix using corrplot package
+library(corrplot)
+corrplot(cors, "pie", "lower")
+```
+
+
+## Visualizing Dendrograms
+
+
+```{r}
+# Load data
+data(USArrests)
+```
+
+
+```{r}
+# Compute distances and hierarchical clustering
+dd <- dist(scale(USArrests), method = "euclidean")
+hc <- hclust(dd, method = "ward.D2")
+```
+
+```{r}
+## install.packages(c("factoextra", "dendextend"))
+library(factoextra)
+fviz_dend(hc, cex = 0.5)
+
+```
+
+You can use the arguments main, sub, xlab, ylab to change plot titles as follow:
+```{r}
+fviz_dend(hc, cex = 0.5,
+           main = "Dendrogram - ward.D2",
+          xlab = "Objects", ylab = "Distance", sub = "")
+```
+
+To draw a horizontal dendrogram, type this:
+```{r}
+fviz_dend(hc, cex = 0.5, horiz = TRUE)
+```
+
+
+It’s also possible to cut the tree at a given height for partitioning the data into multiple groups as described in the previous chapter: Hierarchical clustering. In this case, it’s possible to color branches by groups and to add rectangle around each group.
+
+For example:
+
+```{r}
+fviz_dend(hc, k = 4, # Cut in four groups
+          cex = 0.5, # label size
+          k_colors = c("#2E9FDF", "#00AFBB", "#E7B800", "#FC4E07"),
+          color_labels_by_k = TRUE, # color labels by groups
+          rect = TRUE, # Add rectangle around groups
+          rect_border = c("#2E9FDF", "#00AFBB", "#E7B800", "#FC4E07"), 
+          rect_fill = TRUE)
+```
+
+
+```{r}
+fviz_dend(hc, k = 4,                 # Cut in four groups
+         cex = 0.5,                 # label size
+          k_colors = c("#2E9FDF", "#00AFBB", "#E7B800", "#FC4E07"),
+          color_labels_by_k = TRUE,  # color labels by groups
+         ggtheme = theme_gray()     # Change theme
+          )
+```
+
+
+```{r}
+fviz_dend(hc, cex = 0.5, k = 4, # Cut in four groups
+          k_colors = "jco")
+```
+
+
+
+```{r}
+
+fviz_dend(hc, k = 4, cex = 0.4, horiz = TRUE,  k_colors = "jco", 
+          rect = TRUE, rect_border = "jco", rect_fill = TRUE)
+
+```
+
+
+```{r}
+
+fviz_dend(hc, cex = 0.5, k = 4, 
+          k_colors = "jco", type = "circular")
+```
+
+To plot a phylogenic-like tree, use type = “phylogenic” and repel = TRUE (to avoid
+labels overplotting). This functionality requires the R package *igraph*.
+
+
+```{r}
+require("igraph")
+fviz_dend(hc, k = 4, k_colors = "jco",
+          type = "phylogenic", repel = TRUE)
+```
+
+
+
+```{r}
+require("igraph")
+fviz_dend(hc, k = 4, # Cut in four groups
+          k_colors = "jco",
+          type = "phylogenic", repel = TRUE,
+          phylo_layout = "layout.gem")
+```
+
+
+## Zooming in the dendrogram
+```{r}
+fviz_dend(hc, xlim = c(1, 20), ylim = c(1, 8))
+```
+
+
+### Plotting a sub-tree of dendrograms
+
+
+```{r}
+# Create a plot of the whole dendrogram,
+# and extract the dendrogram data
+dend_plot <- fviz_dend(hc, k = 4, # Cut in four groups
+          cex = 0.5, # label size
+          k_colors = "jco"
+          )
+dend_data <- attr(dend_plot, "dendrogram") # Extract dendrogram data
+
+```
+
+
+```{r}
+# Cut the dendrogram at height h = 10
+dend_cuts <- cut(dend_data, h = 10)
+# Visualize the truncated version containing
+# two branches
+fviz_dend(dend_cuts$upper)
+```
+
+
+```{r}
+# Plot the whole dendrogram
+print(dend_plot)
+```
+
+
+```{r}
+# Plot subtree 1
+fviz_dend(dend_cuts$lower[[1]], main = "Subtree 1")
+```
+
+
+
+```{r}
+# Plot subtree 2
+fviz_dend(dend_cuts$lower[[2]], main = "Subtree 2")
+```
+
+
+```{r}
+fviz_dend(dend_cuts$lower[[2]], type = "circular")
+```
+
+
+
+
+## Saving dendrogram into a large PDF page
+```{r}
+## pdf("dendrogram.pdf", width=30, height=15)            # Open a PDF
+## p <- fviz_dend(hc, k = 4, cex = 1, k_colors = "jco" ) # Do plotting
+## print(p)
+## dev.off()                                             # Close the PDF
+```
+
+
+
+
+
+

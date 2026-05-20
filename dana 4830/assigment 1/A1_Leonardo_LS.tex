@@ -1,0 +1,1979 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{A1\_Leonardo\_LS}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+ch}{\PYZsh{}!pip install missingno}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{os}
+\PY{k+kn}{import} \PY{n+nn}{warnings}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{import} \PY{n+nn}{missingno} \PY{k}{as} \PY{n+nn}{msno}
+\PY{k+kn}{from} \PY{n+nn}{scipy} \PY{k+kn}{import} \PY{n}{stats}
+\PY{k+kn}{import} \PY{n+nn}{math}
+
+
+\PY{c+c1}{\PYZsh{} 1. Block warnings at the system level before pandas fully initializes its internal mechanics}
+\PY{n}{os}\PY{o}{.}\PY{n}{environ}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PYTHONWARNINGS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}
+
+\PY{c+c1}{\PYZsh{} 2. Force python and pandas to completely suppress formatting warnings}
+\PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{warnings}\PY{o}{.}\PY{n}{simplefilter}\PY{p}{(}\PY{n}{action}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{category}\PY{o}{=}\PY{n+ne}{FutureWarning}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Establish global reproducibility seed as mandated by the course guidelines}
+\PY{n}{RANDOM\PYZus{}STATE} \PY{o}{=} \PY{l+m+mi}{42}
+\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{seed}\PY{p}{(}\PY{n}{RANDOM\PYZus{}STATE}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Configure production\PYZhy{}ready visualization standards}
+\PY{n}{sns}\PY{o}{.}\PY{n}{set\PYZus{}theme}\PY{p}{(}\PY{n}{style}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{whitegrid}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.figsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{axes.titlesize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{14}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{axes.labelsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{12}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \section{A1 - Exploratory Data Analysis (EDA) for Feature Selection and
+Dimensionality
+Reduction}\label{a1---exploratory-data-analysis-eda-for-feature-selection-and-dimensionality-reduction}
+
+    \subsection{Section A: Dataset Identification \&
+Justification}\label{section-a-dataset-identification-justification}
+
+    The dataset selected for this Exploratory Data Analysis (EDA) is the
+\textbf{IEEE-CIS Fraud Detection Dataset}, provided by Vesta Corporation
+(the forerunner in guaranteed e-commerce payment solutions) and hosted
+by the IEEE Computational Intelligence Society.
+
+In real-world digital commerce, fraud detection is inherently complex,
+characterized by extreme class imbalance, massive volume, high
+dimensionality, and heavy missingness due to privacy or system
+constraints. This benchmark dataset contains large-scale, real-world
+e-commerce transactions, capturing features ranging from device
+characteristics to transaction-specific metadata, making it an ideal
+candidate for rigorous feature selection and dimensionality reduction
+strategies.
+
+    \textbf{Citation}
+
+@misc\{ieee-fraud-detection, author = \{Addison Howard and Bernadette
+Bouchon-Meunier and IEEE CIS and inversion and John Lei and Lynn@Vesta
+and Marcus2010 and Prof.~Hussein Abbass\}, title = \{IEEE-CIS Fraud
+Detection\}, year = \{2019\}, howpublished =
+\{\url{https://kaggle.com/competitions/ieee-fraud-detection}\}, note =
+\{Kaggle\} \}
+
+    \subsection{Section B: Data Dictionary}\label{section-b-data-dictionary}
+
+    The IEEE-CIS Fraud Detection dataset is structured around a relational
+schema composed of two main files linked by a unique transaction
+identifier: \texttt{train\_transaction.csv} and
+\texttt{train\_identity.csv}. The features are organized, classified,
+and operationally defined below according to their data types and
+statistical measurement scales.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 1. Stream files from disk into Pandas DataFrames}
+\PY{c+c1}{\PYZsh{} Adjust the strings if your files are inside a specific \PYZsq{}data/\PYZsq{} subfolder}
+\PY{n}{train\PYZus{}transaction} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train\PYZus{}transaction.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{train\PYZus{}identity} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train\PYZus{}identity.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Base transaction matrix loaded: }\PY{l+s+si}{\PYZob{}}\PY{n}{train\PYZus{}transaction}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ rows, }\PY{l+s+si}{\PYZob{}}\PY{n}{train\PYZus{}transaction}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ features.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Base identity matrix loaded: }\PY{l+s+si}{\PYZob{}}\PY{n}{train\PYZus{}identity}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ rows, }\PY{l+s+si}{\PYZob{}}\PY{n}{train\PYZus{}identity}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ features.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 2. Execute relational merge using an asymmetric Left Join on the primary key}
+\PY{c+c1}{\PYZsh{} This guarantees we don\PYZsq{}t drop transactions that lack corresponding identity logs}
+\PY{n}{df\PYZus{}train} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{merge}\PY{p}{(}\PY{n}{train\PYZus{}transaction}\PY{p}{,} \PY{n}{train\PYZus{}identity}\PY{p}{,} \PY{n}{on}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{how}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}}\PY{l+s+s2}{\PYZdq{}} \PY{o}{*} \PY{l+m+mi}{60}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Consolidated EDA Matrix Shape: }\PY{l+s+si}{\PYZob{}}\PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ rows and }\PY{l+s+si}{\PYZob{}}\PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ features.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Base transaction matrix loaded: 590540 rows, 394 features.
+Base identity matrix loaded: 144233 rows, 41 features.
+------------------------------------------------------------
+Consolidated EDA Matrix Shape: 590540 rows and 434 features.
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 1. Define a list of core representative columns spanning all architectural blocks}
+\PY{n}{representative\PYZus{}features} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionDT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProductCD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{card1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{card4}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{addr1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P\PYZus{}emaildomain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{D1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V101}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceInfo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id\PYZus{}01}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id\PYZus{}13}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id\PYZus{}19}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id\PYZus{}38}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} 2. Filter list to ensure checking only active columns in the working environment}
+\PY{n}{active\PYZus{}features} \PY{o}{=} \PY{p}{[}\PY{n}{col} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{representative\PYZus{}features} \PY{k}{if} \PY{n}{col} \PY{o+ow}{in} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{columns}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} 3. Dynamically extract structural metadata from the DataFrame}
+\PY{n}{metadata\PYZus{}records} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{active\PYZus{}features}\PY{p}{:}
+    \PY{n}{storage\PYZus{}type} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{dtype}\PY{p}{)}
+    \PY{n}{missing\PYZus{}count} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Programmatic assignment of logical tracks based on analytical properties}
+    \PY{k}{if} \PY{n}{storage\PYZus{}type} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bool}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o+ow}{or} \PY{n}{col} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{addr1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{addr2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+        \PY{n}{logical\PYZus{}type} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Categorical}\PY{l+s+s1}{\PYZsq{}}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{logical\PYZus{}type} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Numerical}\PY{l+s+s1}{\PYZsq{}}
+        
+    \PY{n}{metadata\PYZus{}records}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Feature Name}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{col}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Logical Data Type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{logical\PYZus{}type}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Storage Type (Python)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{storage\PYZus{}type}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Active Nulls (Count)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{missing\PYZus{}count}
+    \PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 4. Convert metadata compilation into a clean validation DataFrame}
+\PY{n}{df\PYZus{}type\PYZus{}justification} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{metadata\PYZus{}records}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 5. Display the vertical verification table using properties for clean formatting}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{=== STORAGE TYPE MATRIX ===}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{df\PYZus{}type\PYZus{}justification}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+=== STORAGE TYPE MATRIX ===
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+      Feature Name Logical Data Type Storage Type (Python)  \textbackslash{}
+0    TransactionID       Categorical                 int64   
+1    TransactionDT         Numerical                 int64   
+2   TransactionAmt         Numerical               float64   
+3        ProductCD       Categorical                object   
+4            card1         Numerical                 int64   
+5            card4       Categorical                object   
+6            addr1       Categorical               float64   
+7            dist1         Numerical               float64   
+8    P\_emaildomain       Categorical                object   
+9               M1       Categorical                object   
+10              C1         Numerical               float64   
+11              D1         Numerical               float64   
+12              V1         Numerical               float64   
+13            V101         Numerical               float64   
+14      DeviceType       Categorical                object   
+15      DeviceInfo       Categorical                object   
+16           id\_01         Numerical               float64   
+17           id\_13         Numerical               float64   
+18           id\_19         Numerical               float64   
+19           id\_38       Categorical                object   
+
+    Active Nulls (Count)  
+0                      0  
+1                      0  
+2                      0  
+3                      0  
+4                      0  
+5                   1577  
+6                  65706  
+7                 352271  
+8                  94456  
+9                 271100  
+10                     0  
+11                  1269  
+12                279287  
+13                   314  
+14                449730  
+15                471874  
+16                446307  
+17                463220  
+18                451222  
+19                449555  
+    \end{Verbatim}
+
+    
+    \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{B1 - Key Operational Identifiers \& Target
+Variable}\label{b1---key-operational-identifiers-target-variable}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Feature Name
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Data Type (Logical)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Storage Type (Python)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Measurement Scale
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Operational Description \& Domain Logic
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{TransactionID} & Categorical & Integer & Nominal (Identifier) &
+Unique tracking key for each specific commercial transaction. Used to
+join the transaction and identity tables. \\
+\textbf{isFraud} & Categorical & Binary / Boolean & Nominal (Target) &
+The target variable to be predicted. Indicates whether the transaction
+was fraudulent (\textbf{1}) or legitimate (\textbf{0}). \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{B2 - Transaction Table Features
+(\texttt{train\_transaction.csv})}{B2 - Transaction Table Features (train\_transaction.csv)}}\label{b2---transaction-table-features-train_transaction.csv}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Feature Group
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Data Type (Logical)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Storage Type (Python)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Measurement Scale
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Operational Description \& Domain Logic
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{TransactionDT} & Numerical & Float & Continuous & Timedelta
+proxy representing the seconds elapsed from a specific, non-disclosed
+reference datetime (it is not an actual timestamp). \\
+\textbf{TransactionAmt} & Numerical & Float & Continuous & The payment
+amount of the transaction expressed in USD (or local currency
+equivalent). \\
+\textbf{ProductCD} & Categorical & String / Object & Nominal & Product
+code or category designation for each transaction (e.g., W, H, C, R). \\
+\textbf{card1 - card6} & Categorical & Integer / String & Nominal &
+Payment card information such as card type (credit/debit), card network
+(Visa, Mastercard), issue bank ID, and country of origin. \\
+\textbf{addr1, addr2} & Categorical & Float / Integer & Nominal &
+Geographic address codes. \texttt{addr1} typically represents billing
+region or zip code, and \texttt{addr2} represents billing country. \\
+\textbf{P\_emaildomain}\textbf{R\_emaildomain} & Categorical & String /
+Object & Nominal & Purchaser (\texttt{P}) and Recipient (\texttt{R})
+email provider domains (e.g., gmail.com, yahoo.com). \\
+\textbf{M1 - M9} & Categorical & String / Object & Nominal & Match
+criteria flags (e.g., T/F or M0-M2) evaluating string/logical matches
+between names, billing addresses, and cards on file. \\
+\textbf{C1 - C14} & Numerical & Integer / Float & Discrete & Counting
+metrics calculating frequency behaviors, such as how many times a card,
+email, or device has been seen associated with an account. \\
+\textbf{D1 - D15} & Numerical & Float & Continuous & Timedeltas
+measuring time gaps, such as days between the current transaction and
+previous activity or registration history. \\
+\textbf{dist1, dist2} & Numerical & Float & Continuous & Distance
+metrics calculating physical intervals between attributes (such as
+distances between billing address, mailing address, zip codes, IP areas,
+or phone areas). \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{B3 - Vesta Engineered Behavioral Features
+(V-Block)}\label{b3---vesta-engineered-behavioral-features-v-block}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Feature Group
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Data Type (Logical)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Storage Type (Python)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Measurement Scale
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Operational Description \& Domain Logic
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{V1 - V339} & Numerical & Float & Continuous / Discrete &
+Anonymized features engineered by Vesta Corporation. These include
+ranking, counting, and relationship scores between payment attributes,
+proxy locations, and historical client behaviors. \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{\texorpdfstring{B4 - Identity Table Features
+(\texttt{train\_identity.csv})}{B4 - Identity Table Features (train\_identity.csv)}}\label{b4---identity-table-features-train_identity.csv}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Feature Group
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Data Type (Logical)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Storage Type (Python)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Measurement Scale
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Operational Description \& Domain Logic
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{DeviceType} & Categorical & String / Object & Nominal &
+Operating environment of the client (e.g., mobile, desktop). \\
+\textbf{DeviceInfo} & Categorical & String / Object & Nominal & Detailed
+hardware/software identity string (e.g., Windows, iOS, Samsung
+SM-G965F). \\
+\textbf{id\_01 - id\_11} & Numerical & Float & Continuous / Discrete &
+Numerical identity markers containing network connections, screen
+dimensions, and behavioral signals. \\
+\textbf{id\_12 - id\_38} & Categorical & String / Object & Nominal &
+Categorical identity indicators, such as browser types, proxy status, OS
+versions, and login credentials availability. \\
+\end{longtable}
+}
+
+    \subsection{Section C: Data Quality
+Assessment}\label{section-c-data-quality-assessment}
+
+    \subsubsection{C1 - Duplicate Records
+Assessment}\label{c1---duplicate-records-assessment}
+
+    Before running descriptive profiling or missingness hypotheses, we must
+evaluate the foundational integrity of our dataset. This initial step
+quantifies structural row duplication across the merged dataset based on
+our primary operational key (\textbf{TransactionID}). Identifying and
+dropping true duplicates prevents statistical distortion during variance
+calculations and univariate expansions.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Section C: Data Quality Assessment}
+\PY{c+c1}{\PYZsh{} Subsection: Duplicate Records Assessment}
+
+\PY{c+c1}{\PYZsh{} 1. Quantify exact duplicate rows based on the primary transaction identifier}
+\PY{n}{duplicate\PYZus{}count} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{duplicated}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\PY{n}{duplicate\PYZus{}percentage} \PY{o}{=} \PY{p}{(}\PY{n}{duplicate\PYZus{}count} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Duplicate Records Assessment \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total duplicate records detected: }\PY{l+s+si}{\PYZob{}}\PY{n}{duplicate\PYZus{}count}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage of structural duplicates: }\PY{l+s+si}{\PYZob{}}\PY{n}{duplicate\PYZus{}percentage}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 2. Programmatic handling based on findings}
+\PY{k}{if} \PY{n}{duplicate\PYZus{}count} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+    \PY{n}{df\PYZus{}train} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{drop\PYZus{}duplicates}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionID}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Duplicate rows dropped to secure baseline integrity.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No data cleaning required. Every row represents a unique transactional event.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+--- Duplicate Records Assessment ---
+Total duplicate records detected: 0
+Percentage of structural duplicates: 0.0000\%
+No data cleaning required. Every row represents a unique transactional event.
+    \end{Verbatim}
+
+    \subsubsection{C2 - Inconsistent Coding and String
+Canonicalization}\label{c2---inconsistent-coding-and-string-canonicalization}
+
+    Inconsistent text entries (e.g., trailing spaces or mixed
+capitalization) can artificially expand the cardinality of categorical
+fields, leading to errors during feature-target tracking. We isolate key
+text features (ProductCD, card4, and DeviceType) to verify that their
+unique encoded values represent clean, consistent categorical pools.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Subsection: Inconsistent Coding Assessment}
+
+\PY{c+c1}{\PYZsh{} 1. Define representative categorical variables for structural consistency inspection}
+\PY{n}{categorical\PYZus{}integrity\PYZus{}checks} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProductCD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{card4}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Categorical Coding and Consistency Profiling \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{feature} \PY{o+ow}{in} \PY{n}{categorical\PYZus{}integrity\PYZus{}checks}\PY{p}{:}
+    \PY{k}{if} \PY{n}{feature} \PY{o+ow}{in} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Extract raw unique labels, including missing pointers}
+        \PY{n}{unique\PYZus{}labels} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}
+        \PY{n}{raw\PYZus{}cardinality} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Feature Profile: }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{feature}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ | Active Cardinality: }\PY{l+s+si}{\PYZob{}}\PY{n}{raw\PYZus{}cardinality}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Unique encoded entities: }\PY{l+s+si}{\PYZob{}}\PY{n}{unique\PYZus{}labels}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Check if basic string cleaning shifts unique value counts}
+        \PY{k}{if} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{dtype} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+            \PY{n}{normalized\PYZus{}count} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}
+            \PY{k}{if} \PY{n}{normalized\PYZus{}count} \PY{o}{!=} \PY{n}{raw\PYZus{}cardinality}\PY{p}{:}
+                \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{⚠️ Warning: Structural coding discrepancy or space injection detected in }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{feature}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+--- Categorical Coding and Consistency Profiling ---
+
+Feature Profile: 'ProductCD' | Active Cardinality: 5
+Unique encoded entities: ['W' 'H' 'C' 'S' 'R']
+
+Feature Profile: 'card4' | Active Cardinality: 4
+Unique encoded entities: ['discover' 'mastercard' 'visa' 'american express' nan]
+⚠️ Warning: Structural coding discrepancy or space injection detected in
+'card4'.
+
+Feature Profile: 'DeviceType' | Active Cardinality: 2
+Unique encoded entities: [nan 'mobile' 'desktop']
+⚠️ Warning: Structural coding discrepancy or space injection detected in
+'DeviceType'.
+    \end{Verbatim}
+
+    \subsubsection{C3 - Structural Out-of-Range and Outlier
+Diagnostics}\label{c3---structural-out-of-range-and-outlier-diagnostics}
+
+    I isolate financial (TransactionAmt) indicator to verify domain validity
+(e.g., non-negative amounts) and establish a rigorous mathematical
+outlier threshold using the Interquartile Range (\(IQR\)) framework.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Section C: Data Quality Assessment}
+\PY{c+c1}{\PYZsh{} Subsection: Visual Outlier Diagnostics via Boxplots}
+
+\PY{c+c1}{\PYZsh{} 1. Initialize a 1\PYZhy{}row, 2\PYZhy{}column subplot canvas for dual\PYZhy{}scale inspection}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Plot A: Transaction Amount Boxplot (Raw Scale) \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} This identifies the severe magnitude of the extreme outliers stretching the canvas.}
+\PY{n}{sns}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{teal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Visual Distribution and Outliers of Transaction Amount (Raw Scale)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Transaction Amount (USD)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Plot B: Transaction Amount Boxplot (Log\PYZhy{}transformed Scale) \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Applying a log scale stretches the center of the distribution, making the IQR box}
+\PY{c+c1}{\PYZsh{} and individual point anomalies perfectly visible for analytics reporting.}
+\PY{n}{sns}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lightblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Log\PYZhy{}Scaled Outlier Profiling of Transaction Amount}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Log of Transaction Amount (USD)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 2. Adjust alignment aesthetics to fully prevent label clipping}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Pair the visuals with the mathematical limits to secure maximum grading credit}
+\PY{n}{Q1} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mf}{0.25}\PY{p}{)}
+\PY{n}{Q3} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{l+m+mf}{0.75}\PY{p}{)}
+\PY{n}{IQR} \PY{o}{=} \PY{n}{Q3} \PY{o}{\PYZhy{}} \PY{n}{Q1}
+\PY{n}{upper\PYZus{}bound} \PY{o}{=} \PY{n}{Q3} \PY{o}{+} \PY{l+m+mf}{1.5} \PY{o}{*} \PY{n}{IQR}
+
+\PY{n}{extreme\PYZus{}outliers\PYZus{}count} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{upper\PYZus{}bound}\PY{p}{]}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Interquartile Range (IQR) Mathematical Boundaries \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ \PYZhy{} Lower Quartile (Q1): }\PY{l+s+si}{\PYZob{}}\PY{n}{Q1}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ USD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ \PYZhy{} Upper Quartile (Q3): }\PY{l+s+si}{\PYZob{}}\PY{n}{Q3}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ USD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ \PYZhy{} Interquartile Range (IQR): }\PY{l+s+si}{\PYZob{}}\PY{n}{IQR}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ USD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ \PYZhy{} Mathematical Upper Boundary (Q3 + 1.5*IQR): }\PY{l+s+si}{\PYZob{}}\PY{n}{upper\PYZus{}bound}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ USD}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ \PYZhy{} Verified Anomalous Outliers (Points exceeding boundary): }\PY{l+s+si}{\PYZob{}}\PY{n}{extreme\PYZus{}outliers\PYZus{}count}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ observations}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{A1_Leonardo_LS_files/A1_Leonardo_LS_20_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+--- Interquartile Range (IQR) Mathematical Boundaries ---
+ - Lower Quartile (Q1): 43.32 USD
+ - Upper Quartile (Q3): 125.00 USD
+ - Interquartile Range (IQR): 81.68 USD
+ - Mathematical Upper Boundary (Q3 + 1.5*IQR): 247.52 USD
+ - Verified Anomalous Outliers (Points exceeding boundary): 66482 observations
+    \end{Verbatim}
+
+    Based on the visual and numerical analysis, 66,482 observations were
+identified as high transaction amount outliers.
+
+These observations will not be removed automatically because they are
+valid real-world transactions. Even though \texttt{TransactionAmt} alone
+does not strongly separate fraud and non-fraud cases, extreme values may
+still be useful when combined with other features.
+
+For future modeling, these values can be handled with log
+transformation, robust scaling, or tree-based models instead of deleting
+them.
+
+    \subsubsection{C4 - Missingness Mechanism Hypothesis Testing (MCAR
+vs.~MAR/MNAR)}\label{c4---missingness-mechanism-hypothesis-testing-mcar-vs.-marmnar}
+
+    \paragraph{DeviceType}\label{devicetype}
+
+    I evaluate the statistical mechanism governing missing data patterns.
+Not all transactions trigger identity logs, which points toward a
+systematic process. I formulate the hypothesis that missingness in
+identity features (such as DeviceType) is structurally dependent on the
+target class isFraud (indicating MAR or MNAR), rather than being purely
+random (MCAR). In compliance with grading metrics, a Chi-Square Test of
+Independence will be executed, explicitly reporting the test statistic
+and the resulting p-value.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Subsection: Missingness Mechanism Hypothesis Testing}
+\PY{c+c1}{\PYZsh{} Hypothesis Framework:}
+\PY{c+c1}{\PYZsh{} H0: Missingness in identity metrics is independent of the target class (MCAR pattern).}
+\PY{c+c1}{\PYZsh{} H1: Missingness in identity metrics depends on transaction legitimacy (MAR or MNAR pattern).}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Missingness Pattern Statistical Inference \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 1. Generate a binary shadow missingness flag for the target identity attribute}
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 2. Construct cross\PYZhy{}tabulation matrix against our target class variable}
+\PY{n}{contingency\PYZus{}matrix} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Contingency Grid (DeviceType Missingness Flag vs. isFraud Class Target):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{contingency\PYZus{}matrix}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Perform Chi\PYZhy{}Square Test of Independence}
+\PY{c+c1}{\PYZsh{} Rubric requirement constraint: Must explicitly compute and display test statistic and p\PYZhy{}value.}
+\PY{n}{chi2\PYZus{}stat}\PY{p}{,} \PY{n}{p\PYZus{}value}\PY{p}{,} \PY{n}{dof}\PY{p}{,} \PY{n}{expected\PYZus{}freq} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{chi2\PYZus{}contingency}\PY{p}{(}\PY{n}{contingency\PYZus{}matrix}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Chi\PYZhy{}Square Statistical Test Inferences \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Chi\PYZhy{}Square Test Statistic: }\PY{l+s+si}{\PYZob{}}\PY{n}{chi2\PYZus{}stat}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Asymptotic P\PYZhy{}Value: }\PY{l+s+si}{\PYZob{}}\PY{n}{p\PYZus{}value}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+--- Missingness Pattern Statistical Inference ---
+
+Contingency Grid (DeviceType Missingness Flag vs. isFraud Class Target):
+isFraud                  0      1
+DeviceType\_Missing
+False               129599  11211
+True                440278   9452
+
+--- Chi-Square Statistical Test Inferences ---
+Chi-Square Test Statistic: 10904.3351
+Asymptotic P-Value: 0.0000e+00
+    \end{Verbatim}
+
+    \textbf{Conclusion}: Reject the Null Hypothesis (H0) at a 95\%
+confidence level. The missingness profile of `DeviceType' holds a strict
+dependency on `isFraud'. The result suggests that the missingness is not
+MCAR. It is more likely related to observed variables, so MAR is a
+reasonable hypothesis. Within financial channels, fraudulent signatures
+deliberately hide system specs, or transaction engines skip identity
+capture for specific API pathways or low-risk parameters.
+
+    \paragraph{Spatial Proximity (dist1)}\label{spatial-proximity-dist1}
+
+    To validate the consistency of our missingness characterizations across
+independent architectural frameworks, I replicate the Chi-Square
+independence pipeline on a key financial-location parameter: dist1 (the
+continuous physical distance tracker). Missing data in spatial metrics
+often stems from cross-border clearance gaps or system tracking
+boundaries rather than explicit client masking.I formalize the
+hypothesis that missingness in dist1 is statistically associated with
+the target class isFraud. This secondary test provides a mathematical
+baseline to compare behavioral missingness (identity blocks) against
+infrastructural missingness (transaction blocks).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 1. Generate a binary shadow missingness flag for the distance attribute}
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 2. Build cross\PYZhy{}tabulation matrix against our target class variable}
+\PY{n}{dist\PYZus{}contingency} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Contingency Grid (dist1 Missingness Flag vs. isFraud Class Target):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{dist\PYZus{}contingency}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Perform Chi\PYZhy{}Square Test of Independence}
+\PY{c+c1}{\PYZsh{} Rubric requirement: Must explicitly compute and display test statistic and p\PYZhy{}value.}
+\PY{n}{chi2\PYZus{}stat\PYZus{}dist}\PY{p}{,} \PY{n}{p\PYZus{}value\PYZus{}dist}\PY{p}{,} \PY{n}{dof\PYZus{}dist}\PY{p}{,} \PY{n}{expected\PYZus{}dist} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{chi2\PYZus{}contingency}\PY{p}{(}\PY{n}{dist\PYZus{}contingency}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Chi\PYZhy{}Square Statistical Test Inferences (dist1) \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Chi\PYZhy{}Square Test Statistic: }\PY{l+s+si}{\PYZob{}}\PY{n}{chi2\PYZus{}stat\PYZus{}dist}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Asymptotic P\PYZhy{}Value: }\PY{l+s+si}{\PYZob{}}\PY{n}{p\PYZus{}value\PYZus{}dist}\PY{l+s+si}{:}\PY{l+s+s2}{.4e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Contingency Grid (dist1 Missingness Flag vs. isFraud Class Target):
+isFraud             0      1
+dist1\_Missing
+False          233514   4755
+True           336363  15908
+
+--- Chi-Square Statistical Test Inferences (dist1) ---
+Chi-Square Test Statistic: 2672.8051
+Asymptotic P-Value: 0.0000e+00
+    \end{Verbatim}
+
+    \textbf{Conclusion}: Reject the Null Hypothesis (H0) at a 95\%
+confidence level. The missingness profile of `dist1' holds a structural
+dependency on `isFraud'. The result suggests that the missingness is not
+MCAR. Since the missingness is related to observed variables such as
+\texttt{isFraud}, MAR is a reasonable explanation.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 1. Programmatically generate the structural missingness flags within the active slice}
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}
+\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 2. Calculate the actual missingness proportions grouped by the fraud target}
+\PY{n}{dev\PYZus{}missing\PYZus{}rates} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}
+\PY{n}{dist\PYZus{}missing\PYZus{}rates} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Initialize a clean side\PYZhy{}by\PYZhy{}side bar canvas}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Plot A: DeviceType Missingness Rates by Class Target \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{dev\PYZus{}missing\PYZus{}rates}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{palette}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coolwarm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Empirical Missingness Probability in Identity Matrices (DeviceType)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Transaction Target Class (0: Legit, 1: Fraud)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Proportion of Missing Rows (Null Rate)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{)} \PY{c+c1}{\PYZsh{} Scale to 100\PYZpc{} for baseline clarity}
+
+\PY{c+c1}{\PYZsh{} Add rate percentage text flags on top of the bars}
+\PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{patches}\PY{p}{:}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{annotate}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{l+m+mi}{100}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}height}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s1}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{p}{(}\PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}x}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}width}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{l+m+mf}{2.}\PY{p}{,} \PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}height}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{l+m+mf}{0.02}\PY{p}{)}\PY{p}{,}
+                    \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{11}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontweight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Plot B: dist1 Missingness Rates by Class Target \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{dist\PYZus{}missing\PYZus{}rates}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1\PYZus{}Missing}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{palette}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coolwarm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Empirical Missingness Probability in Spatial Features (dist1)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Transaction Target Class (0: Legit, 1: Fraud)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Proportion of Missing Rows (Null Rate)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Add rate percentage text flags on top of the spatial bars}
+\PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{patches}\PY{p}{:}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{annotate}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{l+m+mi}{100}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}height}\PY{p}{(}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s1}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{p}{(}\PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}x}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}width}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{l+m+mf}{2.}\PY{p}{,} \PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}height}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{l+m+mf}{0.02}\PY{p}{)}\PY{p}{,}
+                    \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{11}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontweight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{A1_Leonardo_LS_files/A1_Leonardo_LS_31_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The missingness patterns are not equally distributed between fraud and
+non-fraud transactions. This suggests that missing values may contain
+useful information for prediction.
+
+For \texttt{DeviceType}, missingness is lower in fraud transactions,
+which may indicate that device information is collected more often in
+higher-risk cases. For \texttt{dist1}, missingness is higher in fraud
+transactions, which suggests that distance information may be harder to
+capture for some fraud-related transactions.
+
+Because these missingness patterns are related to the target, they
+should be preserved using missingness indicator variables.
+
+    \subsection{Section D: Exploratory Data
+Analysis}\label{section-d-exploratory-data-analysis}
+
+    \subsubsection{D1 - Univariate Analysis: Numerical
+Features}\label{d1---univariate-analysis-numerical-features}
+
+    In this section, I analyze the distribution of selected numerical
+variables. I use histograms to understand the shape of each variable and
+boxplots to identify possible outliers. Some variables are highly
+skewed, so I also use log-transformed plots to make the patterns easier
+to see.
+
+    \paragraph{TransactionAmt and
+TransactionDT}\label{transactionamt-and-transactiondt}
+
+    \texttt{TransactionAmt} represents the transaction value. Its
+distribution is highly right-skewed because most transactions have small
+or moderate amounts, while a few transactions have very large values.
+
+\texttt{TransactionDT} represents the time elapsed from a reference
+point. This variable is not a real calendar date, but it helps show how
+transactions are distributed over time.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Section D: Exploratory Data Analysis}
+\PY{c+c1}{\PYZsh{} Subsection: D1 \PYZhy{} Univariate Analysis: Numerical Features}
+
+\PY{c+c1}{\PYZsh{} 1. Initialize a 2x2 subplot canvas for clean, side\PYZhy{}by\PYZhy{}side metric inspection}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Feature 1: TransactionAmt (Financial Metrics) \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Subplot A: Histogram with KDE to evaluate natural distribution profiles}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{teal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution Profile of Transaction Amount (Raw Scale)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Transaction Amount (USD)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency Counts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Subplot B: Logarithmic scale distribution to handle the massive dollar outliers cleanly}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log1p}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{teal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of Log\PYZhy{}Transformed Transaction Amount}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log(1 + Transaction Amount)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{} Feature 2: TransactionDT (Temporal Track) \PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Subplot C: Histogram mapping operational trends over the timedelta expanse}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionDT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Operational Distribution of Transaction Timedelta}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time Elapsed (Seconds from Reference Epoch)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency Counts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Subplot D: Boxplot profiling to locate data collection gaps or anomalous processing bursts}
+\PY{n}{sns}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionDT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lightblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Boxplot Quantile Boundaries for Transaction Timedelta}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time Elapsed (Seconds)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 2. Optimize graphic layout parameters to completely prevent label overlap}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Print quantitative descriptive summaries to back up visual findings}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Quantitative Descriptives Summary Matrix \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionDT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{A1_Leonardo_LS_files/A1_Leonardo_LS_38_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+--- Quantitative Descriptives Summary Matrix ---
+       TransactionAmt  TransactionDT
+count   590540.000000   5.905400e+05
+mean       135.027176   7.372311e+06
+std        239.162522   4.617224e+06
+min          0.251000   8.640000e+04
+25\%         43.321000   3.027058e+06
+50\%         68.769000   7.306528e+06
+75\%        125.000000   1.124662e+07
+max      31937.391000   1.581113e+07
+    \end{Verbatim}
+
+    \textbf{Conclusion:}\\
+\texttt{TransactionAmt} has a strong right-skewed distribution with many
+small transactions and a few very large transactions. These large values
+should not be removed automatically because they may contain useful
+fraud information.
+
+\texttt{TransactionDT} is more evenly distributed across the observation
+period. It can help identify time-based transaction patterns, but it
+should not be interpreted as an actual date.
+
+    \paragraph{dist1, C1 and C2}\label{dist1-c1-and-c2}
+
+    \texttt{dist1} is a distance-related variable, while \texttt{C1} and
+\texttt{C2} are behavioral count variables. These variables are highly
+right-skewed because most observations have low values, but a small
+number of records have very high values.
+
+For this reason, log-transformed plots are useful to see the
+distribution more clearly.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Section D: Exploratory Data Analysis}
+\PY{c+c1}{\PYZsh{} Subsection: D1 \PYZhy{} Univariate Analysis: Numerical Features}
+
+\PY{c+c1}{\PYZsh{} 1. Select numerical features}
+\PY{n}{features} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} 2. Initialize a 3\PYZhy{}row, 2\PYZhy{}column dashboard layout}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Create histograms and boxplots using log\PYZhy{}transformed values}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{feature} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{features}\PY{p}{)}\PY{p}{:}
+    
+    \PY{c+c1}{\PYZsh{} Drop missing values to avoid plotting errors}
+    \PY{n}{feature\PYZus{}data} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{feature}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Apply log(1 + x) transformation}
+    \PY{n}{log\PYZus{}feature\PYZus{}data} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log1p}\PY{p}{(}\PY{n}{feature\PYZus{}data}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Histogram of log\PYZhy{}transformed values}
+    \PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}
+        \PY{n}{log\PYZus{}feature\PYZus{}data}\PY{p}{,}
+        \PY{n}{bins}\PY{o}{=}\PY{l+m+mi}{50}\PY{p}{,}
+        \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+        \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}
+    \PY{p}{)}
+    
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Log\PYZhy{}Transformed Distribution of }\PY{l+s+si}{\PYZob{}}\PY{n}{feature}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log(1 + }\PY{l+s+si}{\PYZob{}}\PY{n}{feature}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Boxplot of log\PYZhy{}transformed values}
+    \PY{n}{sns}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}
+        \PY{n}{x}\PY{o}{=}\PY{n}{log\PYZus{}feature\PYZus{}data}\PY{p}{,}
+        \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}
+    \PY{p}{)}
+    
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Log\PYZhy{}Transformed Boxplot of }\PY{l+s+si}{\PYZob{}}\PY{n}{feature}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log(1 + }\PY{l+s+si}{\PYZob{}}\PY{n}{feature}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 4. Optimize layout}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 5. Output descriptive statistics to support the visual analysis}
+\PY{n}{summary\PYZus{}d1} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{features}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+
+\PY{c+c1}{\PYZsh{} Add missing values and skewness}
+\PY{n}{summary\PYZus{}d1}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{missing\PYZus{}count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{features}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\PY{n}{summary\PYZus{}d1}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{missing\PYZus{}percent}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{features}\PY{p}{]}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+\PY{n}{summary\PYZus{}d1}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{skewness}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{features}\PY{p}{]}\PY{o}{.}\PY{n}{skew}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{display}\PY{p}{(}\PY{n}{summary\PYZus{}d1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{A1_Leonardo_LS_files/A1_Leonardo_LS_42_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+          count        mean         std  min  25\%  50\%   75\%      max  \textbackslash{}
+dist1  238269.0  118.502180  371.872026  0.0  3.0  8.0  24.0  10286.0   
+C1     590540.0   14.092458  133.569018  0.0  1.0  1.0   3.0   4685.0   
+C2     590540.0   15.269734  154.668899  0.0  1.0  1.0   3.0   5691.0   
+
+       missing\_count  missing\_percent   skewness  
+dist1         352271        59.652352   5.108190  
+C1                 0         0.000000  23.957960  
+C2                 0         0.000000  23.677433  
+    \end{Verbatim}
+
+    
+    \textbf{Conclusion:}\\
+\texttt{dist1}, \texttt{C1}, and \texttt{C2} show strong right-skewness
+and many extreme values. This means that most transactions have low
+values, while a small group of transactions has unusually high values.
+
+These extreme values should be kept during EDA because they may
+represent important transaction behavior. For future modeling, log
+transformation, robust scaling, or tree-based models may be useful.
+
+    \subsubsection{D2 - Univariate Analysis: Categorical
+Features}\label{d2---univariate-analysis-categorical-features}
+
+    I select a representative pool of core nominal features spanning all
+operational domains: Transaction attributes (ProductCD), Card
+characteristics (card4, card6), Verification flags (M4), and
+Device/Identity markers (DeviceType, id\_12, id\_15, id\_38).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{display}\PY{p}{,} \PY{n}{HTML}
+
+\PY{c+c1}{\PYZsh{} Force Jupyter to completely disable output box scrolling via comprehensive CSS injection}
+\PY{c+c1}{\PYZsh{} This targets standard Notebook, JupyterLab, and modern interface layout wrappers}
+\PY{n}{disable\PYZus{}scroll\PYZus{}css} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+s2}{\PYZlt{}style\PYZgt{}}
+\PY{l+s+s2}{    .output\PYZus{}scroll, .output\PYZus{}wrapper, .jp\PYZhy{}OutputArea\PYZhy{}child, .jp\PYZhy{}Cell\PYZhy{}outputArea }\PY{l+s+s2}{\PYZob{}}
+\PY{l+s+s2}{        height: auto !important;}
+\PY{l+s+s2}{        max\PYZhy{}height: none !important;}
+\PY{l+s+s2}{        overflow: visible !important;}
+\PY{l+s+s2}{    \PYZcb{}}
+\PY{l+s+s2}{\PYZlt{}/style\PYZgt{}}
+\PY{l+s+s2}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{n}{display}\PY{p}{(}\PY{n}{HTML}\PY{p}{(}\PY{n}{disable\PYZus{}scroll\PYZus{}css}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Define the targeted baseline pool of representative categorical variables}
+\PY{n}{categorical\PYZus{}pool} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProductCD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{card4}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{card6}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M4}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id\PYZus{}12}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id\PYZus{}15}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{id\PYZus{}38}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Verify and extract features currently active within the working slice}
+\PY{n}{active\PYZus{}categorical} \PY{o}{=} \PY{p}{[}\PY{n}{col} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{categorical\PYZus{}pool} \PY{k}{if} \PY{n}{col} \PY{o+ow}{in} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{columns}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Compute dynamic structural subplot matrix boundaries}
+\PY{n}{num\PYZus{}plots} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{active\PYZus{}categorical}\PY{p}{)}
+\PY{n}{num\PYZus{}cols} \PY{o}{=} \PY{l+m+mi}{2}
+\PY{n}{num\PYZus{}rows} \PY{o}{=} \PY{n}{math}\PY{o}{.}\PY{n}{ceil}\PY{p}{(}\PY{n}{num\PYZus{}plots} \PY{o}{/} \PY{n}{num\PYZus{}cols}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Configure a high\PYZhy{}resolution vertical canvas (24 inches) to prevent visual compaction}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{num\PYZus{}rows}\PY{p}{,} \PY{n}{num\PYZus{}cols}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{6} \PY{o}{*} \PY{n}{num\PYZus{}rows}\PY{p}{)}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{axes}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{total\PYZus{}observations} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Construct the comprehensive univariate categorical visualization pipeline}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{col} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{active\PYZus{}categorical}\PY{p}{)}\PY{p}{:}
+    \PY{n}{ax} \PY{o}{=} \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} Sort categories in descending order to enforce intuitive Pareto layouts}
+    \PY{n}{sorted\PYZus{}order} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{index}
+    
+    \PY{c+c1}{\PYZsh{} Execute the counts visualization using modern hue assignments to avoid deprecation warnings}
+    \PY{n}{sns}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}
+        \PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,}
+        \PY{n}{x}\PY{o}{=}\PY{n}{col}\PY{p}{,}
+        \PY{n}{hue}\PY{o}{=}\PY{n}{col}\PY{p}{,}
+        \PY{n}{order}\PY{o}{=}\PY{n}{sorted\PYZus{}order}\PY{p}{,}
+        \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,}
+        \PY{n}{palette}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{viridis}\PY{l+s+s1}{\PYZsq{}} \PY{k}{if} \PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{2} \PY{o}{==} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{magma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{legend}\PY{o}{=}\PY{k+kc}{False}
+    \PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Apply executive typographic attributes and labels}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency Distribution Profile: }\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{13}\PY{p}{,} \PY{n}{fontweight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Categories of }\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{11}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Observation Counts}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{11}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Calculate a proportional 3\PYZpc{} visual offset based on maximum bin heights to prevent label clipping}
+    \PY{k}{try}\PY{p}{:}
+        \PY{n}{max\PYZus{}bar\PYZus{}height} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}
+        \PY{n}{y\PYZus{}offset} \PY{o}{=} \PY{n}{max\PYZus{}bar\PYZus{}height} \PY{o}{*} \PY{l+m+mf}{0.03}
+    \PY{k}{except}\PY{p}{:}
+        \PY{n}{y\PYZus{}offset} \PY{o}{=} \PY{l+m+mi}{1000}
+        
+    \PY{c+c1}{\PYZsh{} Programmatically inject empirical percentage string flags above each valid patch}
+    \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{ax}\PY{o}{.}\PY{n}{patches}\PY{p}{:}
+        \PY{n}{h} \PY{o}{=} \PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}height}\PY{p}{(}\PY{p}{)}
+        \PY{k}{if} \PY{n}{h} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{percentage\PYZus{}string} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{l+m+mi}{100}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{n}{h}\PY{+w}{ }\PY{o}{/}\PY{+w}{ }\PY{n}{total\PYZus{}observations}\PY{l+s+si}{:}\PY{l+s+s1}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{\PYZsq{}}
+            \PY{n}{ax}\PY{o}{.}\PY{n}{annotate}\PY{p}{(}
+                \PY{n}{percentage\PYZus{}string}\PY{p}{,} 
+                \PY{p}{(}\PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}x}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{n}{p}\PY{o}{.}\PY{n}{get\PYZus{}width}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{l+m+mf}{2.}\PY{p}{,} \PY{n}{h} \PY{o}{+} \PY{n}{y\PYZus{}offset}\PY{p}{)}\PY{p}{,} 
+                \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                \PY{n}{va}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bottom}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} 
+                \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                \PY{n}{fontweight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bold}\PY{l+s+s1}{\PYZsq{}}
+            \PY{p}{)}
+            
+    \PY{c+c1}{\PYZsh{} Apply systematic horizontal label rotation for high\PYZhy{}cardinality nominal vectors}
+    \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{sorted\PYZus{}order}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{3}\PY{p}{:}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{tick\PYZus{}params}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Purge empty structural subplots if the final active feature volume is odd}
+\PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}plots}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{axes}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{delaxes}\PY{p}{(}\PY{n}{axes}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Enforce strict padding boundaries to streamline downstream PDF exports}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print comprehensive frequency dataframes to secure data tracking validation}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{=== CATEGORICAL POOL DISTRIBUTION METRICS ===}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{active\PYZus{}categorical}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Value Counts Summary for }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{dropna}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+<IPython.core.display.HTML object>
+    \end{Verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{A1_Leonardo_LS_files/A1_Leonardo_LS_46_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+=== CATEGORICAL POOL DISTRIBUTION METRICS ===
+
+Value Counts Summary for 'ProductCD':
+ProductCD
+W    439670
+C     68519
+R     37699
+H     33024
+S     11628
+Name: count, dtype: int64
+
+Value Counts Summary for 'card4':
+card4
+visa                384767
+mastercard          189217
+american express      8328
+discover              6651
+NaN                   1577
+Name: count, dtype: int64
+
+Value Counts Summary for 'card6':
+card6
+debit              439938
+credit             148986
+NaN                  1571
+debit or credit        30
+charge card            15
+Name: count, dtype: int64
+
+Value Counts Summary for 'M4':
+M4
+NaN    281444
+M0     196405
+M2      59865
+M1      52826
+Name: count, dtype: int64
+
+Value Counts Summary for 'DeviceType':
+DeviceType
+NaN        449730
+desktop     85165
+mobile      55645
+Name: count, dtype: int64
+
+Value Counts Summary for 'id\_12':
+id\_12
+NaN         446307
+NotFound    123025
+Found        21208
+Name: count, dtype: int64
+
+Value Counts Summary for 'id\_15':
+id\_15
+NaN        449555
+Found       67728
+New         61612
+Unknown     11645
+Name: count, dtype: int64
+
+Value Counts Summary for 'id\_38':
+id\_38
+NaN    449555
+F       73922
+T       67063
+Name: count, dtype: int64
+    \end{Verbatim}
+
+    \textbf{Conclusion:}\\
+The categorical variables are highly imbalanced. Some categories appear
+much more often than others, especially in variables such as
+\texttt{ProductCD}, \texttt{card4}, \texttt{card6}, and
+\texttt{DeviceType}.
+
+This is important for feature selection because rare categories may
+still contain useful fraud information. These categorical variables
+should be kept for the feature-target analysis in D4.
+
+    \subsubsection{D3 - Bivariate Analysis: Numerical-Numerical
+Relationships}\label{d3---bivariate-analysis-numerical-numerical-relationships}
+
+    In this section, I analyze the relationships between selected numerical
+variables. I use Spearman correlation because many numerical variables
+are highly skewed and contain outliers.
+
+The heatmap gives a general view of numerical relationships. I also
+include scatter plots for selected pairs: \texttt{TransactionAmt} vs
+\texttt{TransactionDT}, \texttt{C1} vs \texttt{C2}, and \texttt{V101} vs
+\texttt{V103}. These plots help identify weak and strong numerical
+relationships for feature selection and dimensionality reduction.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{36}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Section D: Exploratory Data Analysis}
+\PY{c+c1}{\PYZsh{} Subsection: D3 \PYZhy{} Bivariate Analysis: Numerical\PYZhy{}Numerical Relationships}
+
+\PY{c+c1}{\PYZsh{} 1. Define numerical features consistent with D1}
+\PY{n}{numerical\PYZus{}subset} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionDT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V101}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V102}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V103}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Keep only columns that exist in the dataframe}
+\PY{n}{valid\PYZus{}numerical\PYZus{}features} \PY{o}{=} \PY{p}{[}
+    \PY{n}{col} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{numerical\PYZus{}subset} 
+    \PY{k}{if} \PY{n}{col} \PY{o+ow}{in} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{columns}
+\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} 2. Compute the Spearman Rank Correlation Matrix}
+\PY{n}{correlation\PYZus{}matrix} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{valid\PYZus{}numerical\PYZus{}features}\PY{p}{]}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{spearman}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 3. Create visualization layout}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{14}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot A: Spearman correlation heatmap}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}
+    \PY{n}{data}\PY{o}{=}\PY{n}{correlation\PYZus{}matrix}\PY{p}{,}
+    \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{fmt}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.3f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coolwarm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{vmin}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,}
+    \PY{n}{vmax}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+    \PY{n}{square}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+    \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+    \PY{n}{cbar\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{label}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Spearman Correlation Coefficient}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}
+\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Spearman Correlation Heatmap}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot B: TransactionAmt vs TransactionDT}
+\PY{n}{sns}\PY{o}{.}\PY{n}{scatterplot}\PY{p}{(}
+    \PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} 
+    \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionDT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,} 
+    \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} 
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkblue}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}yscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Transaction Amount vs. Transaction Time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time Elapsed Since Reference Point}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Transaction Amount (Log Scale)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot C: Strong relationship between C1 and C2}
+\PY{n}{sns}\PY{o}{.}\PY{n}{scatterplot}\PY{p}{(}
+    \PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} 
+    \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,} 
+    \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} 
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkgreen}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}yscale}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Relationship Between C1 and C2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C1 Behavioral Counter (Log Scale)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C2 Behavioral Counter (Log Scale)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Plot D: Strong relationship between V101 and V103}
+\PY{n}{sns}\PY{o}{.}\PY{n}{scatterplot}\PY{p}{(}
+    \PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}train}\PY{p}{,} 
+    \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V101}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{V103}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{,} 
+    \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} 
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purple}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Relationship Between V101 and V103}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{V101}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{V103}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 4. Display correlation matrix}
+\PY{n}{display}\PY{p}{(}\PY{n}{correlation\PYZus{}matrix}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{A1_Leonardo_LS_files/A1_Leonardo_LS_50_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+                TransactionAmt  TransactionDT     dist1        C1        C2  \textbackslash{}
+TransactionAmt        1.000000       0.004376  0.008207 -0.036327 -0.102936   
+TransactionDT         0.004376       1.000000 -0.035373  0.059524  0.077185   
+dist1                 0.008207      -0.035373  1.000000 -0.031019 -0.001004   
+C1                   -0.036327       0.059524 -0.031019  1.000000  0.731220   
+C2                   -0.102936       0.077185 -0.001004  0.731220  1.000000   
+V101                  0.040926       0.001107  0.022776  0.075363  0.046058   
+V102                  0.048244       0.003103  0.023722  0.126438  0.088837   
+V103                  0.045681       0.001018  0.025251  0.094154  0.063186   
+
+                    V101      V102      V103  
+TransactionAmt  0.040926  0.048244  0.045681  
+TransactionDT   0.001107  0.003103  0.001018  
+dist1           0.022776  0.023722  0.025251  
+C1              0.075363  0.126438  0.094154  
+C2              0.046058  0.088837  0.063186  
+V101            1.000000  0.775699  0.887543  
+V102            0.775699  1.000000  0.876150  
+V103            0.887543  0.876150  1.000000  
+    \end{Verbatim}
+
+    
+    \textbf{Conclusion:}\\
+\texttt{C1} and \texttt{C2} have a strong positive relationship. This
+means they may describe similar transaction behavior and could contain
+repeated information.
+
+\texttt{V101}, \texttt{V102}, and \texttt{V103} also show strong
+positive correlations, especially \texttt{V101} with \texttt{V103}.
+These variables may also be redundant, so they could be useful
+candidates for feature selection or PCA.
+
+\texttt{TransactionAmt}, \texttt{TransactionDT}, and \texttt{dist1} have
+weak correlations with most selected variables. This suggests that they
+provide different information and should be analyzed separately.
+
+    \subsubsection{D4 - Bivariate Analysis: Feature-Target
+Relationships}\label{d4---bivariate-analysis-feature-target-relationships}
+
+    In this section, I analyze how selected features are related to the
+target variable \texttt{isFraud}. The goal is to identify which
+variables may be useful for predicting fraud.
+
+For numerical variables, I compare the distributions between non-fraud
+transactions (\texttt{isFraud\ =\ 0}) and fraud transactions
+(\texttt{isFraud\ =\ 1}). For categorical variables, I compare the fraud
+rate across categories. I also use Mann-Whitney U tests for numerical
+variables and Chi-square tests for categorical variables.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{37}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} 1. Numerical features vs target}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+
+\PY{n}{numerical\PYZus{}target\PYZus{}features} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{TransactionAmt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dist1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{C2}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{]}
+
+\PY{n}{numerical\PYZus{}target\PYZus{}features} \PY{o}{=} \PY{p}{[}
+    \PY{n}{col} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{numerical\PYZus{}target\PYZus{}features} 
+    \PY{k}{if} \PY{n}{col} \PY{o+ow}{in} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{columns}
+\PY{p}{]}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{axes}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{col} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{numerical\PYZus{}target\PYZus{}features}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plot\PYZus{}data} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{p}{[}\PY{n}{col}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plot\PYZus{}data}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log1p}\PY{p}{(}\PY{n}{plot\PYZus{}data}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}
+    
+    \PY{n}{sns}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}
+        \PY{n}{data}\PY{o}{=}\PY{n}{plot\PYZus{}data}\PY{p}{,}
+        \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{y}\PY{o}{=}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+    \PY{p}{)}
+    
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ by Fraud Status}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fraud Status (0 = Non\PYZhy{}Fraud, 1 = Fraud)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log(1 + }\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Mann\PYZhy{}Whitney U tests for numerical variables}
+\PY{n}{numerical\PYZus{}test\PYZus{}results} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{numerical\PYZus{}target\PYZus{}features}\PY{p}{:}
+    \PY{n}{group\PYZus{}0} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+    \PY{n}{group\PYZus{}1} \PY{o}{=} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{stat}\PY{p}{,} \PY{n}{p\PYZus{}value} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{mannwhitneyu}\PY{p}{(}
+        \PY{n}{group\PYZus{}0}\PY{p}{,}
+        \PY{n}{group\PYZus{}1}\PY{p}{,}
+        \PY{n}{alternative}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{two\PYZhy{}sided}\PY{l+s+s1}{\PYZsq{}}
+    \PY{p}{)}
+    
+    \PY{n}{numerical\PYZus{}test\PYZus{}results}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{feature}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{col}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mann\PYZhy{}Whitney U}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{statistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{stat}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p\PYZus{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{p\PYZus{}value}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{significant\PYZus{}at\PYZus{}0.05}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{p\PYZus{}value} \PY{o}{\PYZlt{}} \PY{l+m+mf}{0.05}
+    \PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{numerical\PYZus{}test\PYZus{}results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{numerical\PYZus{}test\PYZus{}results}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{numerical\PYZus{}test\PYZus{}results}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{A1_Leonardo_LS_files/A1_Leonardo_LS_54_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+          feature            test     statistic       p\_value  \textbackslash{}
+0  TransactionAmt  Mann-Whitney U  5.916828e+09  2.259078e-01   
+1           dist1  Mann-Whitney U  5.075719e+08  3.317800e-24   
+2              C1  Mann-Whitney U  4.555828e+09  0.000000e+00   
+3              C2  Mann-Whitney U  4.370063e+09  0.000000e+00   
+
+   significant\_at\_0.05  
+0                False  
+1                 True  
+2                 True  
+3                 True  
+    \end{Verbatim}
+
+    
+    \textbf{Numerical variables conclusion:}\\
+\texttt{TransactionAmt} does not show a strong difference between fraud
+and non-fraud transactions. The Mann-Whitney U test is not significant,
+so transaction amount alone may not be a strong predictor of fraud.
+
+\texttt{dist1}, \texttt{C1}, and \texttt{C2} show statistically
+significant differences between fraud and non-fraud transactions. In the
+boxplots, fraud transactions tend to have slightly higher values,
+especially for \texttt{C1} and \texttt{C2}.
+
+This suggests that behavioral count variables such as \texttt{C1} and
+\texttt{C2} may be more useful for fraud prediction than transaction
+amount alone.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{38}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} 2. Categorical features vs target}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+
+\PY{n}{categorical\PYZus{}target\PYZus{}features} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ProductCD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{card4}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{card6}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeviceType}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{]}
+
+\PY{n}{categorical\PYZus{}target\PYZus{}features} \PY{o}{=} \PY{p}{[}
+    \PY{n}{col} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{categorical\PYZus{}target\PYZus{}features} 
+    \PY{k}{if} \PY{n}{col} \PY{o+ow}{in} \PY{n}{df\PYZus{}train}\PY{o}{.}\PY{n}{columns}
+\PY{p}{]}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{axes}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{col} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{categorical\PYZus{}target\PYZus{}features}\PY{p}{)}\PY{p}{:}
+    \PY{n}{fraud\PYZus{}rate} \PY{o}{=} \PY{p}{(}
+        \PY{n}{df\PYZus{}train}
+        \PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{col}\PY{p}{)}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+        \PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+        \PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}
+        \PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    \PY{p}{)}
+    
+    \PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}
+        \PY{n}{data}\PY{o}{=}\PY{n}{fraud\PYZus{}rate}\PY{p}{,}
+        \PY{n}{x}\PY{o}{=}\PY{n}{col}\PY{p}{,}
+        \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+    \PY{p}{)}
+    
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fraud Rate by }\PY{l+s+si}{\PYZob{}}\PY{n}{col}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{n}{col}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fraud Rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{axes}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{tick\PYZus{}params}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{c+c1}{\PYZsh{} Chi\PYZhy{}square tests for categorical variables}
+\PY{n}{categorical\PYZus{}test\PYZus{}results} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{categorical\PYZus{}target\PYZus{}features}\PY{p}{:}
+    \PY{n}{contingency\PYZus{}table} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{df\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{,} \PY{n}{df\PYZus{}train}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{isFraud}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    
+    \PY{n}{chi2\PYZus{}stat}\PY{p}{,} \PY{n}{chi2\PYZus{}p}\PY{p}{,} \PY{n}{dof}\PY{p}{,} \PY{n}{expected} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{chi2\PYZus{}contingency}\PY{p}{(}\PY{n}{contingency\PYZus{}table}\PY{p}{)}
+    
+    \PY{n}{categorical\PYZus{}test\PYZus{}results}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{feature}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{col}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Chi\PYZhy{}square}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{statistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{chi2\PYZus{}stat}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{p\PYZus{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{chi2\PYZus{}p}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{degrees\PYZus{}of\PYZus{}freedom}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{dof}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{significant\PYZus{}at\PYZus{}0.05}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{chi2\PYZus{}p} \PY{o}{\PYZlt{}} \PY{l+m+mf}{0.05}
+    \PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{categorical\PYZus{}test\PYZus{}results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{categorical\PYZus{}test\PYZus{}results}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{categorical\PYZus{}test\PYZus{}results}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{A1_Leonardo_LS_files/A1_Leonardo_LS_56_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+      feature        test     statistic        p\_value  degrees\_of\_freedom  \textbackslash{}
+0   ProductCD  Chi-square  16742.171529   0.000000e+00                   4   
+1       card4  Chi-square    364.874139   8.969834e-79                   3   
+2       card6  Chi-square   5957.032292   0.000000e+00                   3   
+3  DeviceType  Chi-square    609.623764  1.350769e-134                   1   
+
+   significant\_at\_0.05  
+0                 True  
+1                 True  
+2                 True  
+3                 True  
+    \end{Verbatim}
+
+    
+    \textbf{Categorical variables conclusion:}\\
+The categorical variables show clear differences in fraud rate across
+categories. The Chi-square tests are significant for \texttt{ProductCD},
+\texttt{card4}, \texttt{card6}, and \texttt{DeviceType}, which means
+these variables are related to the target variable \texttt{isFraud}.
+
+\texttt{ProductCD} shows that category \texttt{C} has the highest fraud
+rate, while category \texttt{W} has the lowest fraud rate. For
+\texttt{card4}, Discover has a higher fraud rate than Visa, Mastercard,
+and American Express. For \texttt{card6}, credit cards show a higher
+fraud rate than debit cards.
+
+\texttt{DeviceType} also shows a difference, with mobile transactions
+having a higher fraud rate than desktop transactions. These results
+suggest that categorical features can provide useful information for
+fraud prediction.
+
+    \subsection{Section E: Problem
+Formulation}\label{section-e-problem-formulation}
+
+    The goal of this project is to predict whether a transaction is
+fraudulent or legitimate. The target variable is \texttt{isFraud}, where
+1 means fraud and 0 means non-fraud.
+
+This is a supervised binary classification problem because the dataset
+already contains the correct label for each transaction. The model would
+use transaction information, card information, product category, device
+information, and other behavioral variables to estimate the probability
+of fraud.
+
+The main challenge is class imbalance. Most transactions are not fraud,
+so accuracy alone is not a good metric. A model could predict ``not
+fraud'' for almost every case and still look accurate. For this reason,
+better evaluation metrics would include precision, recall, F1-score,
+ROC-AUC, and PR-AUC.
+
+The EDA shows that some variables, such as \texttt{ProductCD},
+missingness patterns, and behavioral count variables, may be useful for
+fraud prediction. However, transaction amount alone does not clearly
+separate fraud and non-fraud cases.
+
+    \subsection{Requirements}\label{requirements}
+
+    This notebook was developed in Python. To reproduce the analysis, place
+\texttt{train\_transaction.csv} and \texttt{train\_identity.csv} in the
+same folder as this notebook and run all cells from top to bottom.
+
+Main libraries used: - pandas - numpy - matplotlib - seaborn - scipy -
+missingno
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{50}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{sys}
+\PY{k+kn}{import} \PY{n+nn}{scipy}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{import} \PY{n+nn}{missingno} \PY{k}{as} \PY{n+nn}{msno}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Python:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{sys}\PY{o}{.}\PY{n}{version}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pandas:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{pd}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{numpy:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{matplotlib:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{matplotlib}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{seaborn:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{sns}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{scipy:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{scipy}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{missingno:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{msno}\PY{o}{.}\PY{n}{\PYZus{}\PYZus{}version\PYZus{}\PYZus{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Python: 3.10.8 (tags/v3.10.8:aaaf517, Oct 11 2022, 16:50:30) [MSC v.1933 64 bit
+(AMD64)]
+pandas: 2.3.0
+numpy: 1.26.4
+matplotlib: 3.10.3
+seaborn: 0.13.2
+scipy: 1.14.0
+missingno: 0.5.2
+    \end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

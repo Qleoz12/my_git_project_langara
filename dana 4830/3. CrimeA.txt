@@ -1,0 +1,5 @@
+	Burglary	Fraud	Vandalism
+Oslo area	395	2456	1758
+Mid Norway	147	153	916
+North Norway	694	327	1347
+Norway	4558	5129	10842

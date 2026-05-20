@@ -1,0 +1,73 @@
+---
+title: "Week 3: Revised Email"
+subtitle: "Maria's Recommendations to Kyle"
+author: "Leonardo Lancheros Sanchez"
+date: "May 20, 2026"
+geometry: margin=1in
+output:
+  pdf_document:
+    toc: false
+    number_sections: false
+    latex_engine: pdflatex
+    includes:
+      in_header: part2_header.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+**Subject:** Recommendations for Updating the Customer Database
+
+Hi Kyle,
+
+Here are my main recommendations:
+
+```{=latex}
+\begin{center}
+\small
+\begin{tabular}{|l|l|}
+\hline
+\cellcolor{issuepink}\textbf{Issue} & \cellcolor{fixgreen}\textbf{Proposed fix} \\
+\hline
+\cellcolor{issuepink}\begin{minipage}[t]{0.38\textwidth}
+Some customer records are more than five years old.
+\end{minipage} &
+\cellcolor{fixgreen}\begin{minipage}[t]{0.44\textwidth}
+Review old records and see if we should keep, update, or delete them.
+\end{minipage} \\
+\hline
+\cellcolor{issuepink}\begin{minipage}[t]{0.38\textwidth}
+The old database is not compatible with the new mailing software.
+\end{minipage} &
+\cellcolor{fixgreen}\begin{minipage}[t]{0.44\textwidth}
+Create a new database in Access. Talk to IT first before we change anything.
+\end{minipage} \\
+\hline
+\cellcolor{issuepink}\begin{minipage}[t]{0.38\textwidth}
+The old and new systems cannot merge files easily.
+\end{minipage} &
+\cellcolor{fixgreen}\begin{minipage}[t]{0.44\textwidth}
+Move to the new database step by step with help from IT.
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{center}
+\normalsize
+```
+
+I also have some questions:
+
+- Do we want to improve the database, or start a campaign with old customers?
+- How is this connected to our email database?
+- There are many inconsistencies. Is this the correct database for this analysis?
+
+I think we should share this with other teams before we do anything. This way we don't affect other work in the company.
+
+Please let me know what you think.
+
+Best regards,  
+Maria Gallopolos  
+Datanet Inc.  
+mgallopolos@datanet.ca  
+(604) 555-0147

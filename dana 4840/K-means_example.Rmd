@@ -1,0 +1,129 @@
+---
+title: "K-means"
+author: "Example"
+output:
+  pdf_document: default
+  html_document: default
+---
+In this article, we'll describe the **k-means algorithm** and provide practical examples using **R** software. We will use the demo data sets "USArrests".
+
+####1. Specify the number of clusters (K) to be created (by the analyst)
+
+```{r}
+data("USArrests")      # Loading the data set
+df <- scale(USArrests) # Scaling the data
+```
+
+#### View the firt 3 rows of the data
+```{r}
+head(df, n = 3)
+```
+
+
+####K-means function in R and arguments
+
+kmeans(x, centers, iter.max = 10, nstart = 1)
+
+- **x**: numeric matrix, numeric data frame or a numeric vector
+
+```{r}
+## install.packages("factoextra")
+
+library(factoextra)
+```
+
+
+####Estimating the optimal number of clusters
+The k-means clustering requires the users to specify the number of clusters to be generated.
+
+One fundamental question is: How to choose the right number of expected clusters (k)?
+
+
+Different methods will be presented in the chapter "cluster evaluation and validation statistics".
+
+
+Here, we provide a simple solution. The idea is to compute k-means clustering using
+different values of clusters k. Next, the wss (within sum of square) is drawn according to the number of clusters. The location of a bend (knee) in the plot is generally considered as an indicator of the appropriate number of clusters.
+
+The R function _fviz_nbclust()_ [in _factoextra_ package] provides a convenient solution to estimate the optimal number of clusters.
+
+```{r}
+fviz_nbclust(df, kmeans, method = "wss") +
+    geom_vline(xintercept = 4, linetype = 2)
+```
+
+
+The plot above represents the variance within the clusters. It decreases as k increases, but it can be seen a bend (or "elbow") at k = 4. This bend indicates that additional clusters beyond the fourth have little value.. In the next section, we'll classify the observations into 4 clusters.
+
+
+#### Compute k-means clustering with k = 4
+
+```{r}
+set.seed(123)
+km.res <- kmeans(df, 4, nstart = 25)
+```
+
+As the final result of k-means clustering result is sensitive to the random starting assignments, we specify *nstart = 25*. This means that R will try 25 different random starting assignments and then select the best results corresponding to the one with the lowest within cluster variation. The default value of *nstart* in R is one. But, it's strongly recommended to compute *k-means clustering* with a large value of *nstart* such as 25 or 50, in order to have a more stable result.
+
+
+#####Print the results
+```{r}
+print(km.res)
+```
+
+What do we see in the output?
+
+
+It's possible to compute the mean of each variables by clusters using the original data:
+
+```{r}
+aggregate(USArrests, by=list(cluster=km.res$cluster), mean)
+```
+
+
+If you want to add the point classifications to the original data, use this:
+
+```{r}
+dd <- cbind(USArrests, cluster = km.res$cluster)
+head(dd)
+```
+
+####Accessing to the results of kmeans() function
+
+#####Cluster number for each of the observations
+
+```{r}
+#km.res$cluster
+
+head(km.res$cluster, 4)
+
+```
+
+#####Cluster size
+
+```{r}
+km.res$size
+```
+
+#####Cluster means
+
+```{r}
+km.res$centers
+```
+
+####Visualizing k-means clusters
+
+If we have a multi-dimensional data set, a solution is to perform Principal Component Analysis (PCA) and to plot data points according to the first two principal components coordinates.
+
+
+```{r}
+fviz_cluster(km.res, data = df,
+             palette = c("#2E9FDF", "#00AFBB", "#E7B800", "#FC4E07"), 
+             ellipse.type = "euclid", # Concentration ellipse
+             star.plot = TRUE, # Add segments from centroids to items
+             repel = TRUE, # Avoid label overplotting (slow)
+             ggtheme = theme_minimal()
+             )
+```
+
+

@@ -1,0 +1,220 @@
+---
+title: "DANA 4840 — R: estructuras básicas (recordatorio) y dataset Worksheet 0a"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    fig_width: 7
+    fig_height: 4.5
+    latex_engine: xelatex
+---
+
+Notas cortas de clase. Revisar con `str()`, `class()` y los `is.*()` después de cada bloque.
+
+## Vector
+
+```{r}
+myvector <- c(1, 3, 5)
+myvector
+str(myvector)
+class(myvector)
+is.vector(myvector)
+```
+
+## Lista
+
+```{r}
+a <- c(1:4)
+b <- c("John", "Mary")
+mylist <- list(a, b)
+str(mylist)
+class(mylist)
+is.vector(mylist)
+is.list(mylist)
+```
+
+## Matriz
+
+```{r}
+mymatrix <- matrix(c(1:6), 2, 3, byrow = TRUE)
+mymatrix
+str(mymatrix)
+class(mymatrix)
+is.matrix(mymatrix)
+```
+
+## Array
+
+```{r}
+myarray <- array(c(1:12), dim = c(2, 3, 2))
+myarray
+str(myarray)
+class(myarray)
+is.matrix(myarray)
+is.array(myarray)
+```
+
+## Data frame
+
+```{r}
+mydataframe <- data.frame(
+  Gender = c("Male", "Female", "Male"),
+  Age = c(22, 30, 33),
+  medal = c("Gold", "Gold", "Bronze")
+)
+mydataframe
+str(mydataframe)
+class(mydataframe)
+is.data.frame(mydataframe)
+```
+
+### Sin conversión automática a factor (caracteres como texto)
+
+```{r}
+mydataframe <- data.frame(
+  Gender = c("Male", "Female", "Male"),
+  Age = c(22, 30, 33),
+  medal = c("Gold", "Gold", "Bronze"),
+  stringsAsFactors = FALSE
+)
+mydataframe$medal
+is.factor(mydataframe$medal)
+is.vector(mydataframe$medal)
+```
+
+### Factor nominal
+
+```{r}
+myfactor <- factor(c("M", "F", "T", "O", "M"))
+myfactor
+str(myfactor)
+class(myfactor)
+is.factor(myfactor)
+```
+
+### Factor ordinal (`ordered`, `levels`)
+
+```{r}
+myfactor <- factor(
+  c("M", "F", "T", "O", "M"),
+  ordered = TRUE,
+  levels = c("O", "M", "F", "T")
+)
+myfactor
+is.factor(myfactor)
+```
+
+---
+
+## Worksheet 0a — dataset
+
+Fuente: [McCaffrey — Gower distance example](https://jamesmccaffrey.wordpress.com/2020/04/21/example-of-calculating-the-gower-distance/)
+
+| Age | Race | Height   | Income | IsMale | Politics     |
+|-----|------|----------|--------|--------|--------------|
+| 22  | 1    | Tall     | 0.39   | TRUE   | moderate     |
+| 33  | 3    | Short    | 0.34   | TRUE   | liberal      |
+| 52  | 1    | Moderate | 0.51   | FALSE  | moderate     |
+| 46  | 6    | Tall     | 0.63   | TRUE   | conservative |
+
+Siguiente paso en el curso: clasificar variables (cuantitativa / categórica; nominal, ordinal, binaria), armar el `data.frame` con tipos coherentes, y leer el mismo dato vía `read.table`, `readxl::read_excel`, `read.csv`.
+
+```{r}
+# =========================
+# Worksheet 0a — Part (c)
+# =========================
+
+# =========================
+# Create local TXT file
+# =========================
+
+# Create data as text lines
+lines <- c(
+  "Age\tRace\tHeight\tIncome\tIsMale\tPolitics",
+  "22\t1\tTall\t0.39\tTRUE\tmoderate",
+  "33\t3\tShort\t0.34\tTRUE\tliberal",
+  "52\t1\tModerate\t0.51\tFALSE\tmoderate",
+  "46\t6\tTall\t0.63\tTRUE\tconservative"
+)
+
+# Write file to current notebook/project folder
+writeLines(lines, "dana4840_worksheet0a.txt")
+
+# Verify file exists
+file.exists("dana4840_worksheet0a.txt")
+
+# Show current working directory
+getwd()
+
+# Read file again
+df_txt <- read.table(
+  "dana4840_worksheet0a.txt",
+  header = TRUE,
+  sep = "\t",
+  stringsAsFactors = FALSE
+)
+
+# Read TXT file
+
+fp <- "dana4840_worksheet0a.txt"
+
+df_txt <- read.table(
+  fp,
+  header = TRUE,
+  sep = "\t",
+  stringsAsFactors = FALSE
+)
+
+# Output type
+
+class(df_txt)
+
+# Structure before conversion
+
+str(df_txt)
+
+# =========================
+# Convert variables
+# =========================
+
+# Nominal categorical
+df_txt$Race <- factor(df_txt$Race)
+
+# Ordinal categorical
+df_txt$Height <- factor(
+  df_txt$Height,
+  levels = c("Short", "Moderate", "Tall"),
+  ordered = TRUE
+)
+
+# Binary categorical
+df_txt$IsMale <- factor(
+  df_txt$IsMale,
+  levels = c(FALSE, TRUE),
+  labels = c("Female", "Male")
+)
+
+# Politics as nominal factor
+df_txt$Politics <- factor(df_txt$Politics)
+
+# =========================
+# Final structure
+# =========================
+
+str(df_txt)
+
+df_txt
+```
+
+
+```{r}
+
+library(readxl)
+fp <- "assets/data/dana4840_worksheet0a.xlsx"
+df_xl <- read_excel(fp)
+class(df_xl)
+df_xl <- as.data.frame(df_xl)
+str(df_xl, vec.len = 1)
+
+```

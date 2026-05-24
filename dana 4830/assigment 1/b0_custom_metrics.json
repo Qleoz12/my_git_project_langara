@@ -1,0 +1,20 @@
+{
+  "method": "b0_custom",
+  "dataset_rows": 590540,
+  "dataset_cols": 434,
+  "rows": 434,
+  "uses_full_dataset": true,
+  "total_seconds": 24.88,
+  "csv_bytes": 32635,
+  "html_bytes": 109874,
+  "logical_type_counts": {
+    "Numerical": 262,
+    "Discrete Numerical": 132,
+    "Binary": 25,
+    "Categorical": 13,
+    "Target": 1,
+    "Identifier": 1
+  },
+  "output_csv": "P:\\langara\\term 4\\dana 4830\\assigment 1\\feature_profile_434.csv",
+  "output_html": "P:\\langara\\term 4\\dana 4830\\assigment 1\\feature_profile_434.html"
+}

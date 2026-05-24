@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (MiKTeX 24.1) (preloaded format=xelatex 2025.12.2)  18 MAY 2026 02:37
+This is XeTeX, Version 3.141592653-2.6-0.999995 (MiKTeX 24.1) (preloaded format=xelatex 2025.12.2)  23 MAY 2026 19:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -845,8 +845,7 @@ Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
 \Wrappedvisiblespacebox=\box93
 Package hyperref Info: Option `breaklinks' set `true' on input line 402.
 Package hyperref Info: Option `colorlinks' set `true' on input line 402.
-
-No file A1_Leonardo_LS.aux.
+ (A1_Leonardo_LS.aux)
 \openout1 = `A1_Leonardo_LS.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 409.
@@ -873,6 +872,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
+
 (D:\Program Files\MiKTeX\tex/latex/caption\ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
@@ -1119,11 +1119,9 @@ LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/cmex/m/n --> TU/latinmodern-math.otf(3)/b/n on inpu
 t line 409.
 Package hyperref Info: Link coloring ON on input line 409.
+(A1_Leonardo_LS.out) (A1_Leonardo_LS.out)
 \@outlinefile=\write5
 \openout5 = `A1_Leonardo_LS.out'.
-
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
 (Font)              scaled to size 12.00128pt on input line 411.
@@ -1139,6 +1137,7 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 5.99936pt on input line 411.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 411
 .
+
 (D:\Program Files\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
@@ -1191,7 +1190,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.627 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
+l.634 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
                                                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1200,7 +1199,7 @@ or  <return>  to continue without it.
 ! Missing number, treated as zero.
 <to be read again> 
                    \c@none 
-l.627 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
+l.634 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
                                                   
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1214,7 +1213,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.664 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
+l.671 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
                                                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1223,19 +1222,19 @@ or  <return>  to continue without it.
 ! Missing number, treated as zero.
 <to be read again> 
                    \c@none 
-l.664 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
+l.671 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
                                                   
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
 look up `weird error' in the index to The TeXbook.)
 
 
-Overfull \hbox (4.58617pt too wide) in paragraph at lines 684--684
+Overfull \hbox (4.58617pt too wide) in paragraph at lines 691--691
 []|\TU/lmr/bx/n/10.95 TransactionAmt|  
  []
 
 
-Overfull \hbox (92.26279pt too wide) in paragraph at lines 695--695
+Overfull \hbox (92.26279pt too wide) in paragraph at lines 702--702
 []|\TU/lmr/bx/n/10.95 P_emaildomainR_emaildomain|  
  []
 
@@ -1247,7 +1246,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.725 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
+l.732 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
                                                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1256,7 +1255,7 @@ or  <return>  to continue without it.
 ! Missing number, treated as zero.
 <to be read again> 
                    \c@none 
-l.725 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
+l.732 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
                                                   
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1270,7 +1269,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.760 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
+l.767 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
                                                   
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1279,7 +1278,7 @@ or  <return>  to continue without it.
 ! Missing number, treated as zero.
 <to be read again> 
                    \c@none 
-l.760 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
+l.767 ...width - 8\tabcolsep) * \real{0.2000}}@{}}
                                                   
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1296,7 +1295,7 @@ Missing character: There is no ️ in font [lmmono10-regular]:!
 File: A1_Leonardo_LS_files/A1_Leonardo_LS_20_0.png Graphic file (type bmp)
 <A1_Leonardo_LS_files/A1_Leonardo_LS_20_0.png>
 
-Underfull \hbox (badness 10000) in paragraph at lines 940--941
+Underfull \hbox (badness 10000) in paragraph at lines 947--948
 
  []
 
@@ -1304,59 +1303,227 @@ Underfull \hbox (badness 10000) in paragraph at lines 940--941
 File: A1_Leonardo_LS_files/A1_Leonardo_LS_31_0.png Graphic file (type bmp)
 <A1_Leonardo_LS_files/A1_Leonardo_LS_31_0.png>
  [15]
-Underfull \hbox (badness 10000) in paragraph at lines 1126--1127
+Underfull \hbox (badness 10000) in paragraph at lines 1133--1134
 
  []
 
-[16]
-File: A1_Leonardo_LS_files/A1_Leonardo_LS_38_0.png Graphic file (type bmp)
-<A1_Leonardo_LS_files/A1_Leonardo_LS_38_0.png>
- [17]
-Underfull \hbox (badness 10000) in paragraph at lines 1212--1213
+
+! LaTeX Error: No counter 'none' defined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1156 ...idth - 2\tabcolsep) * \real{0.5625}}@{}}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing number, treated as zero.
+<to be read again> 
+                   \c@none 
+l.1156 ...idth - 2\tabcolsep) * \real{0.5625}}@{}}
+                                                  
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+[16] [17]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_39_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_39_0.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 1248--1249
 
  []
 
 [18] [19]
-File: A1_Leonardo_LS_files/A1_Leonardo_LS_42_0.png Graphic file (type bmp)
-<A1_Leonardo_LS_files/A1_Leonardo_LS_42_0.png>
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_43_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_43_0.png>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1308--1309
+Underfull \hbox (badness 10000) in paragraph at lines 1344--1345
 
  []
 
 [20] [21] [22]
-File: A1_Leonardo_LS_files/A1_Leonardo_LS_46_1.png Graphic file (type bmp)
-<A1_Leonardo_LS_files/A1_Leonardo_LS_46_1.png>
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_47_1.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_47_1.png>
  [23]
-Underfull \hbox (badness 10000) in paragraph at lines 1453--1454
+Underfull \hbox (badness 10000) in paragraph at lines 1489--1490
 
  []
 
 [24] [25] [26] [27]
-File: A1_Leonardo_LS_files/A1_Leonardo_LS_50_0.png Graphic file (type bmp)
-<A1_Leonardo_LS_files/A1_Leonardo_LS_50_0.png>
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_51_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_51_0.png>
  [28]
-Underfull \hbox (badness 10000) in paragraph at lines 1647--1648
+Underfull \hbox (badness 10000) in paragraph at lines 1683--1684
 
  []
 
-[29] [30]
-File: A1_Leonardo_LS_files/A1_Leonardo_LS_54_0.png Graphic file (type bmp)
-<A1_Leonardo_LS_files/A1_Leonardo_LS_54_0.png>
- [31]
-Underfull \hbox (badness 10000) in paragraph at lines 1770--1771
-
- []
-
-[32] [33]
+[29] [30] [31]
 File: A1_Leonardo_LS_files/A1_Leonardo_LS_56_0.png Graphic file (type bmp)
 <A1_Leonardo_LS_files/A1_Leonardo_LS_56_0.png>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1874--1875
+Underfull \hbox (badness 10000) in paragraph at lines 1864--1865
 
  []
 
-[34] [35] [36] (A1_Leonardo_LS.aux)
+[32]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_57_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_57_0.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 1897--1898
+
+ []
+
+[33]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_58_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_58_0.png>
+ [34]
+Underfull \hbox (badness 10000) in paragraph at lines 1930--1931
+
+ []
+
+
+! LaTeX Error: No counter 'none' defined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1951 ...idth - 4\tabcolsep) * \real{0.1316}}@{}}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing number, treated as zero.
+<to be read again> 
+                   \c@none 
+l.1951 ...idth - 4\tabcolsep) * \real{0.1316}}@{}}
+                                                  
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+[35] [36]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_63_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_63_0.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 2027--2028
+
+ []
+
+[37]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_64_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_64_0.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 2089--2090
+
+ []
+
+[38] [39]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_67_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_67_0.png>
+ [40]
+Underfull \hbox (badness 10000) in paragraph at lines 2194--2195
+
+ []
+
+[41] [42]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_70_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_70_0.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 2304--2305
+
+ []
+
+[43]
+
+! LaTeX Error: No counter 'none' defined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.2352 ...idth - 4\tabcolsep) * \real{0.3333}}@{}}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing number, treated as zero.
+<to be read again> 
+                   \c@none 
+l.2352 ...idth - 4\tabcolsep) * \real{0.3333}}@{}}
+                                                  
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+Missing character: There is no ↔ in font [lmroman10-regular]:mapping=tex-text;!
+[44]
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+[45]
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+[46]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_75_4.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_75_4.png>
+ [47]
+Underfull \hbox (badness 10000) in paragraph at lines 2559--2560
+
+ []
+
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+[48]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_76_2.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_76_2.png>
+ [49]
+Underfull \hbox (badness 10000) in paragraph at lines 2637--2638
+
+ []
+
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ≠ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+[50]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_77_0.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_77_0.png>
+
+Underfull \hbox (badness 10000) in paragraph at lines 2687--2688
+
+ []
+
+[51]
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+Missing character: There is no ─ in font [lmmono10-italic]:!
+[52]
+File: A1_Leonardo_LS_files/A1_Leonardo_LS_79_2.png Graphic file (type bmp)
+<A1_Leonardo_LS_files/A1_Leonardo_LS_79_2.png>
+ [53]
+Underfull \hbox (badness 10000) in paragraph at lines 2800--2801
+
+ []
+
+[54] [55] (A1_Leonardo_LS.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -1375,16 +1542,16 @@ Package rerunfilecheck Warning: File `A1_Leonardo_LS.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `A1_Leonardo_LS.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  F52CB84A160FCEAACE60CF2FC94158A1;5942.
+(rerunfilecheck)             Before: F52CB84A160FCEAACE60CF2FC94158A1;5942
+(rerunfilecheck)             After:  1C78C25E06262D5B72058AD237B27F9A;6178.
  ) 
 Here is how much of TeX's memory you used:
- 30743 strings out of 409616
- 591371 string characters out of 5778255
- 2068191 words of memory out of 5000000
- 52393 multiletter control sequences out of 15000+600000
+ 30873 strings out of 409616
+ 596282 string characters out of 5778255
+ 2142191 words of memory out of 5000000
+ 52508 multiletter control sequences out of 15000+600000
  566359 words of font info for 99 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 101i,7n,114p,677b,634s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,7n,114p,702b,636s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on A1_Leonardo_LS.pdf (36 pages).
+Output written on A1_Leonardo_LS.pdf (55 pages).

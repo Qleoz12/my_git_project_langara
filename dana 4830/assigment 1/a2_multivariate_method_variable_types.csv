@@ -1,0 +1,4 @@
+method,input_data,numeric,categorical,needs_discretization,selection_rule,typical_output_size
+CFS (Correlation-based Feature Selection),X_train_cfs (mixed numeric + label-encoded categoricals),Yes,Yes (encoded in mixed matrix),No,"Greedy merit: high |r(feature,fraud)|, low redundancy between features",up to 20 features
+CON (Consistency-Based),X_train original columns (discretized per feature),Yes (binned to ~5 bins),Yes (string levels),Yes (qcut / string),Add features until inconsistency rate <= tau or max features,Often very small (e.g. 1–5)
+DISR (Double Input Symmetrical Relevance),X_train original columns (discretized),Yes (binned),Yes (string levels),Yes,Maximize MI with fraud minus mean redundancy with selected set,up to 10 features

@@ -1,0 +1,5 @@
+pool,n_rows,fraud_rate
+full_csv,590540,0.03499000914417313
+modeling,80000,0.0349875
+external_holdout,80000,0.0349875
+unused_reserve,430540,0.03499094160821294

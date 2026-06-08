@@ -1,0 +1,434 @@
+method,feature_scope,rank,feature,score
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",1,V45,0.23161543293453185
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",2,V86,0.22632883325487974
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",3,V87,0.21791869184456972
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",4,V44,0.21451444522694707
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",5,V52,0.19555895505290227
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",6,V51,0.1804874384602501
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",7,V40,0.17227099179731975
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",8,V79,0.1674019068817584
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",9,V39,0.16424416712229356
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",10,id_35,0.16166706986775684
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",11,V33,0.16068869478420042
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",12,D7,0.16062173588055212
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",13,ProductCD,0.1602117156343655
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",14,V94,0.159855203580841
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",15,V34,0.15895602674906964
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",16,V43,0.1584454565541288
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",17,V18,0.1583180796969141
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",18,V15,0.15812846888835544
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",19,V92,0.15792407127663852
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",20,V93,0.157723389271127
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",21,V17,0.15751002771567155
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",22,V38,0.1568782844950604
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",23,addr1_isna,0.15643963582523931
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",24,addr2_isna,0.15643963582523931
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",25,V16,0.15543420487098686
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",26,D12,0.15413610376193704
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",27,card3,0.15378026423963895
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",28,V74,0.15285442392099016
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",29,V42,0.1521688509927272
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",30,V81,0.15116827450582626
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",31,R_emaildomain,0.1477238918627673
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",32,V80,0.14752897660239034
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",33,V50,0.1471084793596566
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",34,id_10,0.14520092574953566
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",35,id_09,0.14519397410601964
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",36,id_29,0.14517341063570233
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",37,D9,0.14516480161432366
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",38,D14,0.14502921801836788
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",39,V31,0.1449362442315368
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",40,V73,0.144107037024976
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",41,V57,0.1440175611128062
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",42,V21,0.14395281087669867
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",43,V32,0.14338582204908593
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",44,id_28,0.14284128652492553
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",45,V84,0.14240304962384573
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",46,V77,0.14235936710361427
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",47,V85,0.14204579729510564
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",48,V58,0.14180080584457685
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",49,D6,0.14023745186015626
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",50,V37,0.1387040031660384
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",51,M4,0.13811258941405816
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",52,V22,0.13769630356510304
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",53,id_13,0.1375454405565558
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",54,id_20,0.1374703850162314
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",55,id_36,0.1374295326959339
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",56,id_17,0.13599945098780622
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",57,id_03,0.1358234434128213
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",58,id_16,0.13580817929249467
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",59,id_04,0.13578874993430395
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",60,DeviceType,0.13504696466627786
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",61,id_38,0.1348558669235084
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",62,id_37,0.1348558669235084
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",63,id_11,0.1348505581806847
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",64,id_31,0.13433600953440122
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",65,id_05,0.1339265994712656
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",66,id_12,0.13350995910845068
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",67,D13,0.13345061724657292
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",68,id_06,0.13343422000088992
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",69,id_15,0.13339482363398916
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",70,V171,0.1327005531306461
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",71,V71,0.132657217408354
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",72,V201,0.13265555723228362
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",73,V199,0.13261849089209587
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",74,V170,0.13261744855232624
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",75,V200,0.1325969262636116
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",76,V176,0.13257306624255
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",77,V190,0.13256647587315004
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",78,V189,0.1324887279263415
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",79,V187,0.13247927460799325
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",80,V186,0.13245831991868273
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",81,V188,0.13245451785822476
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",82,V208,0.13244228856716433
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",83,V198,0.13235878860101616
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",84,V185,0.13235793735850315
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",85,V196,0.13235533912821926
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",86,V184,0.1323538952050567
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",87,V169,0.13235252751913426
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",88,V192,0.13235197549229913
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",89,V191,0.13234851840681391
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",90,V193,0.13234785183595263
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",91,V181,0.13234632274927577
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",92,V197,0.13234625183251322
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",93,V195,0.13234483980291334
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",94,V194,0.132336983505038
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",95,V173,0.13232148708743363
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",96,V172,0.1323167872906416
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",97,V174,0.13231424208073228
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",98,V183,0.13231392417566906
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",99,V175,0.13231284731194015
+Pearson |r| with Target,"numeric + one-hot categorical, max |r| per original feature",100,V182,0.13226571045770014
+ANOVA F-Statistic,numeric only,1,V45,3401.0890686804523
+ANOVA F-Statistic,numeric only,2,V86,3239.315071031056
+ANOVA F-Statistic,numeric only,3,V87,2991.2694665387307
+ANOVA F-Statistic,numeric only,4,V44,2894.06960077627
+ANOVA F-Statistic,numeric only,5,V52,2385.7612004852313
+ANOVA F-Statistic,numeric only,6,V51,2020.290172867157
+ANOVA F-Statistic,numeric only,7,V40,1835.0372638079332
+ANOVA F-Statistic,numeric only,8,V79,1729.8233888986604
+ANOVA F-Statistic,numeric only,9,V39,1663.3865940662665
+ANOVA F-Statistic,numeric only,10,V33,1590.2616748874839
+ANOVA F-Statistic,numeric only,11,D7,1588.9015377898816
+ANOVA F-Statistic,numeric only,12,V94,1573.3756057043522
+ANOVA F-Statistic,numeric only,13,V34,1555.2675461209185
+ANOVA F-Statistic,numeric only,14,V43,1545.0356136892979
+ANOVA F-Statistic,numeric only,15,V18,1542.4886145839635
+ANOVA F-Statistic,numeric only,16,V15,1538.7013832610107
+ANOVA F-Statistic,numeric only,17,V92,1534.6244089072732
+ANOVA F-Statistic,numeric only,18,V93,1530.627202062886
+ANOVA F-Statistic,numeric only,19,V17,1526.3835854460863
+ANOVA F-Statistic,numeric only,20,V38,1513.855742241421
+ANOVA F-Statistic,numeric only,21,addr1_isna,1505.1896811271276
+ANOVA F-Statistic,numeric only,22,addr2_isna,1505.1896811271276
+ANOVA F-Statistic,numeric only,23,V16,1485.4268057723318
+ANOVA F-Statistic,numeric only,24,D12,1460.1181912635584
+ANOVA F-Statistic,numeric only,25,card3,1453.2211954796542
+ANOVA F-Statistic,numeric only,26,V74,1435.35815539502
+ANOVA F-Statistic,numeric only,27,V42,1422.2069549445732
+ANOVA F-Statistic,numeric only,28,V81,1403.1292239819415
+ANOVA F-Statistic,numeric only,29,V80,1334.898197513767
+ANOVA F-Statistic,numeric only,30,V50,1327.1313226381874
+ANOVA F-Statistic,numeric only,31,id_10,1292.200220013331
+ANOVA F-Statistic,numeric only,32,id_09,1292.0738276343034
+ANOVA F-Statistic,numeric only,33,D9,1291.5434951388804
+ANOVA F-Statistic,numeric only,34,D14,1289.0802130398013
+ANOVA F-Statistic,numeric only,35,V31,1287.3925104289492
+ANOVA F-Statistic,numeric only,36,V73,1272.3923188414956
+ANOVA F-Statistic,numeric only,37,V57,1270.779299456475
+ANOVA F-Statistic,numeric only,38,V21,1269.612697833998
+ANOVA F-Statistic,numeric only,39,V32,1259.4215894611307
+ANOVA F-Statistic,numeric only,40,V84,1241.8603806333062
+ANOVA F-Statistic,numeric only,41,V77,1241.0828518898575
+ANOVA F-Statistic,numeric only,42,V85,1235.509034053076
+ANOVA F-Statistic,numeric only,43,V58,1231.1634782576214
+ANOVA F-Statistic,numeric only,44,D6,1203.6243715108765
+ANOVA F-Statistic,numeric only,45,V37,1176.9323181196412
+ANOVA F-Statistic,numeric only,46,V22,1159.5640501966711
+ANOVA F-Statistic,numeric only,47,id_13,1156.9755853712702
+ANOVA F-Statistic,numeric only,48,id_20,1155.6889421838575
+ANOVA F-Statistic,numeric only,49,id_17,1130.6259369296827
+ANOVA F-Statistic,numeric only,50,id_03,1127.6464003832898
+ANOVA F-Statistic,numeric only,51,id_04,1127.0595828311723
+ANOVA F-Statistic,numeric only,52,id_11,1111.2517631319492
+ANOVA F-Statistic,numeric only,53,id_05,1095.798783109116
+ANOVA F-Statistic,numeric only,54,D13,1087.8825906855116
+ANOVA F-Statistic,numeric only,55,id_06,1087.6104222218096
+ANOVA F-Statistic,numeric only,56,V171,1075.4693996213734
+ANOVA F-Statistic,numeric only,57,V71,1074.7545064064195
+ANOVA F-Statistic,numeric only,58,V201,1074.7271240790042
+ANOVA F-Statistic,numeric only,59,V199,1074.1158612624015
+ANOVA F-Statistic,numeric only,60,V170,1074.0986746328463
+ANOVA F-Statistic,numeric only,61,V200,1073.760322154895
+ANOVA F-Statistic,numeric only,62,V176,1073.36701078169
+ANOVA F-Statistic,numeric only,63,V190,1073.2583877308448
+ANOVA F-Statistic,numeric only,64,V189,1071.977375966306
+ANOVA F-Statistic,numeric only,65,V187,1071.8216735499113
+ANOVA F-Statistic,numeric only,66,V186,1071.4765783720404
+ANOVA F-Statistic,numeric only,67,V188,1071.41396988627
+ANOVA F-Statistic,numeric only,68,V208,1071.2126033484615
+ANOVA F-Statistic,numeric only,69,V198,1069.8382318504093
+ANOVA F-Statistic,numeric only,70,V185,1069.824225567035
+ANOVA F-Statistic,numeric only,71,V196,1069.7814750689229
+ANOVA F-Statistic,numeric only,72,V184,1069.7577175809108
+ANOVA F-Statistic,numeric only,73,V169,1069.7352147130387
+ANOVA F-Statistic,numeric only,74,V192,1069.7261321523686
+ANOVA F-Statistic,numeric only,75,V191,1069.669253252172
+ANOVA F-Statistic,numeric only,76,V193,1069.658286446456
+ANOVA F-Statistic,numeric only,77,V181,1069.6331292600053
+ANOVA F-Statistic,numeric only,78,V197,1069.631962514675
+ANOVA F-Statistic,numeric only,79,V195,1069.6087314911047
+ANOVA F-Statistic,numeric only,80,V194,1069.4794827876733
+ANOVA F-Statistic,numeric only,81,V173,1069.2245659550642
+ANOVA F-Statistic,numeric only,82,V172,1069.1472603866905
+ANOVA F-Statistic,numeric only,83,V174,1069.1053962089757
+ANOVA F-Statistic,numeric only,84,V183,1069.1001672965383
+ANOVA F-Statistic,numeric only,85,V175,1069.0824551081419
+ANOVA F-Statistic,numeric only,86,V182,1068.3073023487873
+ANOVA F-Statistic,numeric only,87,V123,1068.293918596954
+ANOVA F-Statistic,numeric only,88,V180,1067.9417325630384
+ANOVA F-Statistic,numeric only,89,id_01,1067.560047863831
+ANOVA F-Statistic,numeric only,90,V167,1060.7793382249092
+ANOVA F-Statistic,numeric only,91,V177,1060.68019739712
+ANOVA F-Statistic,numeric only,92,V210,1058.3819094045684
+ANOVA F-Statistic,numeric only,93,V179,1056.3728742622097
+ANOVA F-Statistic,numeric only,94,V168,1055.0461724831434
+ANOVA F-Statistic,numeric only,95,V214,1051.3349370630215
+ANOVA F-Statistic,numeric only,96,V178,1049.3511775373418
+ANOVA F-Statistic,numeric only,97,V23,1047.2913086491715
+ANOVA F-Statistic,numeric only,98,V72,1045.9347313255212
+ANOVA F-Statistic,numeric only,99,V47,1045.0965187447416
+ANOVA F-Statistic,numeric only,100,V302,1039.2389701532206
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",1,id_35,1399.1252788873553
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",2,ProductCD,1359.9823881036377
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",3,R_emaildomain,1182.814918604331
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",4,id_29,1099.8366054542616
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",5,id_28,1062.00910473379
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",6,M4,1027.4605052712052
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",7,id_16,979.9408086900652
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",8,id_15,942.8067786706288
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",9,id_31,913.0299067893441
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",10,id_38,898.9690338268749
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",11,id_36,874.1790768133025
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",12,DeviceInfo,809.7179281160093
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",13,id_37,778.9288465464176
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",14,id_12,772.9100831403797
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",15,DeviceType,680.7440963394221
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",16,M6,654.7005223872575
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",17,card6,381.2412786427358
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",18,M1,252.0389991355696
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",19,M3,252.0389991355696
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",20,M2,252.0389991355696
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",21,M9,171.10750378668266
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",22,M7,139.72928167271087
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",23,M8,110.6702337798721
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",24,id_33,103.28414502526888
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",25,P_emaildomain,64.35744213254418
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",26,id_34,49.046402533504136
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",27,TransactionAmt_band,47.958665378493336
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",28,id_30,45.61410019859037
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",29,M5,30.40364602608287
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",30,id_23,24.848379901440175
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",31,id_33_class,22.51833071425158
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",32,card4,22.26737154693167
+Chi-Square Score,"categorical one-hot, max chi2 per original feature",33,id_27,13.528382326510267
+ReliefF Weight,mixed encoded (numeric + ordinal categories),1,M5,0.18566666666666667
+ReliefF Weight,mixed encoded (numeric + ordinal categories),2,M6,0.15416666666666667
+ReliefF Weight,mixed encoded (numeric + ordinal categories),3,M4,0.1458888888888892
+ReliefF Weight,mixed encoded (numeric + ordinal categories),4,D2_isna,0.14233333333333334
+ReliefF Weight,mixed encoded (numeric + ordinal categories),5,TransactionAmt_band,0.12022222222222223
+ReliefF Weight,mixed encoded (numeric + ordinal categories),6,D3_isna,0.11366666666666667
+ReliefF Weight,mixed encoded (numeric + ordinal categories),7,M8,0.10366666666666667
+ReliefF Weight,mixed encoded (numeric + ordinal categories),8,TransactionDT,0.07898474106668113
+ReliefF Weight,mixed encoded (numeric + ordinal categories),9,D5_isna,0.07866666666666666
+ReliefF Weight,mixed encoded (numeric + ordinal categories),10,id_37,0.065
+ReliefF Weight,mixed encoded (numeric + ordinal categories),11,V36,0.06466666666666666
+ReliefF Weight,mixed encoded (numeric + ordinal categories),12,M9,0.063
+ReliefF Weight,mixed encoded (numeric + ordinal categories),13,M7,0.062
+ReliefF Weight,mixed encoded (numeric + ordinal categories),14,V35,0.0605
+ReliefF Weight,mixed encoded (numeric + ordinal categories),15,id_18,0.0595461062235256
+ReliefF Weight,mixed encoded (numeric + ordinal categories),16,card2,0.057312666666666616
+ReliefF Weight,mixed encoded (numeric + ordinal categories),17,card6,0.055
+ReliefF Weight,mixed encoded (numeric + ordinal categories),18,V90,0.05155555555555556
+ReliefF Weight,mixed encoded (numeric + ordinal categories),19,V53,0.050666666666666665
+ReliefF Weight,mixed encoded (numeric + ordinal categories),20,card5,0.0500024330900244
+ReliefF Weight,mixed encoded (numeric + ordinal categories),21,D1,0.04842006269592469
+ReliefF Weight,mixed encoded (numeric + ordinal categories),22,id_38,0.04833333333333333
+ReliefF Weight,mixed encoded (numeric + ordinal categories),23,V29,0.04488888888888871
+ReliefF Weight,mixed encoded (numeric + ordinal categories),24,dist1_isna,0.043
+ReliefF Weight,mixed encoded (numeric + ordinal categories),25,V69,0.04083333333333333
+ReliefF Weight,mixed encoded (numeric + ordinal categories),26,V12,0.040666666666666455
+ReliefF Weight,mixed encoded (numeric + ordinal categories),27,V70,0.04006666666666704
+ReliefF Weight,mixed encoded (numeric + ordinal categories),28,D2,0.04002403343782646
+ReliefF Weight,mixed encoded (numeric + ordinal categories),29,M3,0.0395
+ReliefF Weight,mixed encoded (numeric + ordinal categories),30,V91,0.03866666666666703
+ReliefF Weight,mixed encoded (numeric + ordinal categories),31,card1,0.03823238139106404
+ReliefF Weight,mixed encoded (numeric + ordinal categories),32,DeviceInfo,0.037380952380952404
+ReliefF Weight,mixed encoded (numeric + ordinal categories),33,V75,0.03688888888888873
+ReliefF Weight,mixed encoded (numeric + ordinal categories),34,V30,0.03493333333333364
+ReliefF Weight,mixed encoded (numeric + ordinal categories),35,M2,0.034833333333333334
+ReliefF Weight,mixed encoded (numeric + ordinal categories),36,V48,0.03399999999999988
+ReliefF Weight,mixed encoded (numeric + ordinal categories),37,V13,0.032916666666666664
+ReliefF Weight,mixed encoded (numeric + ordinal categories),38,D15,0.03291072229699415
+ReliefF Weight,mixed encoded (numeric + ordinal categories),39,V76,0.031166666666666665
+ReliefF Weight,mixed encoded (numeric + ordinal categories),40,V49,0.030400000000000246
+ReliefF Weight,mixed encoded (numeric + ordinal categories),41,V54,0.029083333333333333
+ReliefF Weight,mixed encoded (numeric + ordinal categories),42,DeviceType,0.028666666666666667
+ReliefF Weight,mixed encoded (numeric + ordinal categories),43,V288,0.028416666666666666
+ReliefF Weight,mixed encoded (numeric + ordinal categories),44,V61,0.028
+ReliefF Weight,mixed encoded (numeric + ordinal categories),45,id_12,0.028
+ReliefF Weight,mixed encoded (numeric + ordinal categories),46,D14,0.0273938872970392
+ReliefF Weight,mixed encoded (numeric + ordinal categories),47,P_emaildomain,0.02731746031746029
+ReliefF Weight,mixed encoded (numeric + ordinal categories),48,id_30,0.02566666666666668
+ReliefF Weight,mixed encoded (numeric + ordinal categories),49,id_15,0.025
+ReliefF Weight,mixed encoded (numeric + ordinal categories),50,card4,0.02466666666666665
+ReliefF Weight,mixed encoded (numeric + ordinal categories),51,id_04,0.024331664998331667
+ReliefF Weight,mixed encoded (numeric + ordinal categories),52,id_03,0.024233632436025294
+ReliefF Weight,mixed encoded (numeric + ordinal categories),53,D11,0.02402615384615386
+ReliefF Weight,mixed encoded (numeric + ordinal categories),54,id_16,0.024
+ReliefF Weight,mixed encoded (numeric + ordinal categories),55,V289,0.023619047619047654
+ReliefF Weight,mixed encoded (numeric + ordinal categories),56,id_31,0.023375
+ReliefF Weight,mixed encoded (numeric + ordinal categories),57,D10,0.022580529385374703
+ReliefF Weight,mixed encoded (numeric + ordinal categories),58,V282,0.021733333333333486
+ReliefF Weight,mixed encoded (numeric + ordinal categories),59,V82,0.021555555555555595
+ReliefF Weight,mixed encoded (numeric + ordinal categories),60,D4,0.020827725437415963
+ReliefF Weight,mixed encoded (numeric + ordinal categories),61,V287,0.020296296296296288
+ReliefF Weight,mixed encoded (numeric + ordinal categories),62,V10,0.018555555555555582
+ReliefF Weight,mixed encoded (numeric + ordinal categories),63,V284,0.018000000000000068
+ReliefF Weight,mixed encoded (numeric + ordinal categories),64,id_13,0.01716462841015996
+ReliefF Weight,mixed encoded (numeric + ordinal categories),65,V19,0.01711111111111114
+ReliefF Weight,mixed encoded (numeric + ordinal categories),66,V11,0.016666666666666687
+ReliefF Weight,mixed encoded (numeric + ordinal categories),67,V100,0.01511111111111117
+ReliefF Weight,mixed encoded (numeric + ordinal categories),68,TransactionAmt,0.014702612302048348
+ReliefF Weight,mixed encoded (numeric + ordinal categories),69,V283,0.013276190476190554
+ReliefF Weight,mixed encoded (numeric + ordinal categories),70,V310,0.01308172508222751
+ReliefF Weight,mixed encoded (numeric + ordinal categories),71,addr1,0.013066820276497703
+ReliefF Weight,mixed encoded (numeric + ordinal categories),72,V6,0.012666666666666666
+ReliefF Weight,mixed encoded (numeric + ordinal categories),73,dist2,0.012202377414561658
+ReliefF Weight,mixed encoded (numeric + ordinal categories),74,V285,0.012092896174863406
+ReliefF Weight,mixed encoded (numeric + ordinal categories),75,V62,0.011777777777777786
+ReliefF Weight,mixed encoded (numeric + ordinal categories),76,V312,0.011435339486789925
+ReliefF Weight,mixed encoded (numeric + ordinal categories),77,V20,0.011166666666666667
+ReliefF Weight,mixed encoded (numeric + ordinal categories),78,D3,0.010833602584814195
+ReliefF Weight,mixed encoded (numeric + ordinal categories),79,C9,0.010232774674115467
+ReliefF Weight,mixed encoded (numeric + ordinal categories),80,V67,0.010222222222222207
+ReliefF Weight,mixed encoded (numeric + ordinal categories),81,R_emaildomain,0.010027777777777785
+ReliefF Weight,mixed encoded (numeric + ordinal categories),82,id_33,0.00994999999999999
+ReliefF Weight,mixed encoded (numeric + ordinal categories),83,D9,0.009668097285389862
+ReliefF Weight,mixed encoded (numeric + ordinal categories),84,id_10,0.009668001334668
+ReliefF Weight,mixed encoded (numeric + ordinal categories),85,V7,0.009666666666666653
+ReliefF Weight,mixed encoded (numeric + ordinal categories),86,id_09,0.009631806108897743
+ReliefF Weight,mixed encoded (numeric + ordinal categories),87,V99,0.009568306010928933
+ReliefF Weight,mixed encoded (numeric + ordinal categories),88,V131,0.009481077003067264
+ReliefF Weight,mixed encoded (numeric + ordinal categories),89,C5,0.009476190476190511
+ReliefF Weight,mixed encoded (numeric + ordinal categories),90,V281,0.0088888888888889
+ReliefF Weight,mixed encoded (numeric + ordinal categories),91,V25,0.008833333333333334
+ReliefF Weight,mixed encoded (numeric + ordinal categories),92,V83,0.008714285714285699
+ReliefF Weight,mixed encoded (numeric + ordinal categories),93,ProductCD,0.008583333333333333
+ReliefF Weight,mixed encoded (numeric + ordinal categories),94,id_28,0.008333333333333333
+ReliefF Weight,mixed encoded (numeric + ordinal categories),95,V26,0.008111111111111105
+ReliefF Weight,mixed encoded (numeric + ordinal categories),96,id_29,0.008
+ReliefF Weight,mixed encoded (numeric + ordinal categories),97,V130,0.007783460670586514
+ReliefF Weight,mixed encoded (numeric + ordinal categories),98,id_36,0.007666666666666666
+ReliefF Weight,mixed encoded (numeric + ordinal categories),99,V314,0.007274857570979022
+ReliefF Weight,mixed encoded (numeric + ordinal categories),100,addr1_isna,0.007
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",1,V201,0.03236653143434243
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",2,V258,0.03145810594721743
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",3,V257,0.03076027954940863
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",4,V200,0.030744912720765072
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",5,V187,0.029913341037030916
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",6,V199,0.02990656042364126
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",7,V246,0.029800118655498586
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",8,V243,0.02947594439635859
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",9,V189,0.028831891261829723
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",10,V186,0.028600416582840182
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",11,V188,0.028440657782972778
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",12,V190,0.027803743291160865
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",13,V242,0.0275511439538747
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",14,V171,0.02715927078248037
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",15,V244,0.02712933340400836
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",16,V259,0.02696831030900282
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",17,V178,0.026812459345545436
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",18,V233,0.026622357449011647
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",19,V219,0.026247947438601482
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",20,V245,0.02603908349165973
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",21,V179,0.026018132262881855
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",22,V274,0.02591010006422234
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",23,V232,0.025887429110683646
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",24,V218,0.025851798072749954
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",25,V168,0.02573047159194153
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",26,V229,0.025452239713032565
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",27,D8,0.02517389666086567
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",28,V177,0.02509687435759589
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",29,V265,0.024933831378481486
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",30,V230,0.024772911599612035
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",31,V193,0.024619734327924414
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",32,V231,0.024442201046539713
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",33,V167,0.024422003756482402
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",34,V222,0.02437111087353694
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",35,V170,0.02430062575890135
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",36,V87,0.02396218401161554
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",37,V217,0.023939016410238656
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",38,V221,0.023805371859340507
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",39,V192,0.02367922087375174
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",40,V194,0.023581444777687643
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",41,V261,0.0233589314953615
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",42,V228,0.023207614853108405
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",43,V263,0.023068236710896528
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",44,V176,0.02296465976105644
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",45,V198,0.02261938510675532
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",46,V247,0.02260304385808043
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",47,V252,0.02257034291023219
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",48,id_13,0.022517868808911823
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",49,V248,0.022516517582713114
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",50,V275,0.02250503022726802
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",51,V255,0.022498564626841633
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",52,V208,0.02234844201562458
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",53,V251,0.02216341032616853
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",54,V262,0.022065833917692235
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",55,V253,0.022006222431255162
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",56,V210,0.021952013592772435
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",57,V195,0.021941238151895748
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",58,V206,0.02185594661201473
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",59,V86,0.021852183628940036
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",60,D12,0.02181717530430971
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",61,V209,0.021795593159567916
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",62,V239,0.021711035664968348
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",63,V197,0.021660939461007667
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",64,V214,0.021612366865345845
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",65,V249,0.021578236036966958
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",66,V191,0.02157669304187393
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",67,V273,0.021567990283258176
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",68,id_11,0.021555081493814576
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",69,V256,0.021552177790454374
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",70,V276,0.021546378492121043
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",71,V220,0.02153250479879598
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",72,V45,0.021469280343377806
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",73,D14,0.021381348743499062
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",74,V227,0.02136997864329171
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",75,V270,0.021355269493793294
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",76,V238,0.02130092154690777
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",77,id_01,0.021182383347428058
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",78,V205,0.021058495168144953
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",79,V264,0.021057109937759888
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",80,D6,0.02104311288640437
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",81,V250,0.020950791587950546
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",82,V174,0.020897628760607523
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",83,V182,0.020892210097988917
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",84,V234,0.020827564156728817
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",85,V260,0.020800236488334622
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",86,V278,0.020787063031023845
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",87,id_19,0.02070743812021192
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",88,V180,0.020646474215846755
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",89,V271,0.020574710307593724
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",90,V77,0.020550394874960576
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",91,V272,0.020486663739066602
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",92,V181,0.02036327022758133
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",93,V268,0.02030066329266389
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",94,V196,0.020258608764235575
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",95,id_35,0.02024939943309101
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",96,card1,0.0201706278004552
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",97,V254,0.020075559454937997
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",98,V184,0.020068224580837235
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",99,id_36,0.020019316905914186
+Mutual Information,"numeric + one-hot categorical, max MI per original feature",100,V236,0.01998648975300399

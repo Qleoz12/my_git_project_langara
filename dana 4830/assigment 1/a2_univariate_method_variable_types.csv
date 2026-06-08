@@ -1,0 +1,6 @@
+method,numeric,categorical,mixed_matrix,notes
+Pearson |r| with Target,Yes,"Yes (one-hot, max |r| per column)",No,Linear association with binary fraud label
+ANOVA F-Statistic,Yes,No,No,Mean separation fraud vs legitimate on numeric columns only
+Chi-Square Score,No (use ANOVA instead),"Yes (one-hot, max chi² per column)",No,Independence test on categorical predictors
+ReliefF Weight,Yes,Yes (label-encoded as string ordinals in mixed matrix),Yes (X_train_mixed),Nearest-neighbour contrast; subsample 3000 rows for speed
+Mutual Information,Yes,"Yes (one-hot, max MI per column)",No,Non-linear dependence with fraud

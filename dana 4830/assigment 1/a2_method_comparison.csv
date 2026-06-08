@@ -1,0 +1,9 @@
+source,N Feats,Recall,F2,AUC_PR,Precision,Specificity,Threshold,policy_status
+Baseline (540),541,0.8571,0.3305,0.4607,0.0956,0.7058,0.29,Best recall with accuracy >= 0.70
+Univariate: ReliefF Weight,50,0.819,0.3101,0.303,0.089,0.6959,0.33,Best recall with accuracy >= 0.70
+CFS,4,0.5333,0.2459,0.1944,0.0779,0.7711,0.37,Best recall with accuracy >= 0.70
+CON,1,0.2238,0.2003,0.1288,0.1411,0.9506,0.45,Best recall with accuracy >= 0.70
+DISR,10,0.5667,0.2802,0.1353,0.0927,0.7989,0.41,Best recall with accuracy >= 0.70
+Merged,160,0.8357,0.3198,0.3824,0.0922,0.7016,0.34,Best recall with accuracy >= 0.70
+Merged pruned,68,0.8381,0.3215,0.341,0.0928,0.7028,0.34,Best recall with accuracy >= 0.70
+PCA,50,0.8167,0.3149,0.3788,0.0911,0.7043,0.03,Best recall with accuracy >= 0.70

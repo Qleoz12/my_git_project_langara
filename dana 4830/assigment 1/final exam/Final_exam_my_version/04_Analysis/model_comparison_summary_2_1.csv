@@ -1,0 +1,12 @@
+panel,model,evaluation,ROC-AUC,SD,Accuracy,Precision,Recall,F1,Notes
+Statistics panel (158),LDA (linear baseline),5-fold CV (SMOTE inside folds),0.9821,0.0323,,,,,"linear baseline, shrinkage"
+Statistics panel (158),Logistic Regression,5-fold CV (SMOTE inside folds),0.9942,0.0071,,,,,"linear, class weight"
+Statistics panel (158),Random Forest,5-fold CV (SMOTE inside folds),0.9832,0.0086,,,,,"trees, class weight"
+Machine learning panel (16),LDA (linear baseline),5-fold CV (SMOTE inside folds),0.9948,0.0052,,,,,"linear baseline, shrinkage"
+Machine learning panel (16),Logistic Regression,5-fold CV (SMOTE inside folds),0.9948,0.0064,,,,,"linear, class weight"
+Machine learning panel (16),Random Forest,5-fold CV (SMOTE inside folds),0.9907,0.0077,,,,,"trees, class weight"
+Machine learning panel (16),WELM,80/20 hold-out,0.9857,,0.8974,1.0,0.8857,0.9394,imbalance-aware ELM (teamwork reuse)
+Machine learning panel (16),BWELM,80/20 hold-out,0.9357,,0.8974,1.0,0.8857,0.9394,imbalance-aware ELM (teamwork reuse)
+Machine learning panel (16),LDA (linear baseline),80/20 hold-out (SMOTE on train),0.9714,,0.8974,1.0,0.8857,0.9394,same split as WELM; linear baseline shrinkage for LDA
+Machine learning panel (16),Logistic Regression,80/20 hold-out (SMOTE on train),0.9857,,0.9487,1.0,0.9429,0.9706,same split as WELM; linear baseline shrinkage for LDA
+Machine learning panel (16),Random Forest,80/20 hold-out (SMOTE on train),1.0,,0.9744,1.0,0.9714,0.9855,same split as WELM; linear baseline shrinkage for LDA

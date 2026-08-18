@@ -1,0 +1,171 @@
+{
+  "t21_deg": 535,
+  "t21_up": 323,
+  "t21_down": 212,
+  "t21_deg15": 158,
+  "t21_top": [
+    [
+      "SLC6A14",
+      4.53,
+      "up"
+    ],
+    [
+      "DUOX2",
+      4.1,
+      "up"
+    ],
+    [
+      "MMP3",
+      3.56,
+      "up"
+    ],
+    [
+      "DUOXA2",
+      3.38,
+      "up"
+    ],
+    [
+      "MMP1",
+      3.26,
+      "up"
+    ],
+    [
+      "LCN2",
+      3.24,
+      "up"
+    ],
+    [
+      "IDO1",
+      3.06,
+      "up"
+    ],
+    [
+      "S100A8",
+      2.95,
+      "up"
+    ]
+  ],
+  "t21_ml_n": 16,
+  "t21_cmp": [
+    [
+      "Machine learning within statistics panel",
+      6,
+      16
+    ],
+    [
+      "Machine learning within Midterm 1 panel",
+      0,
+      16
+    ],
+    [
+      "Statistics within Midterm 1 panel",
+      0,
+      8
+    ],
+    [
+      "Midterm 1 genes present in GSE75214",
+      3,
+      8
+    ]
+  ],
+  "t22_deg": 381,
+  "t22_up": 180,
+  "t22_down": 201,
+  "t22_topup": [
+    "SPP1",
+    "SYCP2",
+    "CDKN2A",
+    "CXCL8",
+    "MMP12",
+    "MMP1",
+    "INHBA",
+    "IFI44L"
+  ],
+  "t22_topdn": [
+    "CRNN",
+    "CRISP3",
+    "MAL",
+    "KRT1",
+    "SLURP1",
+    "CRCT1"
+  ],
+  "t22_wang": [
+    [
+      "CDK1",
+      2.09,
+      true
+    ],
+    [
+      "CDC20",
+      1.85,
+      true
+    ],
+    [
+      "AURKA",
+      2.3,
+      true
+    ],
+    [
+      "TOP2A",
+      1.98,
+      true
+    ],
+    [
+      "ASPM",
+      2.31,
+      true
+    ],
+    [
+      "NCAPG",
+      1.67,
+      true
+    ],
+    [
+      "KIF23",
+      2.11,
+      true
+    ],
+    [
+      "CENPF",
+      1.99,
+      true
+    ],
+    [
+      "KIF20A",
+      2.02,
+      true
+    ],
+    [
+      "PRC1",
+      2.08,
+      true
+    ]
+  ],
+  "t22_wang_rec": 10,
+  "t22_ml_n": 47,
+  "t22_aurka": true,
+  "t22_samples": 179,
+  "t22_genes": 12191,
+  "t22_batch": [
+    [
+      "GSE6791",
+      20,
+      8
+    ],
+    [
+      "GSE9750",
+      33,
+      24
+    ],
+    [
+      "GSE63514",
+      28,
+      24
+    ],
+    [
+      "GSE67522",
+      20,
+      22
+    ]
+  ]
+}

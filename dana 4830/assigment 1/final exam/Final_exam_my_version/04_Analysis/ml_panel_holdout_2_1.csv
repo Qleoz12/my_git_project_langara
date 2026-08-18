@@ -1,0 +1,4 @@
+panel,model,evaluation,ROC-AUC,SD,Accuracy,Precision,Recall,F1,Notes
+Machine learning panel (16),LDA (linear baseline),80/20 hold-out (SMOTE on train),0.9714,,0.8974,1.0,0.8857,0.9394,same split as WELM; linear baseline shrinkage for LDA
+Machine learning panel (16),Logistic Regression,80/20 hold-out (SMOTE on train),0.9857,,0.9487,1.0,0.9429,0.9706,same split as WELM; linear baseline shrinkage for LDA
+Machine learning panel (16),Random Forest,80/20 hold-out (SMOTE on train),1.0,,0.9744,1.0,0.9714,0.9855,same split as WELM; linear baseline shrinkage for LDA

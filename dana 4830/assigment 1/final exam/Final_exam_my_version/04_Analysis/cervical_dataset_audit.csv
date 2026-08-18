@@ -1,0 +1,5 @@
+Dataset,Raw orientation,Raw samples,Raw probes,Excluded samples,Retained samples,Cancer,Normal,Probes mapped to a symbol,Pct probes with a map,Genes after mapping,Missing cells (raw),Min (raw finite),Median (raw finite),Max (raw finite),log2 applied,Platform
+GSE6791,probes × samples,84,54675,56,28,20,8,45118,82.52,22836,0,3.215145714,7.049814594,14.9200049,False,GPL570
+GSE9750,probes × samples,66,22283,9,57,33,24,21156,94.94,13909,0,0.0,81.5,76931.7,True,GPL96
+GSE63514,probes × samples,128,54675,76,52,28,24,45118,82.52,22836,0,-0.892616783,3.3170555955000003,16.97638278,False,GPL570
+GSE67522,probes × samples,42,42670,0,42,20,22,28282,66.28,19430,0,21.92262398,29.50920963,20592.00395,True,GPL10558
